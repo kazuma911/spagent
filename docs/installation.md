@@ -1,170 +1,165 @@
-# Installation
+# インストール詳細
 
-spagent の詳細セットアップです。
-コーチ向けには必要最小限、エンジニア向けには依存関係を明確にします。
+まずは [README.md のインストール手順](../README.md#インストール3-ステップ) を試してください。ここは **詰まったとき用の詳細ガイド** です。
 
-## 用語ミニ辞典
+## 前提のおさらい
 
-| 用語 | コーチ向け説明 | エンジニア向け説明 |
-|---|---|---|
-| RPE | 主観的運動強度。1 が楽、10 が限界。 | 人間入力の負荷メトリクス。 |
-| PB | 自己ベスト。 | ペース推定の基準値。 |
-| LCM | 長水路、50m プール。 | `course = LCM`。 |
-| SCM | 短水路、25m プール。 | `course = SCM`。 |
-| T-pace | 閾値ペース。少しきついが持続できる速度。 | Threshold の基準。 |
-| Phase | 大会までの時期区分。 | A/B/C/D の状態。 |
-| Zone | EN1 から SP3 などの強度帯。 | 検索・タグ付け軸。 |
-| Method | Threshold, Broken などの練習手法。 | Workflow A で当日選ぶ戦術。 |
-| Cycle | 出発間隔。 | interval / send-off。 |
-| PII | 個人情報 (Personal Identifiable Information)。 | git に入れない保護対象。 |
+- OS: Windows / Mac / Linux
+- Python 3.10 以上
+- GitHub Copilot が使える環境（VS Code + Copilot 拡張、または Copilot CLI）
+- ネット接続
 
-## Windows
+## Python のインストール
 
-PowerShell と `C:\...` 形式のパスを使います。
+### Windows
 
-```text
-python --version / pip --version
-```
-
-## macOS
-
-Homebrew や公式 installer の Python を使えます。
-
-```text
-python3 --version / pip3 --version
-```
-
-## Linux
-
-ディストリビューションのパッケージ管理に従います。
-
-```text
-python3 --version / pip3 --version
-```
-
-## 仮想環境を推奨する理由
-
-仮想環境は spagent 専用の Python 道具箱です。
-コーチ向けには、普段の練習道具と遠征バッグを分けるイメージです。
-エンジニア向けには global site-packages を汚さない isolated environment です。
-
-## venv の例
+1. https://www.python.org/downloads/ から Python 3.10 以上を DL
+2. インストーラを起動、**「Add python.exe to PATH」に必ずチェック**
+3. インストール後、新しい PowerShell を開いて確認：
 
 ```powershell
-cd C:\AIAccelerate\spagent
+python --version
+```
+
+`Python 3.10.x` 以上なら OK。
+
+### Mac
+
+Homebrew 推奨：
+
+```bash
+brew install python@3.11
+python3 --version
+```
+
+または https://www.python.org/downloads/macos/ から公式インストーラ。
+
+### Linux
+
+ディストリのパッケージで：
+
+```bash
+# Ubuntu / Debian
+sudo apt install python3.11 python3-pip
+
+# Fedora
+sudo dnf install python3.11 python3-pip
+
+python3 --version
+```
+
+## 仮想環境 (venv) を使うか
+
+**使わなくても動きます**。ただし他のプロジェクトと Python ライブラリを分けたい場合は仮想環境が便利です。
+
+```powershell
+# Windows
+cd C:\spagent
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r scripts\requirements.txt
 ```
 
-## conda の例
-
-```powershell
-conda create -n spagent python=3.10
-conda activate spagent
-pip install -r scripts\requirements.txt
+```bash
+# Mac / Linux
+cd ~/spagent
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r scripts/requirements.txt
 ```
 
-## 必須依存
+以降 `spagent` フォルダで作業する前に `Activate.ps1`（Windows）や `source .venv/bin/activate`（Mac/Linux）で仮想環境を有効化してください。
 
-`pip install -r scripts\requirements.txt` で Pillow のみが入る想定です。
+## 必須ライブラリ
 
-```text
+```
 Pillow>=10.0.0
 ```
 
-## オプション依存
+これだけです。
 
-| 機能 | 依存 | コマンド |
+## 使う機能ごとの追加ライブラリ
+
+必要になった時点で入れれば OK。
+
+| 機能 | 必要ライブラリ | インストール |
 |---|---|---|
-| PDF 出力 | reportlab | `pip install reportlab` |
-| Excel 出力/取り込み | openpyxl | `pip install openpyxl` |
-| PDF 取り込み | pdfplumber | `pip install pdfplumber` |
+| PDF 出力 | `reportlab` | `pip install reportlab` |
+| カスタム Excel 出力 | `openpyxl` | `pip install openpyxl` |
+| Excel から過去メニュー取り込み | `openpyxl` | `pip install openpyxl` |
+| PDF から過去メニュー取り込み | `pdfplumber` | `pip install pdfplumber` |
 
-## Copilot CLI
+## GitHub Copilot Skill としての読み込ませ方
 
-GitHub Copilot CLI の導入は公式ドキュメントを参照してください。
+### VS Code + Copilot Chat
+
+1. VS Code で `spagent` フォルダを **フォルダとして開く**（File → Open Folder）
+2. Copilot Chat を開く
+3. 最初のメッセージで `#SKILL.md` をアタッチして「この Skill を使いたい」と依頼
+
+### GitHub Copilot CLI
+
+Copilot CLI のインストールは公式ドキュメントを参照：
+
 - https://docs.github.com/copilot
 - https://cli.github.com/
-ここでは深掘りしません。重要なのは Copilot が `SKILL.md` を読めることです。
 
-## SKILL.md の読み込ませ方
+`spagent` フォルダで起動すれば、Copilot が周辺の `SKILL.md` を認識します。うまく認識しない場合は「`SKILL.md` を読んで」と明示的に依頼してください。
 
-Copilot CLI では一般に `/skill` のようなコマンドで Skill を読み込みます。
-実際のコマンドは環境差があるため `/help` を確認してください。
+## よくあるインストールトラブル
 
-```text
-/skill C:\AIAccelerate\spagent\SKILL.md
+### Python: `'python' は認識されません`
+
+**原因**: Python の PATH が通っていない（Windows）
+**対処**:
+1. Python を再インストールし、**「Add python.exe to PATH」にチェック**
+2. または、`py` コマンドを使う（`py --version`）
+3. Mac / Linux では `python3` と入力
+
+### pip: `Permission denied`
+
+**原因**: システム全体にインストールしようとして権限がない
+**対処**:
+1. **仮想環境を使う**（上記 venv 手順）
+2. または `pip install --user -r scripts/requirements.txt`（ユーザー領域だけに入れる）
+3. 会社支給 PC ではポリシー上インストールが制限されている場合あり、情シスへ確認
+
+### Pillow: Windows で `error: Microsoft Visual C++ 14.0 or greater is required`
+
+**原因**: 古い Python か、C++ ビルドツール不足
+**対処**:
+1. `python -m pip install --upgrade pip` で pip 更新
+2. Python を 3.10 以上に更新（通常はプリビルドされた wheel が入るはず）
+3. それでも駄目な場合は https://visualstudio.microsoft.com/visual-cpp-build-tools/ から Build Tools を導入
+
+### Copilot が SKILL.md を無視する
+
+**原因**: 別フォルダで開いている / Skill が読み込まれていない
+**対処**:
+1. `spagent` を **プロジェクトルートとして開いているか** 確認
+2. Copilot Chat で `#SKILL.md` を明示的にアタッチ
+3. 会話冒頭で「`SKILL.md` を最初に読んでから答えて」と指示
+
+## 動作確認
+
+インストール後、以下のように会話できれば成功です：
+
+```
+あなた: SKILL.md を読み込んで、対応している Workflow を教えて。
+
+Copilot: SKILL.md v0.6.0 を確認しました。以下の 7 種の Workflow に対応しています：
+         - Workflow A: 練習メニュー作成
+         - Workflow B: 記録・フィードバック
+         - Workflow C: 索引参照
+         - Workflow D: 長期プラン作成
+         - Workflow E: 初期セットアップ
+         - Workflow F: メンテナンス
+         - Workflow G: 過去メニュー取り込み & 傾向分析
+         初めての場合は Workflow E からどうぞ。
 ```
 
-## Smoke test
+## 次のステップ
 
-```text
-Coach: バージョン確認して。
-Skill: requirements.md v0.6.0 と SKILL.md の Workflow A-G を確認しました。
-Coach: Workflow A の流れを短く説明して。まだ保存しないで。
-Skill: 環境確認、グループ選択、Phase、Zone、Method、骨格、タイム、Cycle、承認後保存です。
-```
-
-## トラブル: Python not found
-
-### 解決手順
-
-1. Python 3.10+ をインストールする。
-2. PATH を有効にする。
-3. `py --version` も試す。
-
-## トラブル: pip permission denied
-
-### 解決手順
-
-1. 仮想環境を使う。
-2. 必要なら `pip install --user`。
-3. 組織 PC では管理者ポリシーを確認する。
-
-## トラブル: Pillow install fails on Windows
-
-### 解決手順
-
-1. `python -m pip install --upgrade pip`。
-2. Python を 3.10+ にする。
-3. 必要なら Microsoft C++ Build Tools を相談する。
-
-## インストール 補足チェックリスト
-
-- インストール 確認 1: 保存前にコーチが承認する。
-- インストール 確認 2: 実名・施設名・連絡先を入れない。
-- インストール 確認 3: LCM/SCM と練習時間を毎回確認する。
-- インストール 確認 4: RPE が高い選手には次回負荷を補正する。
-- インストール 確認 5: TSV で内容を確認してから PDF/Excel にする。
-- インストール 確認 6: 迷ったら安全側に倒す。
-- インストール 確認 7: custom はローカル専用として扱う。
-- インストール 確認 8: base を直接変えず overrides を使う。
-- インストール 確認 9: 保存前にコーチが承認する。
-- インストール 確認 10: 実名・施設名・連絡先を入れない。
-- インストール 確認 11: LCM/SCM と練習時間を毎回確認する。
-- インストール 確認 12: RPE が高い選手には次回負荷を補正する。
-- インストール 確認 13: TSV で内容を確認してから PDF/Excel にする。
-- インストール 確認 14: 迷ったら安全側に倒す。
-- インストール 確認 15: custom はローカル専用として扱う。
-- インストール 確認 16: base を直接変えず overrides を使う。
-- インストール 確認 17: 保存前にコーチが承認する。
-- インストール 確認 18: 実名・施設名・連絡先を入れない。
-- インストール 確認 19: LCM/SCM と練習時間を毎回確認する。
-- インストール 確認 20: RPE が高い選手には次回負荷を補正する。
-- インストール 確認 21: TSV で内容を確認してから PDF/Excel にする。
-- インストール 確認 22: 迷ったら安全側に倒す。
-- インストール 確認 23: custom はローカル専用として扱う。
-- インストール 確認 24: base を直接変えず overrides を使う。
-- インストール 確認 25: 保存前にコーチが承認する。
-- インストール 確認 26: 実名・施設名・連絡先を入れない。
-- インストール 確認 27: LCM/SCM と練習時間を毎回確認する。
-- インストール 確認 28: RPE が高い選手には次回負荷を補正する。
-- インストール 確認 29: TSV で内容を確認してから PDF/Excel にする。
-- インストール 確認 30: 迷ったら安全側に倒す。
-- インストール 確認 31: custom はローカル専用として扱う。
-- インストール 確認 32: base を直接変えず overrides を使う。
-- インストール 確認 33: 保存前にコーチが承認する。
-- インストール 確認 34: 実名・施設名・連絡先を入れない。
-- インストール 確認 35: LCM/SCM と練習時間を毎回確認する。
-- インストール 確認 36: RPE が高い選手には次回負荷を補正する。
+- [README.md § 初回セットアップ](../README.md#初回セットアップ10-分) — 対話でグループ・プロファイル・施設を登録
+- [docs/getting-started.md](getting-started.md) — 一連の流れをステップ別に
+- [docs/workflows.md](workflows.md) — 7 種の Workflow 詳細
