@@ -1,0 +1,11 @@
+{
+  "_comment": "出力設定テンプレート: data/output-preferences.json のひな形。TSV/PDF/カスタム Excel の出力方針を指定します。",
+  "primary_output": "tsv",
+  "additional_outputs": [
+    "pdf"
+  ],
+  "excel_settings": {
+    "template_path": "knowledge/custom/imports/raw/example-template.xlsx",
+    "mapping_file": "data/excel-template-mapping.json"
+  }
+}

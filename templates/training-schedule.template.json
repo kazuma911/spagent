@@ -1,0 +1,30 @@
+{
+  "_comment": "練習予定テンプレート: data/training-schedule.json のひな形。単発セッションと定期パターンを管理します。",
+  "sessions": [
+    {
+      "date": "2026-08-11",
+      "start_time": "19:00",
+      "end_time": "21:00",
+      "facility_id": "central-pool-lcm",
+      "group_id": "monday-masters-advanced",
+      "notes": "Phase B の Threshold day。器具は fins, paddles を使用予定。"
+    },
+    {
+      "date": "2026-08-13",
+      "start_time": "18:30",
+      "end_time": "20:00",
+      "facility_id": "central-pool-lcm",
+      "group_id": "wednesday-junior-u15",
+      "notes": "4泳法ドリルと EN1-EN2 の基礎持久。"
+    }
+  ],
+  "recurring_patterns": [
+    {
+      "day_of_week": "monday",
+      "start_time": "19:00",
+      "end_time": "21:00",
+      "facility_id": "central-pool-lcm",
+      "group_id": "monday-masters-advanced"
+    }
+  ]
+}

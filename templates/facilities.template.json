@@ -1,0 +1,24 @@
+{
+  "_comment": "施設情報テンプレート: data/facilities.json のひな形。レーン数、使用可能レーン、器具制限をメニュー作成時に参照します。",
+  "facilities": [
+    {
+      "id": "central-pool-lcm",
+      "name": "セントラルプール LCM",
+      "course": "LCM",
+      "lane_count": 8,
+      "usable_lanes": 3,
+      "max_swimmers_per_lane": 4,
+      "equipment_available": [
+        "paddles",
+        "fins",
+        "board",
+        "pull_buoy",
+        "snorkel"
+      ],
+      "equipment_restricted": [
+        "parachute"
+      ],
+      "clock_type": "digital"
+    }
+  ]
+}

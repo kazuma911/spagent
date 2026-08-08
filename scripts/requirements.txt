@@ -1,0 +1,3 @@
+# Optional import/export helpers use reportlab, openpyxl, and pdfplumber.
+# Install those packages separately only when the corresponding script needs them.
+Pillow>=10.0.0

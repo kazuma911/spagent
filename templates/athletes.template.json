@@ -1,0 +1,26 @@
+{
+  "_comment": "選手情報テンプレート: data/athletes.json のひな形。実名や連絡先は入れず、匿名エイリアスで管理します。",
+  "athletes": [
+    {
+      "id": "athlete-001",
+      "alias": "alice",
+      "stroke_specialty": "freestyle_100m",
+      "level": "advanced",
+      "group_ids": [
+        "monday-masters-advanced"
+      ],
+      "notes": "短距離自由形が得意。肩の状態に配慮しながら Threshold セットを使用。"
+    },
+    {
+      "id": "athlete-002",
+      "alias": "bob",
+      "stroke_specialty": "individual_medley_200m",
+      "level": "intermediate",
+      "group_ids": [
+        "monday-masters-advanced",
+        "wednesday-junior-u15"
+      ],
+      "notes": "4泳法をバランスよく練習中。Kick と姿勢保持を重点課題にする。"
+    }
+  ]
+}

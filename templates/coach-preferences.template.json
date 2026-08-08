@@ -1,0 +1,22 @@
+{
+  "_comment": "コーチ設定テンプレート: data/coach-preferences.json のひな形。使用プロファイル、base 知識の使い方、好みの手法を管理します。",
+  "active_profile_ids": [
+    "monday-masters",
+    "wednesday-junior"
+  ],
+  "use_base_knowledge": "all",
+  "use_base_knowledge_detail": {
+    "drills": true,
+    "main_menus": true,
+    "warmup_cooldown": true,
+    "menu_index_seed": true
+  },
+  "preferred_methods": [
+    "threshold",
+    "descending",
+    "broken-swim"
+  ],
+  "avoided_methods": [
+    "usrpt"
+  ]
+}

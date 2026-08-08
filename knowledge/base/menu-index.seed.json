@@ -1,0 +1,1881 @@
+[
+  {
+    "id": "seed-001",
+    "name": "Endurance continuous 800 EN2",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 70,
+    "course": "SCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1",
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1800,
+        "description": "1 × 800m EN2 + 2 × 500m EN2 steady"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-002",
+    "name": "Broken endurance 4x400 EN2",
+    "date": null,
+    "total_distance": 3400,
+    "duration_minutes": 75,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2000,
+        "description": "4 × 400m EN2 with 20s rest + 4 × 100m smooth"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-003",
+    "name": "Aerobic IM rotation 8x200",
+    "date": null,
+    "total_distance": 3200,
+    "duration_minutes": 75,
+    "course": "SCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1",
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 400,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1800,
+        "description": "8 × 200m rotating IM/free at EN2"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-004",
+    "name": "Long aerobic pull day",
+    "date": null,
+    "total_distance": 3600,
+    "duration_minutes": 80,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2200,
+        "description": "3 × 600m pull/swim EN2 + 4 × 100m steady"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-005",
+    "name": "EN2 ladder aerobic",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 70,
+    "course": "SCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1",
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1800,
+        "description": "100/200/300/400/300/200/100 EN2 ladder"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-006",
+    "name": "Back and free aerobic mix",
+    "date": null,
+    "total_distance": 2800,
+    "duration_minutes": 65,
+    "course": "SCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1",
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 400,
+        "description": "400m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 400,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1600,
+        "description": "8 × 200m Free/Back mix EN2"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-007",
+    "name": "Triathlon steady free 3x700",
+    "date": null,
+    "total_distance": 3500,
+    "duration_minutes": 80,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 200,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2200,
+        "description": "3 × 700m freestyle steady with generic sighting practice"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-008",
+    "name": "Junior aerobic 12x100",
+    "date": null,
+    "total_distance": 2600,
+    "duration_minutes": 60,
+    "course": "SCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1",
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 400,
+        "description": "400m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1500,
+        "description": "12 × 100m EN2 with every 4th easy"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-009",
+    "name": "Elite aerobic volume 5x500",
+    "date": null,
+    "total_distance": 4000,
+    "duration_minutes": 85,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 700,
+        "description": "700m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2500,
+        "description": "5 × 500m EN2 hold even pace"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-010",
+    "name": "Any group easy endurance",
+    "date": null,
+    "total_distance": 2500,
+    "duration_minutes": 60,
+    "course": "SCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1",
+      "EN2"
+    ],
+    "method": "endurance",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 400,
+        "description": "400m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1400,
+        "description": "2 × 600m + 4 × 50m EN2 smooth"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-011",
+    "name": "Threshold 8x200 EN3 day",
+    "date": null,
+    "total_distance": 3200,
+    "duration_minutes": 75,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2",
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2000,
+        "description": "8 × 200m Threshold @ 3:00"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-012",
+    "name": "Threshold 5x400 EN3 day",
+    "date": null,
+    "total_distance": 4200,
+    "duration_minutes": 90,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 700,
+        "description": "700m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2500,
+        "description": "5 × 400m Threshold @ 6:00"
+      },
+      {
+        "category": "cooldown",
+        "distance": 700,
+        "description": "700m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-013",
+    "name": "Broken threshold 4 rounds",
+    "date": null,
+    "total_distance": 3600,
+    "duration_minutes": 80,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN2",
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2200,
+        "description": "4 × (4 × 100m) T-Pace, short rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-014",
+    "name": "T30 threshold test",
+    "date": null,
+    "total_distance": 3800,
+    "duration_minutes": 90,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN3"
+    ],
+    "method": "test",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 800,
+        "description": "800m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 200,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2400,
+        "description": "30-min max effort continuous swim for T-Pace estimate"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-015",
+    "name": "Threshold 12x100",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 70,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1800,
+        "description": "12 × 100m Hold T-Pace @ controlled cycle"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-016",
+    "name": "Threshold negative split 200s",
+    "date": null,
+    "total_distance": 3400,
+    "duration_minutes": 80,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2000,
+        "description": "10 × 200m negative split within T-Pace range"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-017",
+    "name": "Junior threshold 16x75",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 70,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2",
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 400,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1600,
+        "description": "16 × 75m threshold rhythm with 15s rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-018",
+    "name": "Elite threshold 3x800",
+    "date": null,
+    "total_distance": 4500,
+    "duration_minutes": 95,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 800,
+        "description": "800m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2800,
+        "description": "3 × 800m T-Pace with 45s rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 600,
+        "description": "600m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-019",
+    "name": "Triathlon threshold steady",
+    "date": null,
+    "total_distance": 3600,
+    "duration_minutes": 80,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2",
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 200,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2300,
+        "description": "3 × 600m T-Pace freestyle + 5 × 100m steady"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-020",
+    "name": "Mixed group threshold choice",
+    "date": null,
+    "total_distance": 3100,
+    "duration_minutes": 75,
+    "course": "SCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN3"
+    ],
+    "method": "threshold",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1900,
+        "description": "6 × 200m + 7 × 100m threshold by lane"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-021",
+    "name": "VO2max 10x100",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 70,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP1"
+    ],
+    "method": "vo2max",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 700,
+        "description": "700m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1500,
+        "description": "10 × 100m VO2max pace @ 2:00"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-022",
+    "name": "Broken 400 VO2 set",
+    "date": null,
+    "total_distance": 3200,
+    "duration_minutes": 75,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP1"
+    ],
+    "method": "vo2max",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 700,
+        "description": "700m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1700,
+        "description": "3 × 400m broken as 4 × 100m with 10s rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-023",
+    "name": "Descending VO2 8x100",
+    "date": null,
+    "total_distance": 2800,
+    "duration_minutes": 65,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN3",
+      "SP1"
+    ],
+    "method": "vo2max",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1400,
+        "description": "8 × 100m descending, finish at VO2max"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-024",
+    "name": "VO2 16x50",
+    "date": null,
+    "total_distance": 2600,
+    "duration_minutes": 60,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP1"
+    ],
+    "method": "vo2max",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1200,
+        "description": "16 × 50m SP1 with 20s rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-025",
+    "name": "VO2 IM power",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 70,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP1"
+    ],
+    "method": "vo2max",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 700,
+        "description": "700m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1500,
+        "description": "12 × 100m IM/stroke SP1 by choice pattern"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-026",
+    "name": "Elite VO2 6x150",
+    "date": null,
+    "total_distance": 3300,
+    "duration_minutes": 75,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP1"
+    ],
+    "method": "vo2max",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 800,
+        "description": "800m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1700,
+        "description": "6 × 150m VO2max pace with full technical control"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-027",
+    "name": "Junior VO2 20x25",
+    "date": null,
+    "total_distance": 2500,
+    "duration_minutes": 55,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP1"
+    ],
+    "method": "vo2max",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1200,
+        "description": "20 × 25m fast aerobic power, ample rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-028",
+    "name": "Triathlon VO2 12x75",
+    "date": null,
+    "total_distance": 2700,
+    "duration_minutes": 65,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP1"
+    ],
+    "method": "vo2max",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 200,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1400,
+        "description": "12 × 75m freestyle VO2 pace with 30s rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-029",
+    "name": "USRPT race pace 25s",
+    "date": null,
+    "total_distance": 2300,
+    "duration_minutes": 60,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP2",
+      "SP3"
+    ],
+    "method": "usrpt",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1000,
+        "description": "20 × 25m race pace, 10s rest, miss-3-out"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-030",
+    "name": "Race pace 50s for 100",
+    "date": null,
+    "total_distance": 2600,
+    "duration_minutes": 65,
+    "course": "SCM",
+    "phase_hint": "D",
+    "zone_tags": [
+      "SP2"
+    ],
+    "method": "race-pace",
+    "target_group_type": "junior",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1200,
+        "description": "12 × 50m at 100m race pace, generous rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-031",
+    "name": "Broken 100 four sets",
+    "date": null,
+    "total_distance": 2400,
+    "duration_minutes": 60,
+    "course": "LCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP2",
+      "SP3"
+    ],
+    "method": "broken-swim",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1100,
+        "description": "4 × broken 100 as 4 × 25m with 10s rest"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-032",
+    "name": "Start breakout sprint",
+    "date": null,
+    "total_distance": 2200,
+    "duration_minutes": 55,
+    "course": "LCM",
+    "phase_hint": "D",
+    "zone_tags": [
+      "SP3"
+    ],
+    "method": "sprint",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 900,
+        "description": "12 × 15m start or wall breakout + 8 × 25m easy"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-033",
+    "name": "Sprint kick speed",
+    "date": null,
+    "total_distance": 2400,
+    "duration_minutes": 60,
+    "course": "LCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP2"
+    ],
+    "method": "sprint",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1100,
+        "description": "8 × 25m kick sprint + 8 × 50m race tempo"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-034",
+    "name": "Elite lactate speed",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 75,
+    "course": "LCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP2",
+      "SP3"
+    ],
+    "method": "sprint",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 700,
+        "description": "700m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1400,
+        "description": "6 × 50m all-out quality with full recovery + 8 × 25m race pace"
+      },
+      {
+        "category": "cooldown",
+        "distance": 600,
+        "description": "600m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-035",
+    "name": "Junior race skills",
+    "date": null,
+    "total_distance": 2000,
+    "duration_minutes": 50,
+    "course": "LCM",
+    "phase_hint": "D",
+    "zone_tags": [
+      "SP2",
+      "SP3"
+    ],
+    "method": "race-pace",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 400,
+        "description": "400m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 800,
+        "description": "12 × 25m race pace with turn or finish focus"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-036",
+    "name": "Any group speed primer",
+    "date": null,
+    "total_distance": 2100,
+    "duration_minutes": 50,
+    "course": "LCM",
+    "phase_hint": "D",
+    "zone_tags": [
+      "SP2"
+    ],
+    "method": "sprint",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 800,
+        "description": "8 × 25m fast relaxed + 4 × 50m smooth"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-037",
+    "name": "Easy recovery swim",
+    "date": null,
+    "total_distance": 2000,
+    "duration_minutes": 45,
+    "course": "LCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1"
+    ],
+    "method": "recovery",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 400,
+        "description": "400m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 400,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 900,
+        "description": "3 × 300m easy Free/Back mix"
+      },
+      {
+        "category": "cooldown",
+        "distance": 300,
+        "description": "300m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-038",
+    "name": "Technique focus low intensity",
+    "date": null,
+    "total_distance": 2200,
+    "duration_minutes": 55,
+    "course": "LCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN1"
+    ],
+    "method": "technique",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 400,
+        "description": "400m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 600,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 800,
+        "description": "8 × 100m smooth with one technical cue"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-039",
+    "name": "Masters recovery after race pace",
+    "date": null,
+    "total_distance": 1800,
+    "duration_minutes": 45,
+    "course": "LCM",
+    "phase_hint": "D",
+    "zone_tags": [
+      "EN1"
+    ],
+    "method": "recovery",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 300,
+        "description": "300m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 400,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 800,
+        "description": "8 × 100m easy choice with drills"
+      },
+      {
+        "category": "cooldown",
+        "distance": 300,
+        "description": "300m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-040",
+    "name": "Junior drill circuit",
+    "date": null,
+    "total_distance": 1700,
+    "duration_minutes": 45,
+    "course": "LCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1"
+    ],
+    "method": "technique",
+    "target_group_type": "elite",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 300,
+        "description": "300m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 600,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 600,
+        "description": "12 × 50m drill circuit and easy swim"
+      },
+      {
+        "category": "cooldown",
+        "distance": 200,
+        "description": "200m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-041",
+    "name": "Elite regeneration",
+    "date": null,
+    "total_distance": 2500,
+    "duration_minutes": 55,
+    "course": "LCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN1"
+    ],
+    "method": "recovery",
+    "target_group_type": "triathlon",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 500,
+        "description": "500m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 500,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1000,
+        "description": "5 × 200m easy mixed with sculling"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-042",
+    "name": "Any phase mobility water day",
+    "date": null,
+    "total_distance": 2000,
+    "duration_minutes": 50,
+    "course": "LCM",
+    "phase_hint": "A",
+    "zone_tags": [
+      "EN1"
+    ],
+    "method": "recovery",
+    "target_group_type": "triathlon",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 400,
+        "description": "400m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 500,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 800,
+        "description": "4 × 200m easy technique swim"
+      },
+      {
+        "category": "cooldown",
+        "distance": 300,
+        "description": "300m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-043",
+    "name": "Descending ladder mixed zones",
+    "date": null,
+    "total_distance": 3400,
+    "duration_minutes": 80,
+    "course": "LCM",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2",
+      "EN3"
+    ],
+    "method": "descending",
+    "target_group_type": "triathlon",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2000,
+        "description": "100/200/300/400/300/200/100 with descending-side harder"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-044",
+    "name": "Polarized EN2 plus sprint",
+    "date": null,
+    "total_distance": 3600,
+    "duration_minutes": 85,
+    "course": "LCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN2",
+      "SP2",
+      "SP3"
+    ],
+    "method": "polarized",
+    "target_group_type": "triathlon",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2200,
+        "description": "20 min EN2 + 8 × 25m sprint + 20 min EN2 recovery"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-045",
+    "name": "Race simulation broken",
+    "date": null,
+    "total_distance": 3500,
+    "duration_minutes": 90,
+    "course": "LCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN1",
+      "SP2",
+      "SP3"
+    ],
+    "method": "race-simulation",
+    "target_group_type": "triathlon",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 900,
+        "description": "900m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 200,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1800,
+        "description": "Broken 200 + broken 100 + broken 200 race pace sequence"
+      },
+      {
+        "category": "cooldown",
+        "distance": 600,
+        "description": "600m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-046",
+    "name": "Aerobic threshold combo",
+    "date": null,
+    "total_distance": 3300,
+    "duration_minutes": 75,
+    "course": "any",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2",
+      "EN3"
+    ],
+    "method": "mixed",
+    "target_group_type": "mixed",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1900,
+        "description": "4 × 300m EN2 + 6 × 100m EN3"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-047",
+    "name": "Speed endurance blend",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 70,
+    "course": "any",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN2",
+      "SP1",
+      "SP2"
+    ],
+    "method": "mixed",
+    "target_group_type": "mixed",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1600,
+        "description": "6 × 100m SP1 + 8 × 25m sprint"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-048",
+    "name": "Triathlon mixed pace day",
+    "date": null,
+    "total_distance": 3200,
+    "duration_minutes": 75,
+    "course": "any",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN2",
+      "EN3",
+      "SP1"
+    ],
+    "method": "mixed",
+    "target_group_type": "mixed",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 600,
+        "description": "600m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 200,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1900,
+        "description": "2 × 800m EN2 + 8 × 50m faster than threshold"
+      },
+      {
+        "category": "cooldown",
+        "distance": 500,
+        "description": "500m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-049",
+    "name": "Junior mixed skills and pace",
+    "date": null,
+    "total_distance": 2600,
+    "duration_minutes": 60,
+    "course": "any",
+    "phase_hint": "B",
+    "zone_tags": [
+      "EN1",
+      "EN2",
+      "SP2"
+    ],
+    "method": "mixed",
+    "target_group_type": "mixed",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 400,
+        "description": "400m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 500,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 1300,
+        "description": "8 × 100m EN2 + 8 × 25m fast skills"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-050",
+    "name": "Elite mixed race prep",
+    "date": null,
+    "total_distance": 3900,
+    "duration_minutes": 90,
+    "course": "any",
+    "phase_hint": "C",
+    "zone_tags": [
+      "EN2",
+      "EN3",
+      "SP2"
+    ],
+    "method": "mixed",
+    "target_group_type": "mixed",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 800,
+        "description": "800m easy swim/kick/build warm-up"
+      },
+      {
+        "category": "drill",
+        "distance": 300,
+        "description": "Technique drills and swim connection"
+      },
+      {
+        "category": "main",
+        "distance": 2200,
+        "description": "3 × 400m EN2 + 12 × 50m race pace by stroke"
+      },
+      {
+        "category": "cooldown",
+        "distance": 600,
+        "description": "600m EN1 easy swim/back mix"
+      }
+    ],
+    "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  }
+]

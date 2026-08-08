@@ -1,0 +1,42 @@
+{
+  "_comment": "大会情報テンプレート: data/competitions.json のひな形。大会優先度、エントリー、テーパー期間を管理します。",
+  "competitions": [
+    {
+      "id": "2026-summer-time-trial",
+      "name": "2026 Summer Time Trial",
+      "date": "2026-09-20",
+      "course": "LCM",
+      "venue": "example-aquatic-center",
+      "entry_deadline": "2026-08-25",
+      "priority": "A",
+      "entries": [
+        {
+          "athlete_id": "athlete-001",
+          "event": "freestyle_100m",
+          "target_time": "1:03.50",
+          "status": "registered",
+          "result_time": null,
+          "result_splits": []
+        },
+        {
+          "athlete_id": "athlete-002",
+          "event": "individual_medley_200m",
+          "target_time": "2:38.00",
+          "status": "completed",
+          "result_time": "2:39.20",
+          "result_splits": [
+            "34.80",
+            "40.10",
+            "46.00",
+            "38.30"
+          ]
+        }
+      ],
+      "taper": {
+        "start_date": "2026-09-13",
+        "days": 7,
+        "notes": "疲労を抜きながらレースペース確認を短く入れる。"
+      }
+    }
+  ]
+}

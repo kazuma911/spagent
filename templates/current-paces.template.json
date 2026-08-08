@@ -1,0 +1,31 @@
+{
+  "_comment": "現在ペーステンプレート: data/current-paces.json のひな形。PB、現在推定、次目標を選手ごと・種目距離ごとに管理します。",
+  "athlete_paces": [
+    {
+      "athlete_id": "athlete-001",
+      "paces": {
+        "freestyle_50m": {
+          "pb": "0:29.80",
+          "current_estimate": "0:30.50",
+          "next_target": "0:29.50",
+          "updated_at": "2026-08-08",
+          "source": "measured"
+        },
+        "freestyle_100m": {
+          "pb": "1:04.20",
+          "current_estimate": "1:05.80",
+          "next_target": "1:03.50",
+          "updated_at": "2026-08-08",
+          "source": "measured"
+        },
+        "freestyle_200m": {
+          "pb": "2:22.00",
+          "current_estimate": "2:25.00",
+          "next_target": "2:20.00",
+          "updated_at": "2026-08-08",
+          "source": "estimated"
+        }
+      }
+    }
+  ]
+}

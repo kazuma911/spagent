@@ -1,0 +1,26 @@
+{
+  "_comment": "指導プロファイル: 対象哲学 × 時間軸 × 実務ひな形の組み合わせ。data/coaching-profiles.json のひな形。",
+  "profiles": [
+    {
+      "id": "monday-masters",
+      "name": "月曜マスターズ",
+      "philosophy": "masters",
+      "periodizations": [
+        "block",
+        "undulating"
+      ],
+      "macrocycle": "single-peak-12week",
+      "menu_structure_pattern_id": null
+    },
+    {
+      "id": "wednesday-junior",
+      "name": "水曜ジュニア",
+      "philosophy": "junior",
+      "periodizations": [
+        "matveyev"
+      ],
+      "macrocycle": "junior-annual",
+      "menu_structure_pattern_id": null
+    }
+  ]
+}

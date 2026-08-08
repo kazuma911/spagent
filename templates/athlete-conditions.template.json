@@ -1,0 +1,31 @@
+{
+  "_comment": "選手コンディションテンプレート: data/athlete-conditions.json のひな形。怪我・体調・疲労・欠席履歴を匿名 ID で管理します。",
+  "athlete_conditions": [
+    {
+      "athlete_id": "athlete-001",
+      "current_issues": [
+        {
+          "kind": "injury",
+          "body_part": "right_shoulder",
+          "severity": "medium",
+          "since": "2026-07-15",
+          "notes": "Fly と強い paddles は回避。痛みが出る日は pull を短縮する。"
+        },
+        {
+          "kind": "fatigue",
+          "body_part": null,
+          "severity": "low",
+          "since": "2026-08-05",
+          "notes": "前回 RPE が高め。W-up を長めにして状態確認。"
+        }
+      ],
+      "recent_absences": [
+        {
+          "date": "2026-08-01",
+          "reason": "school_event"
+        }
+      ],
+      "notes": "状態確認後に Main のサイクルを調整する。"
+    }
+  ]
+}

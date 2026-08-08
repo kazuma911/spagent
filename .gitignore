@@ -1,0 +1,57 @@
+# =============================================
+# spagent .gitignore
+# =============================================
+
+# 内部設計資料（非公開）
+requirements.md
+
+# Qiita 記事ドラフト（公開前、原稿は Qiita 側で管理）
+qiita-drafts/
+
+# コーチ担当領域（PII含む、実データ）
+data/*
+sessions/*
+plans/*
+knowledge/custom/*
+
+# 例外: 各ディレクトリのREADMEのみ公開
+!data/README.md
+!sessions/README.md
+!plans/README.md
+!knowledge/custom/README.md
+
+# 一時ファイル
+*.tmp
+*.backup-*
+*.bak
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.venv/
+venv/
+env/
+
+# エディタ
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Excel の一時ファイル
+~$*.xlsx
+~$*.xls
+
+# ログ・キャッシュ
+*.log
+.cache/

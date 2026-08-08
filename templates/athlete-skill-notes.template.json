@@ -1,0 +1,29 @@
+{
+  "_comment": "技術課題テンプレート: data/athlete-skill-notes.json のひな形。選手ごとの重点スキルと推奨ドリルを記録します。",
+  "athlete_skill_notes": [
+    {
+      "athlete_id": "athlete-001",
+      "focus_areas": [
+        {
+          "skill": "high_elbow_catch",
+          "since": "2026-07-10",
+          "current_status": "入水後に肘が落ちやすい。低速では改善傾向。",
+          "recommended_drills": [
+            "sculling_front",
+            "single_arm_freestyle",
+            "fingertip_drag"
+          ]
+        },
+        {
+          "skill": "turn_push_off_streamline",
+          "since": "2026-08-03",
+          "current_status": "ターン後の姿勢が短くなりやすい。",
+          "recommended_drills": [
+            "wall_push_streamline",
+            "underwater_kick_count"
+          ]
+        }
+      ]
+    }
+  ]
+}

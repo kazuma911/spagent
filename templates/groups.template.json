@@ -1,0 +1,23 @@
+{
+  "_comment": "グループ情報テンプレート: data/groups.json のひな形。各グループを指導プロファイルに紐付けます。",
+  "groups": [
+    {
+      "id": "monday-masters-advanced",
+      "name": "月曜マスターズ上級",
+      "type": "masters",
+      "expected_participants": 8,
+      "skill_level": "advanced",
+      "typical_pace": "EN2 中心 1:30/100m",
+      "profile_id": "monday-masters"
+    },
+    {
+      "id": "wednesday-junior-u15",
+      "name": "水曜ジュニア U15",
+      "type": "junior",
+      "expected_participants": 10,
+      "skill_level": "beginner-intermediate",
+      "typical_pace": "EN1-EN2 中心 1:55/100m",
+      "profile_id": "wednesday-junior"
+    }
+  ]
+}

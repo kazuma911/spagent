@@ -1,0 +1,27 @@
+{
+  "_comment": "AI 推論インサイトテンプレート: data/athlete-insights.json のひな形。AI が見つけた傾向はコーチ承認後に使用します。",
+  "athlete_insights": [
+    {
+      "athlete_id": "athlete-001",
+      "patterns": [
+        {
+          "text": "高強度セットに強い。Threshold 後半でもフォームが崩れにくい。",
+          "recognized_by_ai": true,
+          "coach_approved": true,
+          "source_sessions": [
+            "2026-07-15",
+            "2026-07-22"
+          ]
+        },
+        {
+          "text": "Kick 単独セットでは RPE が上がりやすい。Main 前は短めがよい可能性。",
+          "recognized_by_ai": true,
+          "coach_approved": false,
+          "source_sessions": [
+            "2026-08-01"
+          ]
+        }
+      ]
+    }
+  ]
+}
