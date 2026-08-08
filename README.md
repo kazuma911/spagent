@@ -50,7 +50,7 @@
 
 **Windows (PowerShell)**
 ```powershell
-iex (irm https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1)
+iwr https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1 -OutFile $env:TEMP\spagent-launcher.ps1; & $env:TEMP\spagent-launcher.ps1
 ```
 
 **Mac / Linux (bash)**
@@ -86,7 +86,7 @@ VS Code が立ち上がったら **Copilot Chat を開いて（`Ctrl+Alt+I` / ma
 
 ```powershell
 # 例: VS Code 起動をスキップしたい
-iex "& { $(irm https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1) } -NoLaunch"
+iwr https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1 -OutFile $env:TEMP\spagent-launcher.ps1; & $env:TEMP\spagent-launcher.ps1 -NoLaunch
 ```
 
 ```bash
@@ -167,7 +167,7 @@ Copilot: 解析しました。メニュー 42 本を認識、傾向は以下で�
 
 ```powershell
 # Windows
-iex (irm https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1)
+iwr https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1 -OutFile $env:TEMP\spagent-launcher.ps1; & $env:TEMP\spagent-launcher.ps1
 ```
 ```bash
 # Mac / Linux

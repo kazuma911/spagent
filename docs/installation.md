@@ -4,7 +4,7 @@
 
 ```powershell
 # Windows: これで Python / Git / VS Code / Copilot 拡張まで全部入る
-iex (irm https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1)
+iwr https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1 -OutFile $env:TEMP\spagent-launcher.ps1; & $env:TEMP\spagent-launcher.ps1
 ```
 ```bash
 # Mac / Linux: 同上
