@@ -1,6 +1,17 @@
 # インストール詳細
 
-まずは [README.md のインストール手順](../README.md#インストール3-ステップ) を試してください。ここは **詰まったとき用の詳細ガイド** です。
+**多くの場合はランチャー 1 行で全部入ります。** 以下は「うまくいかなかった」「自動化に頼りたくない」時の詳細ガイドです。
+
+```powershell
+# Windows: これで Python / Git / VS Code / Copilot 拡張まで全部入る
+iex (irm https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1)
+```
+```bash
+# Mac / Linux: 同上
+curl -fsSL https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.sh | bash
+```
+
+まずは [README のクイックスタート](../README.md#使い方最速) を試してください。ここは **詰まったとき用の詳細ガイド** です。
 
 ## 前提のおさらい
 

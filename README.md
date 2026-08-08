@@ -8,8 +8,9 @@
 
 - [これは何？](#これは何)
 - [向いている人](#向いている人)
+- [使い方（最速）](#使い方最速)
 - [用意するもの](#用意するもの)
-- [インストール（3 ステップ）](#インストール3-ステップ)
+- [インストール & 起動（1 行）](#インストール--起動1-行)
 - [初回セットアップ（10 分）](#初回セットアップ10-分)
 - [毎回の使い方](#毎回の使い方)
 - [できること一覧](#できること一覧)
@@ -17,6 +18,7 @@
 - [個人情報 (PII) の扱い](#個人情報-pii-の扱い)
 - [用語ミニ辞典](#用語ミニ辞典)
 - [困ったときは](#困ったときは)
+- [手動でやりたい人向け（従来のやり方）](#手動でやりたい人向け従来のやり方)
 - [ライセンス / Author](#ライセンス--author)
 
 ## これは何？
@@ -42,82 +44,73 @@
 - 個人選手の自己コーチング
 - トライアスロン選手 / コーチ
 
+## 使い方（最速）
+
+**毎回この 1 行を叩けば起動します。** Python も Git も VS Code も Copilot 拡張も、無ければ自動でインストールされます（既にあればスキップ）。
+
+**Windows (PowerShell)**
+```powershell
+iex (irm https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1)
+```
+
+**Mac / Linux (bash)**
+```bash
+curl -fsSL https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.sh | bash
+```
+
+これで：
+1. 必要なもの（Python / Git / VS Code / Copilot 拡張 / Python 依存ライブラリ）を確認・導入
+2. `~/spagent`（Windows は `%USERPROFILE%\spagent`）にリポジトリを clone、既にあれば `git pull` で最新化
+3. VS Code で spagent フォルダを開く
+4. Copilot Chat 用の起動メッセージをクリップボードにコピー
+
+VS Code が立ち上がったら **Copilot Chat を開いて（`Ctrl+Alt+I` / macOS: `Cmd+Ctrl+I`）Ctrl+V → Enter** で送るだけで、あなたの分身が動き出します。
+
 ## 用意するもの
 
-これだけあれば動きます。
+**PC とネット接続だけで大丈夫**。他は上の 1 行スクリプトが自動で入れます。
 
 | 必要なもの | 説明 |
 |---|---|
 | **Windows / Mac / Linux** の PC | OS はどれでも OK |
-| **Python 3.10 以上** | https://www.python.org/downloads/ からダウンロード。インストール時「Add Python to PATH」に必ずチェック |
-| **GitHub Copilot が使える環境** | VS Code の GitHub Copilot 拡張、または GitHub Copilot CLI |
-| **ネット接続** | 初回のダウンロードと Copilot の実行に必要 |
+| **ネット接続** | ダウンロードと Copilot の実行に必要 |
+| **GitHub アカウント** | Copilot のサインインに使います（有料の Copilot 契約が必要） |
 
-Python がすでに入っているか確認したい場合：
+自動で入るもの：**Python 3.11 / Git / VS Code / GitHub Copilot 拡張 / Copilot Chat 拡張 / Pillow / reportlab / openpyxl / pdfplumber**
+
+## インストール & 起動（1 行）
+
+上の [使い方（最速）](#使い方最速) の 1 行を叩けば以下が全部走ります。**2 回目以降は数秒**で終わって VS Code が立ち上がります（既存はスキップ、リポジトリは `git pull` で最新化）。
+
+**オプション**
 
 ```powershell
-# Windows (PowerShell)
-python --version
+# 例: VS Code 起動をスキップしたい
+iex "& { $(irm https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1) } -NoLaunch"
 ```
 
 ```bash
-# Mac / Linux
-python3 --version
+# 例: リポジトリ clone 先を変えたい
+curl -fsSL https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.sh | bash -s -- --install-dir=$HOME/work/spagent
 ```
 
-`Python 3.10.x` 以上なら OK です。
+| フラグ | 意味 |
+|---|---|
+| `-NoLaunch` / `--no-launch` | 最後の VS Code 起動をスキップ |
+| `-SkipClone` / `--skip-clone` | clone / pull をスキップ |
+| `-SkipVSCode` / `--skip-vscode` | VS Code の導入をスキップ（既に別途入れている人向け） |
+| `-SkipCopilotExtension` / `--skip-copilot-extension` | Copilot 拡張の確認をスキップ |
+| `-InstallDir <path>` / `--install-dir=<path>` | clone 先を指定（既定: `~/spagent`） |
 
-## インストール（3 ステップ）
-
-### ステップ 1: リポジトリを取得
-
-```powershell
-# Windows (PowerShell)
-cd C:\
-git clone https://github.com/kazuma911/spagent.git
-cd spagent
-```
-
-```bash
-# Mac / Linux
-cd ~
-git clone https://github.com/kazuma911/spagent.git
-cd spagent
-```
-
-### ステップ 2: 必要なライブラリを入れる
-
+**手元に clone 済みの場合**は、リポジトリ内で直接叩けます：
 ```powershell
 # Windows
-pip install -r scripts\requirements.txt
+.\scripts\setup\setup.ps1
 ```
-
 ```bash
 # Mac / Linux
-pip3 install -r scripts/requirements.txt
+bash scripts/setup/setup.sh
 ```
-
-必須は **Pillow** ひとつだけ。以下は使う機能が出てきたときに追加で入れれば OK：
-
-| 機能 | 追加コマンド |
-|---|---|
-| PDF 出力 | `pip install reportlab` |
-| Excel テンプレート出力 / 取り込み | `pip install openpyxl` |
-| PDF 取り込み | `pip install pdfplumber` |
-
-### ステップ 3: GitHub Copilot に SKILL.md を読み込ませる
-
-**VS Code の場合**：
-1. VS Code で `spagent` フォルダを開く
-2. GitHub Copilot Chat を開く
-3. `#SKILL.md` を添えて「この Skill を使いたい」と依頼
-
-**GitHub Copilot CLI の場合**：
-1. `cd spagent` で移動
-2. `copilot` などのコマンドで起動（環境により差あり）
-3. Skill を明示的に読ませる指示を送る
-
-初回起動時、Copilot が **PII 注意喚起** と **初期セットアップ** の案内を出したら成功です。
 
 ## 初回セットアップ（10 分）
 
@@ -169,6 +162,22 @@ Copilot: 解析しました。メニュー 42 本を認識、傾向は以下で�
 10 分ほどで、あなたの流儀を覚えた分身の完成です。
 
 ## 毎回の使い方
+
+**練習前に上の 1 行を叩くだけ。**
+
+```powershell
+# Windows
+iex (irm https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1)
+```
+```bash
+# Mac / Linux
+curl -fsSL https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.sh | bash
+```
+
+数秒で VS Code が立ち上がり、Copilot Chat に貼るための起動メッセージがクリップボードに入っています。あとは：
+
+1. Copilot Chat を開く（`Ctrl+Alt+I` / macOS: `Cmd+Ctrl+I`）
+2. `Ctrl+V` → `Enter`
 
 セットアップ済みなら、あとはひとことでメニューが上がってきます。
 
@@ -280,6 +289,63 @@ Copilot が使う専門用語です。初回だけ覚えれば OK。
 → メニュー作成時に「今日は ben 欠席、代わりに frank 参加」と伝えるだけで反映されます。
 
 もっと詳しく: [docs/faq.md](docs/faq.md) / [docs/troubleshooting.md](docs/troubleshooting.md)
+
+## 手動でやりたい人向け（従来のやり方）
+
+自動スクリプトを使わず、手で入れたい人向けの手順です。
+
+### ステップ 1: Python 3.10 以上を入れる
+
+https://www.python.org/downloads/ から Python 3.10 以上をダウンロード。
+Windows は **「Add Python to PATH」に必ずチェック**。
+
+確認：
+```powershell
+python --version   # Windows
+```
+```bash
+python3 --version  # Mac / Linux
+```
+
+### ステップ 2: リポジトリを clone
+
+```powershell
+# Windows
+cd C:\
+git clone https://github.com/kazuma911/spagent.git
+cd spagent
+```
+```bash
+# Mac / Linux
+cd ~
+git clone https://github.com/kazuma911/spagent.git
+cd spagent
+```
+
+### ステップ 3: 依存ライブラリを入れる
+
+```powershell
+# Windows
+pip install -r scripts\requirements.txt
+```
+```bash
+# Mac / Linux
+pip3 install -r scripts/requirements.txt
+```
+
+入るもの：**Pillow / reportlab / openpyxl / pdfplumber**（PDF・Excel・画像処理に使用）
+
+### ステップ 4: VS Code + GitHub Copilot / Copilot Chat 拡張を入れる
+
+VS Code をインストールし、拡張として `GitHub.copilot` と `GitHub.copilot-chat` を入れる。
+
+### ステップ 5: SKILL.md を読み込ませる
+
+VS Code で spagent フォルダを開き、Copilot Chat で以下を送信：
+
+```
+#SKILL.md を読み込んで、今日のメニューを一緒に作りたい。まだ初期セットアップしていなければ Workflow E から始めて。
+```
 
 ### さらに詳しく知りたい
 

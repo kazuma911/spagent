@@ -1,3 +1,15 @@
-# Optional import/export helpers use reportlab, openpyxl, and pdfplumber.
-# Install those packages separately only when the corresponding script needs them.
+# spagent の Python 依存ライブラリ
+# 全機能を最初から使えるよう、必須 + オプションすべてを含みます。
+# 詳しくは README.md 参照。
+
+# 必須（画像処理）
 Pillow>=10.0.0
+
+# PDF 出力（sessions/*.tsv → PDF）
+reportlab>=4.0.0
+
+# Excel 出力・過去メニュー取り込み
+openpyxl>=3.1.0
+
+# PDF 過去メニュー取り込み
+pdfplumber>=0.10.0
