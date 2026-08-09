@@ -1,4 +1,4 @@
-"""One-shot Workflow G pipeline: import -> classify -> (AI review) -> build.
+"""One-shot Workflow G pipeline: import -> classify -> (AI review) -> build -> analyze.
 
 Excel/PDF から読み込んだ生データを一気に `knowledge/custom/*` まで展開する。
 
@@ -8,13 +8,15 @@ Excel/PDF から読み込んだ生データを一気に `knowledge/custom/*` ま
         --clean
 
 生成物:
-  <workdir>/raw-import.json                  ← excel_to_menu.py / pdf_to_menu.py の生 dump
-  <workdir>/classified.json                  ← 分類フィールド付与済み
-  <workdir>/ai-review-batch.json             ← 低信頼分 (AI 判定候補)
+  <workdir>/raw-import.json                       ← excel_to_menu.py / pdf_to_menu.py の生 dump
+  <workdir>/classified.json                       ← 分類フィールド付与済み
+  <workdir>/ai-review-batch.json                  ← 低信頼分 (AI 判定候補)
   knowledge/custom/main-menus/{method}/*.md
   knowledge/custom/menu-index.json
   knowledge/custom/drills/{stroke}.md
   knowledge/custom/drill-index.json
+  knowledge/custom/menu-import-analysis.json      ← Workflow G Step 9
+  knowledge/custom/menu-structure-patterns.json   ← Workflow G Step 10
 
 `--ai-answers PATH` を渡すと分類 JSON にマージしてから build に進む。
 """
@@ -109,6 +111,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.clean:
         build_cmd.append("--clean")
     run(build_cmd)
+
+    # Step 6: analysis (Workflow G Step 9 & 10)
+    analyze = SCRIPTS.parent / "analyze" / "build_import_analysis.py"
+    run([args.python, str(analyze), str(classified), "--out-dir", str(args.out_dir)])
 
     print("", file=sys.stderr)
     print(f"pipeline done. review batch at {review_batch}", file=sys.stderr)

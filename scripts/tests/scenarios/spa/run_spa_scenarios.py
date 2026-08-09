@@ -276,6 +276,47 @@ def test_import_pipeline(result: TestResult) -> None:
         result.ok(f"main-menus subdirs: {sorted(p.name for p in method_dirs)}")
 
 
+def test_import_analysis(result: TestResult) -> None:
+    """T07: Workflow G Step 9 / 10 の analysis JSON が生成される."""
+    section("T07: Workflow G Step 9 & 10 (menu-import-analysis + structure-patterns)")
+    analysis = REPO_ROOT / "knowledge" / "custom" / "menu-import-analysis.json"
+    patterns = REPO_ROOT / "knowledge" / "custom" / "menu-structure-patterns.json"
+    if not analysis.exists():
+        result.fail("menu-import-analysis.json", "not produced (run pipeline first)")
+        return
+    if not patterns.exists():
+        result.fail("menu-structure-patterns.json", "not produced (run pipeline first)")
+        return
+    result.ok("menu-import-analysis.json + menu-structure-patterns.json exist")
+
+    a = json.loads(analysis.read_text(encoding="utf-8"))
+    for key in ("valid_records", "method_share", "zone_share", "distance_distribution",
+                "recommendations"):
+        if key not in a:
+            result.fail("menu-import-analysis schema", f"missing '{key}'")
+            return
+    result.ok("menu-import-analysis schema (valid/method/zone/distance/recommendations)")
+
+    if a["valid_records"] < 20:
+        result.fail("valid_records", f"only {a['valid_records']}")
+    else:
+        result.ok(f"valid_records: {a['valid_records']}")
+
+    ps = json.loads(patterns.read_text(encoding="utf-8"))
+    if not isinstance(ps, list) or len(ps) < 5:
+        result.fail("structure patterns", f"got {len(ps) if isinstance(ps, list) else 'non-list'}")
+        return
+    result.ok(f"structure patterns: {len(ps)}")
+
+    expected = {"id", "method", "block_order", "block_distance_ratio", "count",
+                "total_distance_range", "example_dates"}
+    missing = expected - set(ps[0].keys())
+    if missing:
+        result.fail("pattern schema", f"missing: {sorted(missing)}")
+    else:
+        result.ok("pattern schema (id/method/block/count/range)")
+
+
 def test_data_pii_clean(result: TestResult) -> None:
     """T10: data/ 配下の JSON が PII scanner でクリーンなこと."""
     section("T10: data/ PII scan (real athletes / schedules)")
@@ -300,6 +341,7 @@ def main() -> int:
     test_custom_only_preference(result)
     test_workflow_a_output(result)
     test_import_pipeline(result)
+    test_import_analysis(result)
     test_data_pii_clean(result)
     print("\n=== SPA scenarios Summary ===")
     print(f"passed: {result.passed}")
