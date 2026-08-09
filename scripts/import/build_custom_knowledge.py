@@ -43,6 +43,106 @@ STROKE_KEYWORDS: list[tuple[str, re.Pattern[str]]] = [
 ]
 
 
+# Drill 記述からテクニック タグを推定するためのキーワード表。
+# Workflow A Step 12「選手の focus_areas 反映」で drill を絞込するのに使う。
+_TECHNIQUE_KEYWORDS: list[tuple[str, re.Pattern[str]]] = [
+    ("catch_up", re.compile(r"catch[\s\-]*up|キャッチ\s*アップ|front[\s\-]*quadrant", re.I)),
+    ("single_arm", re.compile(r"single\s*arm|片手|3r\b|3l\b|片腕", re.I)),
+    ("sculling", re.compile(r"scull|スカーリング|sweep\s*out", re.I)),
+    ("kick_only", re.compile(r"^kick|6\s*kick|4\s*kick|kick\s*set|キック", re.I)),
+    ("vertical_kick", re.compile(r"vertical\s*kick|垂直|立ち泳ぎ|treadmill\s*kick", re.I)),
+    ("underwater", re.compile(r"underwater|u/w|水中|dolphin\s*u/w|ドルフィン\s*u/w", re.I)),
+    ("streamline", re.compile(r"streamline|け?のび|ストリーム", re.I)),
+    ("breathing", re.compile(r"breath|呼吸|3-3|3\s*breath|hypoxic|no\s*breath", re.I)),
+    ("body_position", re.compile(r"body\s*position|体軸|ローリング|rotation|balance", re.I)),
+    ("head_position", re.compile(r"head\s*(up|down|position)|頭|look", re.I)),
+    ("tempo", re.compile(r"tempo|テンポ|stroke\s*rate|sr\b", re.I)),
+    ("finish", re.compile(r"finish|フィニッシュ|push|プッシュ", re.I)),
+    ("entry_catch", re.compile(r"entry|エントリー|catch|キャッチ", re.I)),
+    ("pull_pattern", re.compile(r"s\s*pull|s\s*字|pull\s*pattern|high\s*elbow|ハイエルボー", re.I)),
+    ("board_kick", re.compile(r"board|板|kickboard|kick\s*board|w/\s*board", re.I)),
+    ("fins", re.compile(r"\bfins?\b|フィン", re.I)),
+    ("dive_start", re.compile(r"\bdive|start|飛び込み|スタート", re.I)),
+    ("turn", re.compile(r"\bturn|ターン", re.I)),
+    ("dolphin", re.compile(r"dolphin|ドルフィン", re.I)),
+]
+
+
+def derive_technique_tags(description: str) -> list[str]:
+    """Extract normalized technique tags from a drill description."""
+    tags: list[str] = []
+    for label, rx in _TECHNIQUE_KEYWORDS:
+        if rx.search(description):
+            tags.append(label)
+    # dedup while preserving order
+    seen: set[str] = set()
+    return [t for t in tags if not (t in seen or seen.add(t))]
+
+
+# --- Phase 推定 (example_dates × A 大会 から phase_hints を導出) ---------------
+
+def load_a_priority_competitions(root: Path) -> list[dict[str, Any]]:
+    """Return list of {name, start_date} for priority=A competitions, if any."""
+    comps_path = root / "data" / "competitions.json"
+    if not comps_path.exists():
+        return []
+    try:
+        payload = json.loads(comps_path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    comps = payload.get("competitions") if isinstance(payload, dict) else payload
+    out: list[dict[str, Any]] = []
+    for c in comps or []:
+        if c.get("priority") == "A" and c.get("start_date"):
+            out.append({"name": c.get("short_name") or c.get("name") or "", "start_date": c["start_date"]})
+    return out
+
+
+def _weeks_between(a: str, b: str) -> int | None:
+    """Return |weeks(a - b)|, or None if either date fails to parse."""
+    import datetime as _dt
+    try:
+        da = _dt.date.fromisoformat(a)
+        db = _dt.date.fromisoformat(b)
+    except Exception:
+        return None
+    return abs((da - db).days) // 7
+
+
+def phase_from_weeks(weeks_to_meet: int, past_meet: bool) -> str:
+    """Map weeks-to-nearest-A-meet to Phase label used by Workflow A."""
+    if past_meet and weeks_to_meet <= 2:
+        return "Trans"  # post-meet transition
+    if weeks_to_meet <= 2:
+        return "D"      # Taper
+    if weeks_to_meet <= 6:
+        return "C"      # Race-specific
+    if weeks_to_meet <= 12:
+        return "B"      # Build
+    return "A"           # Base
+
+
+def derive_phase_hints(example_dates: list[str], comps: list[dict[str, Any]]) -> list[str]:
+    """Union of Phase labels seen across example_dates given A-priority meets."""
+    if not comps or not example_dates:
+        return []
+    phases: set[str] = set()
+    for date_str in example_dates:
+        best: tuple[int, bool] | None = None
+        for cp in comps:
+            wk = _weeks_between(date_str, cp["start_date"])
+            if wk is None:
+                continue
+            past = date_str > cp["start_date"]
+            if best is None or wk < best[0]:
+                best = (wk, past)
+        if best is not None:
+            phases.add(phase_from_weeks(best[0], best[1]))
+    # preserve canonical ordering
+    order = ["A", "B", "C", "D", "Trans"]
+    return [p for p in order if p in phases]
+
+
 def repo_root() -> Path:
     """Return the repository root."""
     return Path(__file__).resolve().parents[2]
@@ -219,8 +319,13 @@ def cluster_id_for(method: str, fingerprint: str) -> str:
     return f"{method}-{hashed}"
 
 
-def write_main_menus(clusters: dict[str, list[dict[str, Any]]], out_dir: Path) -> tuple[int, list[dict[str, Any]]]:
-    """Write per-cluster MD + build index entries."""
+def write_main_menus(clusters: dict[str, list[dict[str, Any]]], out_dir: Path,
+                     a_comps: list[dict[str, Any]] | None = None) -> tuple[int, list[dict[str, Any]]]:
+    """Write per-cluster MD + build index entries.
+
+    ``a_comps`` は Workflow A Step 11 の Phase フィルタ用に priority=A の大会日程。
+    渡された場合、各クラスタの example_dates から phase_hints を推定して index に載せる。
+    """
     md_root = out_dir / "main-menus"
     md_root.mkdir(parents=True, exist_ok=True)
 
@@ -238,10 +343,12 @@ def write_main_menus(clusters: dict[str, list[dict[str, Any]]], out_dir: Path) -
         md_path.write_text(build_cluster_markdown(summary), encoding="utf-8")
         md_count += 1
 
+        phase_hints = derive_phase_hints(summary["example_dates"], a_comps or [])
         index_entries.append({
             "id": cid,
             "method": method,
             "count": summary["count"],
+            "phase_hints": phase_hints,
             "main_avg": summary["main_avg"],
             "main_range": [summary["main_min"], summary["main_max"]],
             "total_avg": summary["total_avg"],
@@ -336,18 +443,21 @@ def write_drills(drills_by_stroke: dict[str, list[dict[str, Any]]], out_dir: Pat
         lines.append("")
         lines.append(f"取り込み元シートから抽出した {stroke} 系ドリル。使用頻度順に並べている。")
         lines.append("")
-        lines.append("| # | Drill (description) | Uses | Top gear | Example dates |")
-        lines.append("|---|---|---|---|---|")
+        lines.append("| # | Drill (description) | Uses | Top gear | Technique tags | Example dates |")
+        lines.append("|---|---|---|---|---|---|")
         for i, entry in enumerate(drills, start=1):
             desc = entry["description"].replace("|", "/")
             gear = entry["top_gear"].replace("|", "/")
             dates = ", ".join(entry["example_dates"][:3])
-            lines.append(f"| {i} | {desc[:200]} | {entry['count']} | {gear} | {dates} |")
+            tags = derive_technique_tags(entry["description"])
+            tags_str = ", ".join(tags) if tags else "-"
+            lines.append(f"| {i} | {desc[:200]} | {entry['count']} | {gear} | {tags_str} | {dates} |")
             index.append({
                 "stroke": stroke,
                 "description": entry["description"],
                 "count": entry["count"],
                 "top_gear": entry["top_gear"],
+                "technique_tags": tags,
                 "example_dates": entry["example_dates"],
             })
         lines.append("")
@@ -382,7 +492,8 @@ def main(argv: list[str] | None = None) -> int:
                 shutil.rmtree(target)
 
     clusters = cluster_records(records)
-    md_menus, index_menus = write_main_menus(clusters, args.out_dir)
+    a_comps = load_a_priority_competitions(repo_root())
+    md_menus, index_menus = write_main_menus(clusters, args.out_dir, a_comps=a_comps)
 
     drills_by_stroke = collect_drills(records)
     md_drills, index_drills = write_drills(drills_by_stroke, args.out_dir)

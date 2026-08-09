@@ -316,6 +316,28 @@ def test_import_analysis(result: TestResult) -> None:
     else:
         result.ok("pattern schema (id/method/block/count/range)")
 
+    # menu-index には Workflow A Step 11 で Phase 絞込するため phase_hints が必要
+    menu_index = REPO_ROOT / "knowledge" / "custom" / "menu-index.json"
+    if menu_index.exists():
+        idx = json.loads(menu_index.read_text(encoding="utf-8"))
+        missing_ph = [e for e in idx if "phase_hints" not in e]
+        if missing_ph:
+            result.fail("menu-index phase_hints", f"{len(missing_ph)}/{len(idx)} entries missing")
+        else:
+            with_phase = sum(1 for e in idx if e["phase_hints"])
+            result.ok(f"menu-index phase_hints present ({with_phase}/{len(idx)} populated)")
+
+    # drill-index には Workflow A Step 12 の focus_areas 反映で technique_tags が必要
+    drill_index = REPO_ROOT / "knowledge" / "custom" / "drill-index.json"
+    if drill_index.exists():
+        di = json.loads(drill_index.read_text(encoding="utf-8"))
+        missing_tags = [d for d in di if "technique_tags" not in d]
+        if missing_tags:
+            result.fail("drill-index technique_tags", f"{len(missing_tags)}/{len(di)} entries missing")
+        else:
+            tagged = sum(1 for d in di if d["technique_tags"])
+            result.ok(f"drill-index technique_tags present ({tagged}/{len(di)} populated)")
+
 
 def test_data_pii_clean(result: TestResult) -> None:
     """T10: data/ 配下の JSON が PII scanner でクリーンなこと."""

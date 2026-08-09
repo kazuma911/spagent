@@ -17,9 +17,10 @@ knowledge/custom/
 ├─ imports/
 │  ├─ raw/                    取り込み元素材（.xlsx / .pdf / .jpg 等）
 │  └─ parsed/                 解析結果 JSON（承認前）
-├─ menu-index.json            実施ベース索引（自動追記）
+├─ menu-index.json            実施ベース索引（自動追記／各エントリに `phase_hints` を含み、Workflow A Step 11 の Phase × Zone × Method 絞込で利用）
+├─ drill-index.json           ドリル索引（`technique_tags` 付き。Workflow A Step 12 の focus_areas 反映で利用）
 ├─ menu-import-analysis.json  傾向分析結果（コーチ承認後）
-└─ menu-structure-patterns.json  メニュー骨格パターン（承認後、プロファイルから参照）
+└─ menu-structure-patterns.json  メニュー骨格パターン（`block_order` / `block_distance_ratio` / `total_distance_range` / `body_category_ratio` を含み、プロファイルの `menu_structure_pattern_id` から Workflow A Step 13 で読み込み反映）
 ```
 
 ## 使い方
