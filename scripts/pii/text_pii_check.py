@@ -31,12 +31,23 @@ class Finding:
 BUILT_IN_PATTERNS: list[tuple[str, str, str, re.Pattern[str]]] = [
     ("email", "high", "email address", re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE)),
     ("phone", "high", "Japanese phone number", re.compile(r"(?:\+81[-\s]?\d{1,4}|0\d{1,4})[-\s]?\d{1,4}[-\s]?\d{3,4}\b")),
-    ("postal_code", "medium", "Japanese postal code", re.compile(r"〒?\s*\d{3}-\d{4}")),
+    ("postal_code", "medium", "Japanese postal code", re.compile(r"(?:^|[^0-9\-])(?:〒\s*)?\d{3}-\d{4}\b")),
     ("credit_card", "critical", "credit card pattern", re.compile(r"\b(?:\d[ -]?){13,19}\b")),
     ("birth_date", "high", "birth date context", re.compile(r"(?:birth|birthday|dob|生年月日|誕生日).{0,16}\d{4}[-/]\d{1,2}[-/]\d{1,2}", re.IGNORECASE)),
-    ("jp_name", "medium", "Japanese name-like value", re.compile(r"(?:氏名|名前|選手名|name)[\"'\s:：,]*[\u4E00-\u9FFF]{2,4}[\s　]?[\u4E00-\u9FFFァ-ヴー]{2,4}", re.IGNORECASE)),
-    ("kana_name", "medium", "Katakana name-like value", re.compile(r"(?:氏名|名前|選手名|name)[\"'\s:：,]*[ァ-ヴー]{2,4}[\s　]+[ァ-ヴー]{2,4}", re.IGNORECASE)),
+    # jp_name: 「name / 氏名 / 名前 / 選手名」ラベル直後に 姓 + 名 の CJK 名っぽいパターン。
+    # 区切りは 姓と名の間にある場合 (`山田 太郎`) もない場合 (`田中太郎`) もある。
+    # エイリアス系ラベル (alias / group_name / group_id / nickname) は allowlist で除外する。
+    ("jp_name", "medium", "Japanese full name (surname + given)", re.compile(r"(?<![A-Za-z_])(?:氏名|名前|選手名|フルネーム|full[_\s-]?name|real[_\s-]?name)[\"'\s:：,]+[\u4E00-\u9FFF]{2,4}[\s　・]*[\u4E00-\u9FFFァ-ヴー]{0,4}", re.IGNORECASE)),
+    # kana_name: カナ姓 <sep>? カナ名。少なくとも 4 文字以上のカナ列（単一エイリアス `アリス` はキー allowlist で除外）。
+    ("kana_name", "medium", "Katakana full name (surname + given)", re.compile(r"(?<![A-Za-z_])(?:氏名|名前|選手名|フルネーム|full[_\s-]?name|real[_\s-]?name)[\"'\s:：,]+[ァ-ヴー]{2,6}[\s　・]*[ァ-ヴー]{0,6}", re.IGNORECASE)),
 ]
+
+# エイリアス・グループ名など、選手匿名 ID として TSV / JSON に載せて OK なラベル。
+# これらのキー配下の行では jp_name / kana_name を発火させない。
+ALIAS_LABEL_PATTERN = re.compile(
+    r"(?:^|[\s,\"'])(alias(?:es)?|nickname|group[_\s-]?name|group[_\s-]?id|team[_\s-]?name|club[_\s-]?name|handle|display[_\s-]?name)[\s\"':：]",
+    re.IGNORECASE,
+)
 
 
 def mask_excerpt(text: str, start: int, end: int) -> str:
@@ -102,10 +113,15 @@ def scan_lines(lines: Iterable[str], blocklist: list[tuple[str, str, re.Pattern[
     """Scan lines for built-in and custom PII patterns.
 
     検出結果には行番号、種別、重要度、マスク済み抜粋を含める。
+    エイリアス系ラベル (alias / group_name / nickname 等) が同じ行にある場合、
+    jp_name / kana_name は誤検出を避けるためスキップする。
     """
     findings: list[Finding] = []
     for line_no, line in enumerate(lines, start=1):
+        line_has_alias_label = bool(ALIAS_LABEL_PATTERN.search(line))
         for kind, severity, label, pattern in BUILT_IN_PATTERNS:
+            if line_has_alias_label and kind in ("jp_name", "kana_name"):
+                continue
             for match in pattern.finditer(line):
                 if kind == "credit_card" and not luhn_valid(match.group(0)):
                     continue
