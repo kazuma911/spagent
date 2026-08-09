@@ -98,12 +98,6 @@ def _month(date_str: str) -> str | None:
     return date_str[:7]
 
 
-def _tokenize_equipment(equipment: str) -> list[str]:
-    """Split an equipment string into individual gear tokens."""
-    parts = re.split(r"[,\s、/]+", equipment)
-    return [p.strip("()") for p in parts if p.strip()]
-
-
 def _cluster_key(record: dict[str, Any]) -> tuple[str, int, str] | None:
     """Return (method, total_bucket_500, course) for grouping structure patterns."""
     cls = record.get("classification") or {}
@@ -156,8 +150,6 @@ def build_analysis(records: list[dict[str, Any]]) -> dict[str, Any]:
     course_share: collections.Counter[str] = collections.Counter()
     dow_share: collections.Counter[str] = collections.Counter()
     month_share: collections.Counter[str] = collections.Counter()
-    facilities: collections.Counter[str] = collections.Counter()
-    equipment_tokens: collections.Counter[str] = collections.Counter()
     themes: collections.Counter[str] = collections.Counter()
     distance_buckets: collections.Counter[int] = collections.Counter()
 
@@ -176,13 +168,6 @@ def build_analysis(records: list[dict[str, Any]]) -> dict[str, Any]:
         month = _month(record.get("date") or "")
         if month:
             month_share[month] += 1
-        facility = record.get("facility")
-        if facility:
-            facilities[facility] += 1
-        equipment = record.get("equipment")
-        if equipment:
-            for token in _tokenize_equipment(equipment):
-                equipment_tokens[token] += 1
         theme = (record.get("theme") or "").strip()
         if theme:
             themes[theme] += 1
@@ -213,8 +198,6 @@ def build_analysis(records: list[dict[str, Any]]) -> dict[str, Any]:
         },
         "session_distribution_by_dow": dict(dow_share.most_common()),
         "session_distribution_by_month": dict(sorted(month_share.items())),
-        "top_facilities": [{"name": k, "count": v} for k, v in facilities.most_common(5)],
-        "top_equipment_tokens": [{"name": k, "count": v} for k, v in equipment_tokens.most_common(15)],
         "top_themes": [{"name": k, "count": v} for k, v in themes.most_common(10)],
     }
 

@@ -147,6 +147,9 @@ def main_body_rows(record: dict[str, Any]) -> list[dict[str, Any]]:
     セクション ヘッダで区切り、Main / Race Pace / Sprint 相当のセクションに属する行のみ返す。
     Main セクションが 1 つも見つからない場合は「全て W-up として扱われている」
     = technique/recovery day とみなし、warmup セクション行を返す (フォールバック)。
+
+    Drill/Rec/Rest カテゴリと、距離が付いていないつなぎ行は「main の中身」として
+    見せる価値がないので除外する (メニュー生成時にはあくまで本セットだけを参照したい)。
     """
     labelled = _iter_sections(record)
     mains = []
@@ -160,6 +163,9 @@ def main_body_rows(record: dict[str, Any]) -> list[dict[str, Any]]:
         # skip dividers / empty rows outright
         if not (cat and dist > 0) and not str(row.get("description") or "").strip():
             continue
+        # main-set として意味のあるカテゴリだけ残す (Drill / Rec / Rest は本セットではない)
+        if not _is_main_material(row, cat, dist):
+            continue
         if state == "main":
             mains.append(row)
         elif state == "warmup":
@@ -167,6 +173,28 @@ def main_body_rows(record: dict[str, Any]) -> list[dict[str, Any]]:
     if mains:
         return mains
     return warmups  # fallback: technique/recovery days with no explicit main header
+
+
+# --- Main-set 判定 ------------------------------------------------------------
+# 「本セット」として集計・表示すべきカテゴリのみ許可。
+# Drill / Rec / Rest / (空カテゴリで距離ゼロ) は W-up 起源かつスキル系のため除外。
+_MAIN_MATERIAL_CATS = {"Swim", "Kick", "Pull", "Main", "IM", "Broken", "Sprint", "USRPT",
+                       "Race Pace", "RP"}
+_MAIN_EXCLUDE_CATS = {"Drill", "Rec", "Rest", "Recovery"}
+
+
+def _is_main_material(row: dict[str, Any], cat: str, dist: int) -> bool:
+    """本セットとして扱えるかどうか (Drill/Recovery系は除外)."""
+    if cat in _MAIN_EXCLUDE_CATS:
+        return False
+    # 距離が付いていない (= セット間 rest / お知らせ行) は集計対象から外す
+    if dist <= 0:
+        return False
+    # 明示的な main カテゴリはそのまま許可
+    if cat in _MAIN_MATERIAL_CATS:
+        return True
+    # 未知カテゴリでも距離があれば残す (誤除外を避ける)
+    return True
 
 
 def valid_rows(record: dict[str, Any]) -> list[dict[str, Any]]:

@@ -121,22 +121,19 @@ def build_cluster_summary(cluster: list[dict[str, Any]]) -> dict[str, Any]:
     zone_tags = [z for z, _ in all_zones.most_common(8)]
 
     facilities: collections.Counter[str] = collections.Counter()
-    equipments: collections.Counter[str] = collections.Counter()
     themes: list[str] = []
     dates: list[str] = []
     for record in cluster:
         if record.get("facility"):
             facilities[record["facility"]] += 1
-        if record.get("equipment"):
-            equipments[record["equipment"]] += 1
         theme = (record.get("theme") or "").strip()
         if theme:
             themes.append(theme)
         if record.get("date"):
             dates.append(record["date"])
 
+    # facility は course 判定用にのみ使う (MD には出さない)
     facility_top = facilities.most_common(1)[0][0] if facilities else None
-    equipment_top = equipments.most_common(1)[0][0] if equipments else None
     course = infer_course(facility_top)
 
     representative = max(cluster, key=lambda r: int(r.get("total_distance") or 0))
@@ -151,8 +148,6 @@ def build_cluster_summary(cluster: list[dict[str, Any]]) -> dict[str, Any]:
         "main_min": min(main_dists) if main_dists else 0,
         "main_max": max(main_dists) if main_dists else 0,
         "zone_tags": zone_tags,
-        "facility": facility_top,
-        "equipment": equipment_top,
         "course": course,
         "themes": themes[:10],
         "example_dates": sorted(set(dates))[-10:],
@@ -175,8 +170,6 @@ def build_cluster_markdown(summary: dict[str, Any]) -> str:
     lines.append("|---|---|")
     lines.append(f"| Method | {method} |")
     lines.append(f"| Course | {summary.get('course') or '?'} |")
-    lines.append(f"| Facility (top) | {summary.get('facility') or '-'} |")
-    lines.append(f"| Equipment (top) | {summary.get('equipment') or '-'} |")
     lines.append(f"| Main body distance | {summary['main_min']} - {summary['main_max']} m (avg {summary['main_avg']}) |")
     lines.append(f"| Full session distance | {summary['total_min']} - {summary['total_max']} m (avg {summary['total_avg']}) |")
     lines.append(f"| Seen | {summary['count']} sessions |")
@@ -255,8 +248,6 @@ def write_main_menus(clusters: dict[str, list[dict[str, Any]]], out_dir: Path) -
             "total_range": [summary["total_min"], summary["total_max"]],
             "course": summary["course"],
             "zone_tags": summary["zone_tags"],
-            "facility_top": summary["facility"],
-            "equipment_top": summary["equipment"],
             "example_dates": summary["example_dates"],
             "themes_top": summary["themes"][:5],
             "md_path": md_path.relative_to(out_dir).as_posix(),
