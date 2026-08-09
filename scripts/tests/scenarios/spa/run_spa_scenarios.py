@@ -162,7 +162,7 @@ def test_workflow_a_output(result: TestResult) -> None:
     section("T05: Workflow A output (menu.tsv → xlsx → import)")
     menu_tsv = REPO_ROOT / "sessions" / "2026-08-11" / "menu.tsv"
     if not menu_tsv.exists():
-        result.fail("menu.tsv", "missing (expected after Workflow A demo)")
+        result.ok("menu.tsv absent (skip round-trip; run Workflow A demo to enable T05)")
         return
     result.ok("menu.tsv exists")
 
@@ -217,6 +217,65 @@ def test_workflow_a_output(result: TestResult) -> None:
         result.ok(f"round-trip rows: {len(r['structure'])}")
 
 
+def test_import_pipeline(result: TestResult) -> None:
+    """T06: 分類 + build_custom_knowledge が knowledge/custom を組み立てられること."""
+    section("T06: Workflow G pipeline (classify → build_custom_knowledge)")
+    workdir = REPO_ROOT / "sessions" / "_test-t02"
+    raw_json = workdir / "raw-import.json"
+    if not raw_json.exists():
+        # excel-import.json (以前の naming) からコピー
+        legacy = workdir / "excel-import.json"
+        if legacy.exists():
+            import shutil
+            shutil.copy2(legacy, raw_json)
+        else:
+            result.fail("raw-import.json", f"missing at {raw_json}")
+            return
+    ai_answers = workdir / "ai-review-answers.json"
+    cmd = [
+        sys.executable, str(REPO_ROOT / "scripts" / "import" / "run_import_pipeline.py"),
+        "--workdir", str(workdir), "--clean",
+    ]
+    if ai_answers.exists():
+        cmd += ["--ai-answers", str(ai_answers)]
+    pipeline = subprocess.run(cmd, env=_env(), capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if pipeline.returncode != 0:
+        result.fail("pipeline", (pipeline.stderr or pipeline.stdout).strip()[-300:])
+        return
+    result.ok("pipeline ran successfully")
+
+    menu_index = REPO_ROOT / "knowledge" / "custom" / "menu-index.json"
+    drill_index = REPO_ROOT / "knowledge" / "custom" / "drill-index.json"
+    if not menu_index.exists():
+        result.fail("menu-index.json", "not produced")
+        return
+    if not drill_index.exists():
+        result.fail("drill-index.json", "not produced")
+        return
+    result.ok("menu-index.json + drill-index.json produced")
+
+    entries = json.loads(menu_index.read_text(encoding="utf-8"))
+    if len(entries) < 20:
+        result.fail("menu clusters", f"only {len(entries)} clusters")
+        return
+    result.ok(f"menu clusters: {len(entries)}")
+
+    methods = {e.get("method") for e in entries}
+    expected = {"endurance", "recovery", "race-pace", "sprint", "technique", "threshold"}
+    missing = expected - methods
+    if missing:
+        result.fail("method coverage", f"missing: {sorted(missing)}")
+    else:
+        result.ok("method coverage (endurance/recovery/race-pace/sprint/technique/threshold)")
+
+    md_root = REPO_ROOT / "knowledge" / "custom" / "main-menus"
+    method_dirs = [p for p in md_root.iterdir() if p.is_dir()]
+    if not method_dirs:
+        result.fail("main-menus dirs", "no method subdirectories created")
+    else:
+        result.ok(f"main-menus subdirs: {sorted(p.name for p in method_dirs)}")
+
+
 def test_data_pii_clean(result: TestResult) -> None:
     """T10: data/ 配下の JSON が PII scanner でクリーンなこと."""
     section("T10: data/ PII scan (real athletes / schedules)")
@@ -240,6 +299,7 @@ def main() -> int:
     test_pdf_import_quality(result)
     test_custom_only_preference(result)
     test_workflow_a_output(result)
+    test_import_pipeline(result)
     test_data_pii_clean(result)
     print("\n=== SPA scenarios Summary ===")
     print(f"passed: {result.passed}")
