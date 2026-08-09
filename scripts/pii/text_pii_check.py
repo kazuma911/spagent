@@ -30,8 +30,8 @@ class Finding:
 
 BUILT_IN_PATTERNS: list[tuple[str, str, str, re.Pattern[str]]] = [
     ("email", "high", "email address", re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE)),
-    ("phone", "high", "Japanese phone number", re.compile(r"(?:\+81[-\s]?\d{1,4}|0\d{1,4})[-\s]?\d{1,4}[-\s]?\d{3,4}\b")),
-    ("postal_code", "medium", "Japanese postal code", re.compile(r"(?:^|[^0-9\-])(?:〒\s*)?\d{3}-\d{4}\b")),
+    ("phone", "high", "Japanese phone number", re.compile(r"(?<![\d\-])(?:\+81[-\s]?\d{1,4}|0\d{1,4})[-\s]?\d{1,4}[-\s]?\d{3,4}(?!\d)")),
+    ("postal_code", "medium", "Japanese postal code", re.compile(r"(?:^|[^0-9\-])(?:〒\s*)?\d{3}-\d{4}(?!\d|-\d)")),
     ("credit_card", "critical", "credit card pattern", re.compile(r"\b(?:\d[ -]?){13,19}\b")),
     ("birth_date", "high", "birth date context", re.compile(r"(?:birth|birthday|dob|生年月日|誕生日).{0,16}\d{4}[-/]\d{1,2}[-/]\d{1,2}", re.IGNORECASE)),
     # jp_name: 「name / 氏名 / 名前 / 選手名」ラベル直後に 姓 + 名 の CJK 名っぽいパターン。

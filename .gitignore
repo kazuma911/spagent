@@ -20,6 +20,9 @@ knowledge/custom/*
 !plans/README.md
 !knowledge/custom/README.md
 
+# 例外: Excel テンプレートのマッピング定義（コーチ提供テンプレの列位置宣言、実データではない）
+!data/excel-template-mapping.json
+
 # 一時ファイル
 *.tmp
 *.backup-*

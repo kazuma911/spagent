@@ -108,24 +108,40 @@ def write_row(ws: Any, row_index: int, columns: dict[str, str], values: dict[str
         ws[f"{column}{row_index}"] = values.get(normalize_key(key), "")
 
 
-def convert_to_excel(path: Path, template: Path | None, mapping_path: Path, out_path: Path | None) -> Path:
+def convert_to_excel(path: Path, template: Path | None, mapping_path: Path, out_path: Path | None, *, append_to: Path | None = None, new_sheet_name: str | None = None) -> Path:
     """Populate a workbook from TSV using a mapping.
 
     テンプレートが省略された場合は新規ワークブックを使う。
+    `append_to` を指定すると既存ブックを開き、`new_sheet_name` の新シートに書き込む
+    （SPA.xlsx のように 1 ブック複数シートの履歴集に追記するユースケース）。
     """
     openpyxl = import_openpyxl()
     mapping = load_mapping(mapping_path)
     meta, menu_rows, pace_rows = parse_tsv(path)
-    if template:
+    if append_to:
+        workbook = openpyxl.load_workbook(append_to)
+        sheet_name = new_sheet_name or meta.get("date") or path.stem
+        while sheet_name in workbook.sheetnames:
+            sheet_name = f"{sheet_name}-2"
+        ws = workbook.create_sheet(title=sheet_name)
+    elif template:
         workbook = openpyxl.load_workbook(template)
+        ws = workbook[mapping.get("sheet_name")] if mapping.get("sheet_name") else workbook.active
     else:
         workbook = openpyxl.Workbook()
-    ws = workbook[mapping.get("sheet_name")] if mapping.get("sheet_name") else workbook.active
+        ws = workbook[mapping.get("sheet_name")] if mapping.get("sheet_name") else workbook.active
+        if new_sheet_name:
+            ws.title = new_sheet_name
 
-    for key in ("title", "date", "facility", "theme"):
+    team_name_cell = mapping.get("team_name")
+    if team_name_cell:
+        ws[team_name_cell] = meta.get("team_name") or meta.get("team") or ""
+    for key in ("title", "date", "facility", "theme", "equipment"):
         cell = mapping.get(key)
         if cell:
             ws[cell] = meta.get(key, "")
+    for cell_addr, header_text in (mapping.get("headers") or {}).items():
+        ws[cell_addr] = header_text
 
     body_start = int(mapping.get("body_start_row", 2))
     columns = mapping.get("columns", {})
@@ -140,7 +156,7 @@ def convert_to_excel(path: Path, template: Path | None, mapping_path: Path, out_
         for offset, row in enumerate(pace_rows):
             write_row(ws, int(pace_start) + offset, pace_columns, row)
 
-    out_path = out_path or path.with_suffix(".xlsx")
+    out_path = out_path or (append_to if append_to else path.with_suffix(".xlsx"))
     out_path.parent.mkdir(parents=True, exist_ok=True)
     workbook.save(out_path)
     return out_path
@@ -156,6 +172,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--template", type=Path, help="Coach-provided template workbook.")
     parser.add_argument("--mapping", type=Path, default=repo_root() / "data" / "excel-template-mapping.json")
     parser.add_argument("--out", type=Path, help="Output .xlsx path.")
+    parser.add_argument("--append-to", type=Path, help="Append a new sheet to an existing workbook (e.g. SPA.xlsx history).")
+    parser.add_argument("--new-sheet-name", help="Name for the newly added sheet (defaults to the TSV Date meta).")
     return parser
 
 
@@ -166,7 +184,14 @@ def main(argv: list[str] | None = None) -> int:
     """
     args = build_parser().parse_args(argv)
     try:
-        out_path = convert_to_excel(args.path, args.template, args.mapping, args.out)
+        out_path = convert_to_excel(
+            args.path,
+            args.template,
+            args.mapping,
+            args.out,
+            append_to=args.append_to,
+            new_sheet_name=args.new_sheet_name,
+        )
     except Exception as exc:  # noqa: BLE001 - CLI boundary
         print(f"error: {exc}", file=sys.stderr)
         return 1

@@ -80,32 +80,77 @@ def find_header_row(ws: Any) -> int | None:
     return None
 
 
-def extract_meta(ws: Any, header_row: int | None) -> dict[str, str]:
-    """Extract title, date, facility, and theme from rows above the header.
+def _first_row_text(row_texts: list[str]) -> str:
+    """Return a compact string of non-empty cell texts in one row.
 
-    先頭行からヘッダ直前までを慣習的なメタデータとして読む。
+    行内の非空セルを空白 1 つで連結し、レイアウト非依存の判定用文字列にする。
+    """
+    return " ".join(value for value in row_texts if value).strip()
+
+
+_DATE_RE = re.compile(r"(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})")
+_FACILITY_HINT_RE = re.compile(
+    r"(SCM|LCM|\d{2,3}\s*m|pool|プール|センター|アクアティクス|温水|ジム|体育館|施設|場所|facility)",
+    re.IGNORECASE,
+)
+_THEME_HINT_RE = re.compile(
+    r"(Phase\s*[A-Z]|D-\s*\d+|Taper|Threshold|Sprint|Recovery|Base|USRPT|Broken|Descending"
+    r"|Aerobic|Race\s*Pace|Endurance|IM\s*day|Kick\s*day|Drill\s*day|VO2|EN[123]|SP[12]"
+    r"|大会|試合|レース|基礎期|準備期|移行期|テーマ|theme)",
+    re.IGNORECASE,
+)
+
+
+def extract_meta(ws: Any, header_row: int | None) -> dict[str, str]:
+    """Extract title, date, facility, theme, team_name, and equipment.
+
+    ヘッダ行の直前までの任意レイアウト（列 A 起点でも B 起点でも可）に対応する。
+    キーワード辞書だけでは分類できないため、正規表現ヒントで判別する。
     """
     limit = (header_row or 6) - 1
-    rows = [row_values(row) for row in ws.iter_rows(min_row=1, max_row=max(limit, 1))]
-    first_values = [text(value) for row in rows for value in row if text(value)]
+    rows = [[text(value) for value in row_values(row)] for row in ws.iter_rows(min_row=1, max_row=max(limit, 1))]
+    row_texts = [_first_row_text(row) for row in rows]
+
     meta: dict[str, str] = {}
-    if first_values:
-        meta["title"] = first_values[0]
-    labels = {"date": ("date", "日付"), "facility": ("facility", "場所", "施設"), "theme": ("theme", "テーマ")}
-    for row in rows:
-        row_texts = [text(value) for value in row]
-        joined = " ".join(row_texts).lower()
-        for key, words in labels.items():
-            if key in meta:
-                continue
-            if any(word in joined for word in words):
-                non_empty = [value for value in row_texts if value]
-                meta[key] = non_empty[-1] if non_empty else ""
-    if "date" not in meta:
-        for value in first_values:
-            if re.search(r"\d{4}[-/.]\d{1,2}[-/.]\d{1,2}", value):
-                meta["date"] = value[:10].replace("/", "-").replace(".", "-")
-                break
+
+    for row_text in row_texts:
+        if not row_text:
+            continue
+        # 明示ラベル `Equipment: ...` は最優先で拾う
+        equipment_match = re.search(r"equipment\s*[:：]\s*(.+)", row_text, re.IGNORECASE)
+        if equipment_match and "equipment" not in meta:
+            meta["equipment"] = equipment_match.group(1).strip()
+
+        # 日付を確実に抽出 (YYYY-MM-DD へ正規化、括弧混入を防ぐ)
+        if "date" not in meta:
+            date_match = _DATE_RE.search(row_text)
+            if date_match:
+                y, m, d = date_match.groups()
+                meta["date"] = f"{int(y):04d}-{int(m):02d}-{int(d):02d}"
+
+        # facility 判定 (プール施設らしいキーワードを含む)
+        if "facility" not in meta and _FACILITY_HINT_RE.search(row_text):
+            # equipment 行を facility として拾わない
+            if not re.search(r"equipment\s*[:：]", row_text, re.IGNORECASE):
+                meta["facility"] = row_text
+
+        # theme 判定 (フェーズ / メソッド / 大会キーワードを含む)
+        if "theme" not in meta and _THEME_HINT_RE.search(row_text):
+            if not re.search(r"equipment\s*[:：]", row_text, re.IGNORECASE):
+                meta["theme"] = row_text
+
+    # team_name: 最初の短い (<= 12 文字) 行で date/facility/theme に採用されていないもの
+    used = {meta.get("date", ""), meta.get("facility", ""), meta.get("theme", ""), meta.get("equipment", "")}
+    for row_text in row_texts:
+        if not row_text or row_text in used:
+            continue
+        if len(row_text) <= 12 and not _DATE_RE.search(row_text):
+            meta.setdefault("team_name", row_text)
+            break
+
+    # title: 短い team_name とは別に、theme か team_name か sheet 名で埋める
+    meta.setdefault("title", meta.get("theme") or meta.get("team_name") or ws.title)
+
     return meta
 
 
@@ -159,17 +204,20 @@ def parse_sheet(ws: Any, source_path: Path) -> dict[str, Any]:
             item["estimated_distance"] = subtotal
             structure.append(item)
     total_distance = sum(safe_int(item.get("estimated_distance")) for item in structure)
+    sheet_name = ws.title.strip()
     return {
-        "id": f"{meta.get('date') or source_path.stem}-{ws.title}",
-        "title": meta.get("title") or ws.title,
+        "id": f"{meta.get('date') or source_path.stem}-{sheet_name}",
+        "title": meta.get("title") or sheet_name,
         "date": meta.get("date"),
+        "team_name": meta.get("team_name"),
         "facility": meta.get("facility"),
         "theme": meta.get("theme"),
+        "equipment": meta.get("equipment"),
         "total_distance": total_distance,
         "structure": structure,
         "source_type": "excel",
         "source_path": str(source_path),
-        "sheet_name": ws.title,
+        "sheet_name": sheet_name,
     }
 
 

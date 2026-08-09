@@ -1,0 +1,38 @@
+{
+  "$comment": "SPA.xlsx (Team Alpha team) layout. Column A is a blank margin. Header row is row 5, body starts row 6.",
+  "layout_id": "spa-standard",
+  "sheet_name": null,
+  "team_name": "B1",
+  "date": "B2",
+  "equipment": "F2",
+  "facility": "B3",
+  "theme": "B4",
+  "header_row": 5,
+  "body_start_row": 6,
+  "columns": {
+    "category": "B",
+    "times": "C",
+    "distance": "D",
+    "set": "E",
+    "cycle": "F",
+    "description": "G",
+    "withgears": "H",
+    "subtotal": "I",
+    "elapsed": "J",
+    "clocktime": "L"
+  },
+  "headers": {
+    "B5": "Category",
+    "C5": "Times",
+    "D5": "Distance",
+    "E5": "Set",
+    "F5": "Cycle",
+    "G5": "Description",
+    "H5": "w/ Gears",
+    "I5": " ",
+    "J5": "変換",
+    "L5": " "
+  },
+  "pace_table_start_row": null,
+  "pace_columns": {}
+}
