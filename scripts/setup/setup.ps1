@@ -128,8 +128,8 @@ if (Test-Command git) {
 # -----------------------------------------------------------------------------
 function Find-CopilotAppExe {
     $candidates = @(
-        (Join-Path $env:LOCALAPPDATA 'Programs\GitHub Copilot\GitHub Copilot.exe'),
-        (Join-Path ${env:ProgramFiles} 'GitHub Copilot\GitHub Copilot.exe')
+        (Join-Path $env:LOCALAPPDATA 'Programs\GitHub Copilot\github.exe'),
+        (Join-Path ${env:ProgramFiles} 'GitHub Copilot\github.exe')
     )
     foreach ($p in $candidates) {
         if ($p -and (Test-Path $p)) { return $p }
