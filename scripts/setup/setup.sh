@@ -4,8 +4,8 @@
 # =============================================================================
 # spagent を「使う」ためのスクリプト。**毎回**これを叩けば動きます。
 #
-# - 初回: 必要なものを全部インストール（Python / Git / Node.js / GitHub Copilot CLI / 依存ライブラリ）
-# - 2 回目以降: 既にあるものはスキップし、数秒で Copilot CLI を立ち上げます
+# - 初回: 必要なものを全部インストール（Python / Git / VS Code / Copilot 拡張 / 依存ライブラリ）
+# - 2 回目以降: 既にあるものはスキップし、数秒で VS Code を立ち上げます
 #
 # 使い方:
 #
@@ -16,22 +16,25 @@
 #   bash scripts/setup/setup.sh
 #
 # オプション:
-#   --skip-copilot-cli         GitHub Copilot CLI の導入をスキップ
+#   --skip-vscode              VS Code とその拡張の導入をスキップ
+#   --skip-copilot-extension   Copilot 拡張のインストール確認をスキップ
 #   --skip-clone               リポジトリ clone をスキップ
-#   --no-launch                最後に Copilot CLI を起動しない
+#   --no-launch                最後に VS Code を起動しない
 #   --install-dir=<path>       clone 先を指定（既定: $HOME/spagent）
 # =============================================================================
 
 set -euo pipefail
 
-SKIP_COPILOT_CLI=0
+SKIP_VSCODE=0
+SKIP_COPILOT_EXT=0
 SKIP_CLONE=0
 NO_LAUNCH=0
 INSTALL_DIR="${HOME}/spagent"
 
 for arg in "$@"; do
   case "$arg" in
-    --skip-copilot-cli) SKIP_COPILOT_CLI=1 ;;
+    --skip-vscode) SKIP_VSCODE=1 ;;
+    --skip-copilot-extension) SKIP_COPILOT_EXT=1 ;;
     --skip-clone) SKIP_CLONE=1 ;;
     --no-launch) NO_LAUNCH=1 ;;
     --install-dir=*) INSTALL_DIR="${arg#*=}" ;;
@@ -142,56 +145,71 @@ else
 fi
 
 # -----------------------------------------------------------------------------
-# Node.js + GitHub Copilot CLI
+# VS Code
 # -----------------------------------------------------------------------------
-if [[ "$SKIP_COPILOT_CLI" -eq 0 ]]; then
-  step "Node.js 22+ 確認"
-  node_ok=0
-  if command -v node >/dev/null 2>&1; then
-    node_ver=$(node --version 2>&1 | sed 's/^v//')
-    node_major=$(echo "$node_ver" | cut -d. -f1)
-    if [[ "$node_major" -ge 22 ]]; then
-      ok "Node.js $node_ver"
-      node_ok=1
-    else
-      warn "Node.js $node_ver (22 以上が必要)"
-    fi
-  fi
-  if [[ "$node_ok" -eq 0 ]]; then
-    case "$PKG_MGR" in
-      brew)   brew install node ;;
-      apt)
-        curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-        sudo apt-get install -y nodejs
+if [[ "$SKIP_VSCODE" -eq 0 ]]; then
+  step "VS Code 確認"
+  if command -v code >/dev/null 2>&1; then
+    ok "code CLI 見つかりました"
+  else
+    case "$OS" in
+      mac)
+        brew install --cask visual-studio-code
         ;;
-      dnf)
-        curl -fsSL https://rpm.nodesource.com/setup_22.x | sudo -E bash -
-        sudo dnf install -y nodejs
+      linux)
+        case "$PKG_MGR" in
+          apt)
+            if ! grep -q "packages.microsoft.com/repos/code" /etc/apt/sources.list.d/vscode.list 2>/dev/null; then
+              sudo apt-get install -y wget gpg apt-transport-https
+              wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
+                | gpg --dearmor > packages.microsoft.gpg
+              sudo install -D -o root -g root -m 644 packages.microsoft.gpg \
+                /etc/apt/keyrings/packages.microsoft.gpg
+              sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+              rm packages.microsoft.gpg
+              sudo apt-get update
+            fi
+            sudo apt-get install -y code
+            ;;
+          dnf)
+            sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+            sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+            sudo dnf install -y code
+            ;;
+          pacman)
+            warn "Arch Linux では AUR から visual-studio-code-bin を導入してください: yay -S visual-studio-code-bin"
+            ;;
+        esac
         ;;
-      pacman) sudo pacman -S --noconfirm nodejs npm ;;
     esac
-    ok "Node.js installed: $(node --version)"
+    if command -v code >/dev/null 2>&1; then
+      ok "VS Code installed"
+    else
+      warn "VS Code の code CLI が見つかりません。手動確認してください。"
+    fi
   fi
 
-  step "GitHub Copilot CLI 確認"
-  if command -v copilot >/dev/null 2>&1; then
-    ok "copilot 既に導入済み ($(copilot --version 2>/dev/null | head -n1)) (スキップ)"
-  else
-    echo "  npm で @github/copilot をインストールします..."
-    if npm install -g @github/copilot 2>/dev/null; then
-      :
+  # ---------------------------------------------------------------------------
+  # GitHub Copilot 拡張
+  # ---------------------------------------------------------------------------
+  if [[ "$SKIP_COPILOT_EXT" -eq 0 ]] && command -v code >/dev/null 2>&1; then
+    step "GitHub Copilot 拡張 インストール"
+    installed=$(code --list-extensions 2>/dev/null || true)
+    if echo "$installed" | grep -qi "^GitHub.copilot$"; then
+      ok "GitHub.copilot 既に導入済み"
     else
-      warn "グローバルインストールに失敗。sudo 付きで再試行します..."
-      sudo npm install -g @github/copilot
+      code --install-extension GitHub.copilot --force >/dev/null
+      ok "GitHub.copilot"
     fi
-    if command -v copilot >/dev/null 2>&1; then
-      ok "GitHub Copilot CLI installed"
+    if echo "$installed" | grep -qi "^GitHub.copilot-chat$"; then
+      ok "GitHub.copilot-chat 既に導入済み"
     else
-      warn "copilot コマンドが PATH に見つかりません。シェルを再起動してください。"
+      code --install-extension GitHub.copilot-chat --force >/dev/null
+      ok "GitHub.copilot-chat"
     fi
   fi
 else
-  step "GitHub Copilot CLI (--skip-copilot-cli 指定によりスキップ)"
+  step "VS Code (--skip-vscode 指定によりスキップ)"
 fi
 
 # -----------------------------------------------------------------------------
@@ -263,27 +281,26 @@ echo -e "${GREEN}======================================${NC}"
 echo ""
 
 # -----------------------------------------------------------------------------
-# GitHub Copilot CLI 起動 + セッション提示
+# VS Code 起動 + Copilot Chat への起動メッセージ提示
 # -----------------------------------------------------------------------------
-LAUNCH_PROMPT="このリポジトリの SKILL.md を読み込んで、今日のメニューを一緒に作りたい。まだ初期セットアップしていなければ Workflow E から始めて。"
+LAUNCH_PROMPT="#SKILL.md を読み込んで、今日のメニューを一緒に作りたい。まだ初期セットアップしていなければ Workflow E から始めて。"
 
 if [[ "$NO_LAUNCH" -eq 1 ]]; then
-  warn "--no-launch 指定のため GitHub Copilot CLI は起動しません"
-elif [[ -n "$REPO_DIR" ]] && command -v copilot >/dev/null 2>&1; then
-  echo -e "${CYAN}  GitHub Copilot CLI を起動しています ($REPO_DIR)...${NC}"
-  echo ""
-  echo -e "${CYAN}起動後、以下をそのまま貼付して Enter:${NC}"
-  echo -e "     ${GREEN}${LAUNCH_PROMPT}${NC}"
-  echo ""
-  exec copilot -C "$REPO_DIR"
+  warn "--no-launch 指定のため VS Code は起動しません"
+elif [[ -n "$REPO_DIR" ]] && command -v code >/dev/null 2>&1; then
+  echo -e "${CYAN}  VS Code で spagent を開いています...${NC}"
+  code "$REPO_DIR" "$REPO_DIR/SKILL.md" >/dev/null 2>&1 || true
+  sleep 1
+  ok "VS Code 起動"
 else
-  warn "copilot コマンドがないため自動起動できません。ターミナルを開き直して \"copilot -C $REPO_DIR\" を実行してください。"
+  warn "VS Code の code CLI がないため自動起動できません。手動で spagent フォルダを開いてください。"
 fi
 
 echo ""
 echo -e "${CYAN}次にやること:${NC}"
-echo "  1. Copilot CLI 初回起動時は 'copilot login' で GitHub にサインイン"
-echo "  2. 下のメッセージを貼り付けて送信 (👇 クリップボードに入れました)"
+echo "  1. VS Code で GitHub Copilot にサインイン (右下のアイコンから、初回のみ)"
+echo "  2. Copilot Chat を開く (Ctrl+Alt+I / macOS: Cmd+Ctrl+I)"
+echo "  3. 下のメッセージをコピーして送信 (👇 クリップボードに入れました)"
 echo ""
 echo -e "     ${GREEN}${LAUNCH_PROMPT}${NC}"
 echo ""
@@ -298,7 +315,7 @@ elif command -v wl-copy >/dev/null 2>&1; then
 fi
 
 if [[ "$copied" -eq 1 ]]; then
-  ok "起動メッセージをクリップボードにコピーしました。Copilot CLI の入力欄で Ctrl+V (macOS: Cmd+V) → Enter で送信"
+  ok "起動メッセージをクリップボードにコピーしました。Copilot Chat で Ctrl+V (macOS: Cmd+V) → Enter で送信"
 else
   warn "クリップボードへのコピーに失敗（pbcopy / xclip / wl-copy 未導入）。上のメッセージを手動でコピーしてください。"
 fi
