@@ -3,11 +3,11 @@
 **多くの場合はランチャー 1 行で全部入ります。** 以下は「うまくいかなかった」「自動化に頼りたくない」時の詳細ガイドです。
 
 ```powershell
-# Windows: これで Python / Git / VS Code / Copilot 拡張まで全部入る
+# Windows: これで Python / Git / GitHub Copilot デスクトップアプリまで全部入る
 iwr https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.ps1 -OutFile $env:TEMP\spagent-launcher.ps1; & $env:TEMP\spagent-launcher.ps1
 ```
 ```bash
-# Mac / Linux: 同上
+# Mac / Linux: Python / Git / Node.js / GitHub Copilot CLI まで全部
 curl -fsSL https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setup/setup.sh | bash
 ```
 
@@ -17,7 +17,7 @@ curl -fsSL https://raw.githubusercontent.com/kazuma911/spagent/main/scripts/setu
 
 - OS: Windows / Mac / Linux
 - Python 3.10 以上
-- GitHub Copilot が使える環境（VS Code + Copilot 拡張、または Copilot CLI）
+- GitHub Copilot が使える環境（Windows は **GitHub Copilot デスクトップアプリ** 推奨、Mac / Linux は **GitHub Copilot CLI**）
 - ネット接続
 
 ## Python のインストール
@@ -102,20 +102,21 @@ Pillow>=10.0.0
 
 ## GitHub Copilot Skill としての読み込ませ方
 
-### VS Code + Copilot Chat
+### GitHub Copilot デスクトップアプリ（Windows 推奨）
 
-1. VS Code で `spagent` フォルダを **フォルダとして開く**（File → Open Folder）
-2. Copilot Chat を開く
-3. 最初のメッセージで `#SKILL.md` をアタッチして「この Skill を使いたい」と依頼
+1. `winget install --id GitHub.CopilotApp -e` で導入（既存ならスキップ）
+2. アプリを開いて GitHub にサインイン
+3. `spagent` フォルダをワークスペースとして追加
+4. 新規セッションで「このリポジトリの `SKILL.md` を読んで spagent として動いて」と依頼
 
-### GitHub Copilot CLI
+### GitHub Copilot CLI（Mac / Linux）
 
-Copilot CLI のインストールは公式ドキュメントを参照：
+1. Node.js 22+ を導入し、`npm install -g @github/copilot`
+2. リポジトリ内で `copilot -C .` または `copilot` を実行
+3. 初回は `copilot login` で GitHub にサインイン
+4. 「`SKILL.md` を読んで」と明示的に依頼
 
-- https://docs.github.com/copilot
-- https://cli.github.com/
-
-`spagent` フォルダで起動すれば、Copilot が周辺の `SKILL.md` を認識します。うまく認識しない場合は「`SKILL.md` を読んで」と明示的に依頼してください。
+健康確認とトラブルシューティングは公式ドキュメント：https://docs.github.com/copilot
 
 ## よくあるインストールトラブル
 
@@ -148,7 +149,7 @@ Copilot CLI のインストールは公式ドキュメントを参照：
 **原因**: 別フォルダで開いている / Skill が読み込まれていない
 **対処**:
 1. `spagent` を **プロジェクトルートとして開いているか** 確認
-2. Copilot Chat で `#SKILL.md` を明示的にアタッチ
+2. Copilot CLI なら `-C /path/to/spagent` でリポジトリを作業ディレクトリに指定
 3. 会話冒頭で「`SKILL.md` を最初に読んでから答えて」と指示
 
 ## 動作確認

@@ -3,8 +3,8 @@
 # =============================================================================
 # spagent を「使う」ためのスクリプト。**毎回**これを叩けば動きます。
 #
-# - 初回: 必要なものを全部インストール（Python / Git / VS Code / Copilot 拡張 / 依存ライブラリ）
-# - 2 回目以降: 既にあるものはスキップし、数秒で VS Code を立ち上げます
+# - 初回: 必要なものを全部インストール（Python / Git / GitHub Copilot デスクトップアプリ / 依存ライブラリ）
+# - 2 回目以降: 既にあるものはスキップし、数秒で GitHub Copilot アプリを立ち上げます
 #
 # 使い方: PowerShell を開いて以下を実行
 #
@@ -15,17 +15,15 @@
 #   .\scripts\setup\setup.ps1
 #
 # オプション:
-#   -SkipVSCode              VS Code とその拡張の導入をスキップ
-#   -SkipCopilotExtension    Copilot 拡張のインストール確認をスキップ
+#   -SkipCopilotApp          GitHub Copilot デスクトップアプリの導入をスキップ
 #   -SkipClone               リポジトリ clone をスキップ
-#   -NoLaunch                最後に VS Code を起動しない
+#   -NoLaunch                最後に Copilot アプリを起動しない
 #   -InstallDir <path>       clone 先を指定 (既定: $HOME\spagent)
 # =============================================================================
 
 [CmdletBinding()]
 param(
-    [switch]$SkipVSCode,
-    [switch]$SkipCopilotExtension,
+    [switch]$SkipCopilotApp,
     [switch]$SkipClone,
     [switch]$NoLaunch,
     [string]$InstallDir = "$HOME\spagent"
@@ -126,44 +124,41 @@ if (Test-Command git) {
 }
 
 # -----------------------------------------------------------------------------
-# 4. VS Code
+# 4. GitHub Copilot デスクトップアプリ
 # -----------------------------------------------------------------------------
-if (-not $SkipVSCode) {
-    Write-Step "VS Code 確認"
-    if (Test-Command code) {
-        Write-Ok "code CLI 見つかりました"
-    } else {
-        Write-Host "  VS Code を winget でインストールします..."
-        winget install --id Microsoft.VisualStudioCode -e --accept-source-agreements --accept-package-agreements --silent
-        Refresh-Path
-        if (Test-Command code) {
-            Write-Ok "VS Code installed"
-        } else {
-            Write-Warn "VS Code の code CLI が見つかりません。手動で PATH を通してください。"
-        }
+function Find-CopilotAppExe {
+    $candidates = @(
+        (Join-Path $env:LOCALAPPDATA 'Programs\GitHub Copilot\GitHub Copilot.exe'),
+        (Join-Path ${env:ProgramFiles} 'GitHub Copilot\GitHub Copilot.exe')
+    )
+    foreach ($p in $candidates) {
+        if ($p -and (Test-Path $p)) { return $p }
     }
+    return $null
+}
 
-    # ---------------------------------------------------------------------------
-    # 5. GitHub Copilot 拡張
-    # ---------------------------------------------------------------------------
-    if ((-not $SkipCopilotExtension) -and (Test-Command code)) {
-        Write-Step "GitHub Copilot 拡張 インストール"
-        $ext = code --list-extensions 2>&1
-        if ($ext -match "GitHub.copilot(\b|$)") {
-            Write-Ok "GitHub.copilot 既に導入済み"
+function Test-CopilotAppInstalled {
+    if (Find-CopilotAppExe) { return $true }
+    $listed = winget list --id GitHub.CopilotApp -e --accept-source-agreements 2>$null | Out-String
+    return ($listed -match 'GitHub\.CopilotApp')
+}
+
+if (-not $SkipCopilotApp) {
+    Write-Step "GitHub Copilot デスクトップアプリ 確認"
+    if (Test-CopilotAppInstalled) {
+        Write-Ok "GitHub Copilot 既に導入済み (スキップ)"
+    } else {
+        Write-Host "  GitHub Copilot を winget でインストールします..."
+        winget install --id GitHub.CopilotApp -e --accept-source-agreements --accept-package-agreements --silent
+        Refresh-Path
+        if (Test-CopilotAppInstalled) {
+            Write-Ok "GitHub Copilot installed"
         } else {
-            code --install-extension GitHub.copilot --force | Out-Null
-            Write-Ok "GitHub.copilot"
-        }
-        if ($ext -match "GitHub.copilot-chat(\b|$)") {
-            Write-Ok "GitHub.copilot-chat 既に導入済み"
-        } else {
-            code --install-extension GitHub.copilot-chat --force | Out-Null
-            Write-Ok "GitHub.copilot-chat"
+            Write-Warn "GitHub Copilot の実行ファイルが見つかりません。手動インストールが必要かもしれません: https://github.com/features/preview/github-app"
         }
     }
 } else {
-    Write-Step "VS Code (SkipVSCode 指定によりスキップ)"
+    Write-Step "GitHub Copilot アプリ (SkipCopilotApp 指定によりスキップ)"
 }
 
 # -----------------------------------------------------------------------------
@@ -242,33 +237,34 @@ Write-Host "======================================" -ForegroundColor Green
 Write-Host ""
 
 # -----------------------------------------------------------------------------
-# 9. VS Code 起動 + Copilot Chat への起動メッセージ提示
+# 9. GitHub Copilot アプリ 起動 + 起動メッセージ提示
 # -----------------------------------------------------------------------------
-$launchPrompt = "#SKILL.md を読み込んで、今日のメニューを一緒に作りたい。まだ初期セットアップしていなければ Workflow E から始めて。"
+$launchPrompt = "このリポジトリの SKILL.md を読み込んで、今日のメニューを一緒に作りたい。まだ初期セットアップしていなければ Workflow E から始めて。"
 
+$copilotExe = Find-CopilotAppExe
 if ($NoLaunch) {
-    Write-Host "  (-NoLaunch 指定のため VS Code は起動しません)" -ForegroundColor Yellow
-} elseif ($repoDir -and (Test-Command code)) {
-    Write-Host "  VS Code で spagent を開いています..." -ForegroundColor Cyan
-    Start-Process code -ArgumentList @("`"$repoDir`"", "`"$repoDir\SKILL.md`"")
+    Write-Host "  (-NoLaunch 指定のため GitHub Copilot アプリは起動しません)" -ForegroundColor Yellow
+} elseif ($copilotExe) {
+    Write-Host "  GitHub Copilot アプリを起動しています..." -ForegroundColor Cyan
+    Start-Process -FilePath $copilotExe
     Start-Sleep -Seconds 1
-    Write-Ok "VS Code 起動"
+    Write-Ok "GitHub Copilot 起動"
 } else {
-    Write-Warn "VS Code の code CLI がないため自動起動できません。手動で spagent フォルダを開いてください。"
+    Write-Warn "GitHub Copilot の実行ファイルが見つかりません。スタートメニューから手動で起動してください。"
 }
 
 Write-Host ""
 Write-Host "次にやること:" -ForegroundColor Cyan
-Write-Host "  1. VS Code で GitHub Copilot にサインイン (右下のアイコンから、初回のみ)"
-Write-Host "  2. Copilot Chat を開く (Ctrl+Alt+I)"
-Write-Host "  3. 下のメッセージをコピーして送信 (👇 クリップボードに入れました)"
+Write-Host "  1. GitHub Copilot アプリで GitHub にサインイン (初回のみ)"
+Write-Host "  2. spagent フォルダをワークスペースとして追加 ($repoDir)"
+Write-Host "  3. 新規セッションを開き、下のメッセージをそのまま貼って送信 (👇 クリップボードに入れました)"
 Write-Host ""
 Write-Host "     $launchPrompt" -ForegroundColor White
 Write-Host ""
 
 try {
     Set-Clipboard -Value $launchPrompt -ErrorAction Stop
-    Write-Ok "起動メッセージをクリップボードにコピーしました。Copilot Chat で Ctrl+V → Enter で送信"
+    Write-Ok "起動メッセージをクリップボードにコピーしました。Copilot アプリのセッション入力欄で Ctrl+V → Enter で送信"
 } catch {
     Write-Warn "クリップボードへのコピーに失敗しました。上のメッセージを手動でコピーしてください。"
 }

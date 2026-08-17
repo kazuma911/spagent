@@ -33,7 +33,7 @@
 
 - Python 3.10+。
 - Pillow インストール済み。
-- GitHub Copilot CLI または VS Code。
+- GitHub Copilot デスクトップアプリ（Windows）または Copilot CLI（Mac / Linux）。
 - 選手は `athlete-01` などのエイリアスで扱う。
 - 実名、施設名、電話、メール、住所、生年月日は入力しない。
 
@@ -54,7 +54,7 @@ Copilot CLI では一般に Skill 読み込み操作で `SKILL.md` を指定し�
 /skill C:\AIAccelerate\spagent\SKILL.md
 ```
 
-VS Code ではリポジトリを開き、Copilot Chat に次のように依頼します。
+GitHub Copilot デスクトップアプリではリポジトリをワークスペースとして追加し、次のように依頼します。
 
 ```text
 Coach: このリポジトリの SKILL.md を読んで spagent として動いてください。
