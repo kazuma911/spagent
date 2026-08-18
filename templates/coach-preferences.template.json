@@ -1,5 +1,5 @@
 {
-  "_comment": "コーチ設定テンプレート: data/coach-preferences.json のひな形。使用プロファイル、base 知識の使い方、好みの手法を管理します。",
+  "_comment": "コーチ設定テンプレート: data/coach-preferences.json のひな形。使用プロファイル、base 知識の使い方、好みの手法、出力形式を管理します。",
   "active_profile_ids": [
     "monday-masters",
     "wednesday-junior"
@@ -18,5 +18,18 @@
   ],
   "avoided_methods": [
     "usrpt"
-  ]
+  ],
+
+  "_output_section_comment": "以下は出力・書き出しに関する設定。Workflow A 出力段階と Workflow G import 後に更新される。",
+  "preferred_output_format": "paste_tsv",
+  "preferred_layout_id": null,
+  "auto_open_after_export": true,
+  "layout_recommendation_policy": {
+    "prefer_recent_imports": true,
+    "recency_half_life_days": 90,
+    "minimum_confidence": 0.7,
+    "prefer_same_group": true
+  },
+  "output_history": []
 }
+

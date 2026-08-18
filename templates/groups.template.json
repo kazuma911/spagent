@@ -1,23 +1,41 @@
 {
-  "_comment": "グループ情報テンプレート: data/groups.json のひな形。各グループを指導プロファイルに紐付けます。",
+  "_comment": "グループ情報テンプレート: data/groups.json のひな形。groups は pace_band/skill_level/profile_id の集合。athlete との紐付けはしない (Workflow A の Step 3 で「集団メニュー / 選手特化メニュー」を選ぶ; 選手特化なら athletes を ad-hoc で選ぶ)。`mode` は 'individual' (選手 ID で個別 pace/PB/conditions 追跡が入り得る) or 'group-only' (集団単位のみ, 個別 pace/PB なし, pace_band を使う).",
   "groups": [
     {
       "id": "monday-masters-advanced",
       "name": "月曜マスターズ上級",
       "type": "masters",
+      "mode": "individual",
       "expected_participants": 8,
       "skill_level": "advanced",
       "typical_pace": "EN2 中心 1:30/100m",
+      "pace_band": {"min": "1:20", "max": "1:35", "unit": "100m_fr", "course": "SCM"},
       "profile_id": "monday-masters"
     },
     {
       "id": "wednesday-junior-u15",
       "name": "水曜ジュニア U15",
       "type": "junior",
+      "mode": "individual",
       "expected_participants": 10,
       "skill_level": "beginner-intermediate",
       "typical_pace": "EN1-EN2 中心 1:55/100m",
+      "pace_band": {"min": "1:45", "max": "2:10", "unit": "100m_fr", "course": "SCM"},
       "profile_id": "wednesday-junior"
+    },
+    {
+      "id": "masters-mixed-sample",
+      "name": "マスターズ男女混合 (サンプル)",
+      "type": "masters",
+      "mode": "group-only",
+      "gender_mix": "mixed",
+      "expected_participants": 25,
+      "skill_level": "intermediate",
+      "typical_pace": "100Fr 1:10-1:30 レベル",
+      "pace_band": {"min": "1:10", "max": "1:30", "unit": "100m_fr", "course": "LCM"},
+      "primary_events": ["100Fr", "50Fr"],
+      "profile_id": "masters-mixed",
+      "note": "group-only モード: 個別選手 PB / conditions / phase 追跡なし。pace_band で単一 cycle 決定、参加者は当日申告 pace で回る"
     }
   ]
 }

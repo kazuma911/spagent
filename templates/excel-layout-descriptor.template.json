@@ -1,0 +1,121 @@
+{
+  "_comment": "Excel Layout Descriptor v2 テンプレート. コーチが自チームの Excel レイアウトを宣言的に記述するためのひな形. 実インスタンスは data/excel-templates/<layout_id>.json として保存 (data/ は gitignore).",
+  "_how_to_use": [
+    "1. このファイルを data/excel-templates/<team-slug>.json にコピー",
+    "2. コーチ提供の xlsx を scripts/analyze/extract_excel_layout.py に通し、候補値を推定",
+    "3. コーチが対話で確認 → 保存",
+    "4. Workflow A の Excel export は generic_excel_writer.py が descriptor に従い出力",
+    "5. Workflow G の Excel import は generic_excel_reader.py が descriptor に従い読み込み"
+  ],
+
+  "$schema_version": "excel-layout-descriptor/v2",
+  "layout_id": "<team-slug>",
+  "display_name": "<チーム名 or レイアウト説明>",
+  "detected_from": "<自動検出時に投入した xlsx#シート名>",
+  "sample_sheets": ["<代表シート名>"],
+  "confidence": 0.0,
+
+  "header_cells": {
+    "_comment": "各メタ情報のセル位置. TSV の meta とマッピングされる.",
+    "team_name":   {"cell": "B1", "type": "text"},
+    "datetime":    {"cell": "B2", "type": "datetime_range", "format": "YYYY/MM/DD (曜) HH:MM - HH:MM"},
+    "equipment":   {"cell": "F2", "type": "text", "prefix_regex": "^Equipment[:：]\\s*"},
+    "facility":    {"cell": "B3", "type": "text"},
+    "theme":       {"cell": "B4", "type": "text"}
+  },
+
+  "table": {
+    "_comment": "本文テーブルの位置と列マッピング. Excel Table (ListObject) として登録される.",
+    "header_row": 5,
+    "body_start_row": 6,
+    "columns": {
+      "category":    {"col": "B", "header_label": "Category"},
+      "times":       {"col": "C", "header_label": "Times", "type": "int"},
+      "distance":    {"col": "D", "header_label": "Distance", "type": "int"},
+      "set":         {"col": "E", "header_label": "Set", "type": "int"},
+      "cycle":       {"col": "F", "header_label": "Cycle", "type": "cycle_string"},
+      "description": {"col": "G", "header_label": "Description"},
+      "gears":       {"col": "H", "header_label": "w/ Gears"},
+      "subtotal_m":  {"col": "I", "header_label": " ",  "type": "formula"},
+      "cycle_secs":  {"col": "J", "header_label": "変換", "type": "formula"},
+      "block_secs":  {"col": "K", "header_label": "    ", "type": "formula"},
+      "elapsed":     {"col": "L", "header_label": "  ",  "type": "formula"}
+    },
+    "table_name_prefix": "Menu",
+    "table_style": "TableStyleMedium2"
+  },
+
+  "section_header_rule": {
+    "_comment": "セクションヘッダ行の検出ルール. 指定列以外が空 = ヘッダとみなす.",
+    "detect": "only_column_B_has_text",
+    "required_empty_columns": ["C", "D", "E", "F", "G", "H"],
+    "clock_column_L_may_have_formula": true,
+    "examples": ["<代表的なセクション名を列挙>"]
+  },
+
+  "individual_note": {
+    "_comment": "個別選手ノート記法. Description 内で prefix_regex にマッチする行を個別扱いする.",
+    "column": "G",
+    "prefix_regex": "^【([^】]+)】",
+    "athlete_separator_regex": "[・、,／/]+",
+    "meaning": "行が prefix にマッチする場合、指定選手のみが実施し TOTAL 距離から差し引く運用が想定される."
+  },
+
+  "empty_row_as_separator": true,
+
+  "formulas": {
+    "_comment": "各数式列の type を宣言. writer は type に従って構造化参照数式を生成する. サポート type: product / parse_time_string / cumulative_from_column / sum_column / sum_minus_dynamic_ranges / custom_expression.",
+    "subtotal_m": {
+      "col": "I",
+      "type": "product",
+      "operands": ["times", "distance", "set"],
+      "on_blank_row": "skip"
+    },
+    "cycle_secs": {
+      "col": "J",
+      "type": "parse_time_string",
+      "input": "cycle",
+      "input_format": "cycle",
+      "on_blank_row": "skip"
+    },
+    "block_secs": {
+      "col": "K",
+      "type": "product",
+      "operands": ["cycle_secs", "times", "set"],
+      "on_blank_row": "skip"
+    },
+    "elapsed": {
+      "col": "L",
+      "type": "cumulative_from_column",
+      "seed_cell": "L6",
+      "seed_type": "time",
+      "add_column": "block_secs",
+      "on_blank_row": "continue_prev"
+    },
+    "total_marker": {
+      "column": "F",
+      "text": "Total"
+    },
+    "total_distance": {
+      "col": "I",
+      "type": "sum_minus_dynamic_ranges",
+      "of": "subtotal_m",
+      "subtract_filters": ["individual_note"]
+    }
+  },
+
+  "start_time_seed": {
+    "cell": "L6",
+    "type": "time",
+    "example_value": "18:50",
+    "meaning": "seed セルに開始時刻を書き、以降 L 列で L_prev + block_secs 累積される."
+  },
+
+  "pace_table": null,
+  "notes_block": {
+    "style": "inline",
+    "location": "description_column",
+    "syntax": "個別注記 prefix_regex",
+    "separate_pace_table": false
+  }
+}

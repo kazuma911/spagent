@@ -147,10 +147,85 @@ Phase C の Race Pace day:
 
 怪我制約はレーンではなく個人単位で反映します。
 
-## 8. 実装メモ
+## 8. 設定タイム決定時の**4 大現実補正**（最重要ルール）
+
+`current_estimate` は「本人のベスト条件下 (dive / rested / 本番緊張)」のタイム目安であり、**そのまま練習設定には使えません**。以下 4 要素で必ず補正します。この補正は Workflow A Step 14 で**すべてのセット設定タイム**に適用します。
+
+### 8.1 Dive vs Push-off の差
+
+多くの PB / target は **dive (飛び込みスタート)** で計測されています。練習セットの多くは push-off (壁蹴りスタート) なので、そのまま target を使うと **達成不可** or **神経系疲労だけ増加** します。
+
+| 距離 | Dive → Push-off 差 (加算) |
+|---|---:|
+| 50m | +1.0-1.5s |
+| 100m | +1.5-2.5s |
+| 200m | +2.5-4.0s |
+| 400m 以上 | +4.0-6.0s |
+
+Dive を使うセット (Dive start と明記) は補正なし。壁蹴りセットは必ず加算します。
+
+### 8.2 練習中であること (疲労蓄積補正)
+
+セット内で本数が進むにつれ**疲労が蓄積**します。1 本目基準の pace で最終本も達成できると仮定すると崩壊します (athlete-c 7/18 の「+10s 大失速」が典型)。
+
+| セット構造 | 補正 |
+|---|---|
+| 単発 / 全力 1 本 | 補正なし |
+| 少本数 (2-4 本), 十分な rest | +1-2s (100m 基準) |
+| Threshold / EN3 セット (6-12 本) | **+3-5s** |
+| Broken / RP hold (疲労下 hold) | **+5-8s** |
+| 長い LSD 内 build | **+2-4s** |
+
+### 8.3 年齢 (Masters / Junior 補正)
+
+回復力・出力持続・reaction time が年代で異なります。**Masters と Junior は Elite の pace formula をそのまま使わない**。
+
+| 対象 | 補正 |
+|---|---|
+| Junior (U15) | 出だし速すぎ抑制のため target を +2-3% (100m で +2s) |
+| Junior (U18) | 補正なし〜+1% |
+| Elite / Age group | 補正なし (base rule) |
+| Masters (40 代) | +2-3% (100m で +2s) |
+| Masters (50-60 代) | +4-6% (100m で +3-5s) |
+| Masters (60 代以上) | +7-10% (100m で +5-7s) |
+
+### 8.4 本番とは違うこと (本番緊張・アドレナリン補正)
+
+PB / race target は「本番のアドレナリン + 完全休養 + 集中」の値。練習では出せない前提で:
+
+- **練習 target = PB + (本番 - 練習の差) 3-5s (100m 基準)**
+- Trans 期 (Phase B) の練習で PB hit を狙わない — 神経系のみ疲労
+- Peak 期 (Phase C/D) でも練習は本番 -2s / +2s の幅で扱う (RP hit は Race day 用)
+
+### 8.5 補正まとめ (Free 100m 例)
+
+athlete-a 200Fr 選手 (30 代)、PB LCM 200Fr 2:04 (dive), 練習 SCM で 4×200 Descending 最終本を組む場合:
+
+```
+base = PB 200 SCM (dive) ≈ 2:00 (SCM 換算 -4s)
++ push-off penalty (200m)  ≈ +3s
++ 練習内本数疲労 (Descending 4本目)  ≈ +2s
++ 年齢 30代 補正  ≈ +1s
++ 本番との差 (Trans 期)  ≈ +4s
+────────────────────────────────────
+practice_final_target ≈ 2:10 (RP+10, Threshold+ zone)
+```
+
+**練習で 2:04 (=SCM race PB) を設定するのは Peak 期の Broken か Time trial のみ**。Trans 期の Descending 最終本は **T-pace+ (RP+7-10s)** が現実的上限。
+
+### 8.6 チェックリスト (Step 14 で確認)
+
+- [ ] Dive スタート指定なら target = そのまま、Push-off なら +1-4s
+- [ ] セット本数 5 本以上なら fatigue 補正 +3-5s
+- [ ] 対象選手が Masters/Junior なら年齢補正を加算
+- [ ] Trans 期 (Phase B) は RP hit をセット目標にしない (Descending 最終でも RP+5 以上)
+- [ ] 練習 target が PB より 5s 以上速い場合は再計算
+
+## 9. 実装メモ
 
 - 秒で計算し、表示時に `m:ss.xx` に変換する。
 - LCM/SCM の換算は別ルールとして持ち、同水路を優先する。
 - RPE は平均だけでなく直近 1 回の極端値も見る。
 - PB が古すぎる場合は `current-paces.json` の現行値を優先する。
 - 計算結果はコーチに提示し、保存前に対話調整する。
+- **§8 の 4 大現実補正を必ず適用してから提示する** (これを飛ばすと過大 target になる)。
