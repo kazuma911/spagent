@@ -133,7 +133,12 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
    - individual / 選手特化: `python scripts/analyze/phase_resolver.py --date YYYY-MM-DD --athlete <id> [--athlete <id>...] > sessions/YYYY-MM-DD/phase-analysis.json`
    - **group-only**: `python scripts/analyze/phase_resolver.py --date YYYY-MM-DD --group <group_id>` — group 単位で phase / D-n だけ算出、個別 PB 加点なし
    - `training-schedule.json` の各 session (top-level `sessions[]` またはキャンペーン配下) の `block` (例: `"athlete-b:Trans / athlete-a:Acc-peak"`) を優先し、race 記述 (`★RACE`) との日数差から gear を自動算出
-   - **schedule 未登録でも動作**: schedule / competitions が無い場合は phase=unknown, confidence=0.4 の warning 付きで返し、Workflow A は対話で phase を確認する
+   - **schedule 未登録でも動作**: schedule / competitions が無い場合は phase=unknown, confidence=0.4 の `warnings[]` 付きで返し、Workflow A は対話で phase を確認する
+   - **warnings 検知時のスケジュール登録打診** (自動): phase_resolver の返却 JSON に `warnings` があれば、Workflow A は phase 対話に入る前に一度だけコーチへ以下を提示する:
+     > `training-schedule.json / competitions.json が未登録です。今このセッションで登録しますか？(1) はい・手動 (2) はい・ファイル (3) はい・URL (4) 今日は skip・後で Workflow F.schedule で (5) skip・毎回対話でよい`
+     - (1)-(3) 選択 → Workflow F.schedule を割り込み起動 (`python scripts/import/register_schedule.py --mode manual|file|url`) → 完了後 Workflow A に戻り、phase_resolver を再実行
+     - (4)(5) 選択 → そのまま対話で phase を聞いて Workflow A を続行 (このセッション中は再度打診しない = うるさくしない)
+     - 選択結果は `sessions/YYYY-MM-DD/phase-analysis.json` の `warnings_ack` に記録 (再打診抑制フラグ)
    - **gear ルール**: D+1=-2 / D+2=-1 / D+3-6=0 / D-7~4=-1 / D-3~1=-2 / D-14~8=0、PB 更新直後は追加 -1
    - コーチにサブグループごとに `推奨 Phase: <phase> (D±<n>, gear <±k>)` を提示 → **Y/N 確認**、変更あれば対話上書き
 9. **Zone 配分決定** — サブグループごとに [references/zone-phase-mapping.md](references/zone-phase-mapping.md) の Phase → Zone 配分表を参照。gear adjustment があれば intensity zone の割合を減らし aerobic zone を増やす (gear-1 で intensity 70% / gear-2 で intensity 30%)
