@@ -107,6 +107,7 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
    - **集団メニュー**: `data/groups.json` の一覧を提示 → **1 つ以上選択** (複数選択可)。選んだ group がそのままサブグループになる。それぞれの `profile_id` から `data/coaching-profiles.json` の該当プロファイルをロード。各 group の `mode` (individual / group-only) は個別に評価
    - **選手特化メニュー**:
      1. `data/current-paces.json` の `athletes` から選手 ID を 1 名以上選択 (event 混在可)
+        - **未登録選手対応**: コーチが `current-paces.json` に存在しない選手名を挙げた場合、silently 無視せず **Workflow F の選手登録フローを実行**: `event` / `athlete_type` (sprinter/middle/distance) / `age_group` / `primary_events` / `hr_endurance_zone_bpm` / 現在ペース (代表 benchmark 1-2 個) を対話収集 → `data/competitions.json.athletes[]` + `data/current-paces.json.athletes.<id>` に追記してから Step 3.2 のサブグループ分けへ進む
      2. **サブグループ分け対話**: 選手数 ≥ 2 なら「サブグループに分けますか？ (event 別 / gear 別 / 目的別)」を確認。No なら 1 サブグループ (全員 Main 共通)。Yes なら各選手をサブグループにアサイン (例: `{"200Fr-build": [athlete-a, athlete-b], "sprinter": [athlete-c]}`)
      3. サブグループごとにプロファイル (選手個別の `preferred_profile_id` or default) を紐付け
 4. **参加者確認** —
@@ -206,7 +207,12 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
     - Cycle が目的と矛盾する場合 (例: back-end pressure に W:R 1:1 の緩さ) はコーチに再確認
     - **group-only**: `pace_band.max` + rest 30s を全セット共通 cycle 提案の基本値とする
 16. **プレビュー・対話調整** — Markdown テーブルで全件表示、承認まで保存しない
-17. **TSV 保存** — `sessions/YYYY-MM-DD/menu.tsv`（フォーマットは [templates/session-menu.template.tsv](templates/session-menu.template.tsv) 参照）
+16.5. **【必須】メニュータイトル生成** — 承認済み骨格に対して**わかりやすい 1 行タイトル + 1 行サブタイトル**を付与する。
+    - **1 行タイトル**: 一目で当日の焦点が伝わる短文 (例: 「Trans 中盤 · RP 転写日 — Threshold で土台 → Broken で本番速度 → Descending で仕上げ」)
+    - **サブタイトル**: 練習環境 + 大会逆算 + 参加者 の 1 行要約 (例: 「SCM 25m / 90 分 / 神奈川 LCM まで 26 日 · athlete-a+athlete-b+athlete-g」)
+    - **禁則**: 「今日のメニュー」「練習計画」等の中身のない汎用タイトル、または method 名だけの羅列 (例: 「Threshold + Broken + Descending」) は不可。**なぜこの並びか** の主旨が伝わる語順にする
+    - tsv の `# Title:` `# Subtitle:` メタ行に保存 (Step 17 の tsv 出力で反映)
+17. **TSV 保存** — `sessions/YYYY-MM-DD/menu.tsv`（フォーマットは [templates/session-menu.template.tsv](templates/session-menu.template.tsv) 参照）。冒頭に Step 16.5 で生成した `# Title:` / `# Subtitle:` を必ず含める
 18. **出力形式推奨 & 選択** — `python scripts/analyze/recommend_output_format.py --group-or-athlete <slug>` を実行。過去 import で保存された Layout Descriptor v2 群 (`data/excel-templates/*.json` = メニュー作成ルール) と `data/coach-preferences.json` の履歴から**推奨形式をスコア付きで提示** → コーチが選択
 19. **出力形式変換 & 自動オープン** — 選択形式に応じて生成:
     - `paste_tsv` (推奨): `python scripts/export/menu_to_paste_tsv.py <tsv> --descriptor data/excel-templates/<layout_id>.json --clipboard`
