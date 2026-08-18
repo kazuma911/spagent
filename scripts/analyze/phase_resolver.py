@@ -112,13 +112,32 @@ def _canonical_phase(raw: str) -> str:
 
 
 def load_schedule(path: Path) -> list[dict[str, Any]]:
-    """Load and flatten schedule sessions including races."""
+    """Load and flatten schedule sessions including races.
+
+    どのコーチも自分の schedule 構造を持てるよう、team-agnostic に session を抽出する。
+    以下の順で ``sessions`` を探す:
+
+    1. ``data.sessions`` (最もシンプルな top-level リスト)
+    2. ``data.<any_key>.sessions`` (campaign 単位のグループ化。複数キャンペーンがあれば全て集約)
+
+    Race は ``block == "★RACE"`` の session として同じリストに含める。
+    後方互換のため ``data.race`` (top-level race リスト) もあれば追加する。
+    """
     data = json.loads(path.read_text(encoding="utf-8"))
     sessions: list[dict[str, Any]] = []
-    campaign = data.get("summer_lcm_campaign_2026") or {}
-    for s in campaign.get("sessions", []) or []:
-        sessions.append(s)
-    # Also include race entries in top-level "race" if present.
+
+    top_sessions = data.get("sessions")
+    if isinstance(top_sessions, list):
+        sessions.extend(top_sessions)
+
+    for key, val in data.items():
+        if key == "sessions":
+            continue
+        if isinstance(val, dict):
+            sub = val.get("sessions")
+            if isinstance(sub, list):
+                sessions.extend(sub)
+
     for r in data.get("race", []) or []:
         sessions.append({**r, "block": "★RACE"})
     return sessions
