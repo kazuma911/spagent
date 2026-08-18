@@ -135,33 +135,79 @@ def find_session(sessions: list[dict[str, Any]], the_date: date) -> dict[str, An
     return None
 
 
-def find_races(sessions: list[dict[str, Any]], athlete: str) -> list[tuple[date, dict[str, Any]]]:
+def _extract_athlete_aliases(paces: dict[str, Any], competitions: dict[str, Any] | None = None) -> dict[str, list[str]]:
+    """Build athlete_id -> [id, name, alias, ...] map dynamically from user data.
+
+    そのコーチの選手全員について、id/name/name_kana/alias 全てを集める。
+    ``paces`` (current-paces.json) と、任意で ``competitions`` (competitions.json) の両方から
+    aliases を統合。競技会ファイルには通常 name (漢字/かな) が入っているため、日本語 focus
+    文字列との照合精度が上がる。ハードコード無し、team-agnostic。
+    """
+    aliases: dict[str, list[str]] = {}
+
+    def _add(aid: str, variants: list[str]) -> None:
+        if not aid:
+            return
+        current = aliases.setdefault(aid, [aid.lower()])
+        for v in variants:
+            if isinstance(v, str) and v and v.lower() not in current:
+                current.append(v.lower())
+
+    for aid, entry in (paces.get("athletes") or {}).items():
+        if not isinstance(entry, dict):
+            continue
+        _add(aid, [entry.get("name"), entry.get("name_kana"), entry.get("alias"), entry.get("handle")])
+
+    if competitions:
+        comp_athletes = competitions.get("athletes")
+        if isinstance(comp_athletes, list):
+            for entry in comp_athletes:
+                if not isinstance(entry, dict):
+                    continue
+                _add(entry.get("id"), [entry.get("name"), entry.get("name_kana"), entry.get("alias"), entry.get("handle")])
+        elif isinstance(comp_athletes, dict):
+            for aid, entry in comp_athletes.items():
+                if not isinstance(entry, dict):
+                    continue
+                _add(aid, [entry.get("name"), entry.get("name_kana"), entry.get("alias"), entry.get("handle")])
+
+    return aliases
+
+
+def find_races(
+    sessions: list[dict[str, Any]],
+    athlete: str,
+    aliases: dict[str, list[str]] | None = None,
+) -> list[tuple[date, dict[str, Any]]]:
     """List all race entries relevant to the athlete (sorted by date).
 
     厳格化: block フィールドに ``★RACE`` を含むエントリのみを race と判定する。
     session の ``focus`` や ``theme`` に「本番」等の文字列が入っていても、
     それは build 期の準備セッションで race 記述ではないので誤検出しない。
+
+    per-athlete filter は ``aliases`` (current-paces.json から動的抽出) を用いて
+    行い、コーチが登録している任意の選手 (日本語/英語/エイリアス) を認識する。
+    aliases 未指定時は "全員に該当する共通 race" とみなす。
     """
     out: list[tuple[date, dict[str, Any]]] = []
+    aliases = aliases or {}
+    all_alias_terms: set[str] = set()
+    for terms in aliases.values():
+        all_alias_terms.update(terms)
+
+    athlete_key = athlete.lower()
+    athlete_terms = set(aliases.get(athlete, [athlete_key]))
+
     for s in sessions:
         block = str(s.get("block", ""))
         if "★RACE" not in block and "RACE" not in block.upper():
             continue
-        focus = str(s.get("focus", "")) + " " + str(s.get("theme", "")) + " " + str(s.get("event", ""))
-        # per-athlete filter — includes 日本語エイリアス.
-        name_hits = {
-            "athlete-b": "athlete-b" in focus or "athlete-b" in focus.lower(),
-            "athlete-a": "athlete-a" in focus or "athlete-a" in focus.lower(),
-            "athlete-c": "athlete-c" in focus or "athlete-c" in focus.lower(),
-        }
-        athlete_key = athlete.lower()
-        # If focus mentions a specific athlete list, respect it.
-        specific_mention = any(name_hits.values())
+        focus = (str(s.get("focus", "")) + " " + str(s.get("theme", "")) + " " + str(s.get("event", ""))).lower()
+        specific_mention = any(term in focus for term in all_alias_terms) if all_alias_terms else False
         if specific_mention:
-            if name_hits.get(athlete_key, False):
+            if any(term in focus for term in athlete_terms):
                 out.append((parse_date(s["date"]), s))
             continue
-        # No specific mention → treat as shared (all core athletes).
         out.append((parse_date(s["date"]), s))
     out.sort(key=lambda t: t[0])
     return out
@@ -213,6 +259,7 @@ def resolve_for_athlete(
     athlete: str,
     sessions: list[dict[str, Any]],
     paces: dict[str, Any],
+    competitions: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Return the phase resolution dict for one athlete."""
     session = find_session(sessions, the_date)
@@ -224,7 +271,8 @@ def resolve_for_athlete(
         focus = session.get("focus")
         course = session.get("course")
 
-    races = find_races(sessions, athlete)
+    aliases = _extract_athlete_aliases(paces, competitions)
+    races = find_races(sessions, athlete, aliases)
     past = [(d, s) for d, s in races if d < the_date]
     future = [(d, s) for d, s in races if d > the_date]
 
@@ -358,9 +406,11 @@ def main(argv: list[str] | None = None) -> int:
     root = repo_root()
     schedule_path = args.schedule or (root / "data" / "training-schedule.json")
     paces_path = args.paces or (root / "data" / "current-paces.json")
+    comps_path = root / "data" / "competitions.json"
     try:
         sessions = load_schedule(schedule_path)
         paces = json.loads(paces_path.read_text(encoding="utf-8")) if paces_path.exists() else {}
+        competitions = json.loads(comps_path.read_text(encoding="utf-8")) if comps_path.exists() else {}
         the_date = parse_date(args.date)
     except Exception as exc:  # noqa: BLE001
         print(f"error: {exc}", file=sys.stderr)
@@ -377,7 +427,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.athlete:
         out["athletes"] = {}
         for ath in args.athlete:
-            out["athletes"][ath] = resolve_for_athlete(the_date, ath, sessions, paces)
+            out["athletes"][ath] = resolve_for_athlete(the_date, ath, sessions, paces, competitions)
     print(json.dumps(out, ensure_ascii=False, indent=2))
     return 0
 

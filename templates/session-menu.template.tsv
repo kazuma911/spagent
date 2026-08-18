@@ -2,8 +2,8 @@
 # 以下 `# key: value` 行はメタ情報として tsv_to_excel_custom.py が B1〜F2 に書き込む。
 # Title: <わかりやすい 1 行タイトル (Step 16.5 で必ず生成)>
 # Subtitle: <練習環境 + 大会逆算 + 参加者 の 1 行要約>
-# Team: Team Alpha
-# Date: 2026-08-11 (Mon) 19:00 - 21:00
+# Team: <TEAM_NAME>
+# Date: <YYYY-MM-DD (Dow) HH:MM - HH:MM>
 # Equipment: fins, paddles
 # Facility: 東京アクアティクスセンター (メイン プール 1 レーン, LCM 50m)
 # Theme: Threshold day (Phase B / EN3 主体 / Method: Threshold)
