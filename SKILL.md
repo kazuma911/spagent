@@ -91,32 +91,138 @@ Skill 起動時、以下を必ず順に実施：
 
 **⚠️ 手順の順序は canonical**。Step 1–10 を経ずに Step 11 以降に進まないこと。
 
+**練習形態モード (Step 3 で問う)**:
+
+- **`group_menu`** (集団メニュー) → `data/groups.json` から group を**1 つ以上**選択。複数選択可 (例: monday-masters + wednesday-junior 合同練習)。各 group が**別々の Main**を持てる (event 特化メニュー)
+- **`athlete_focused`** (選手特化メニュー) → group 概念を使わず、`data/current-paces.json` から選手 ID を ad-hoc に 1 名以上選ぶ。その後**サブグループ分けを対話**で決める (例: athlete-a+athlete-b を「200Fr サブグループ」、athlete-c を「100Fr sprinter サブグループ」)。各サブグループが**別々の Main**を持てる
+
+**サブグループの概念**: 集団メニュー時は選択した各 group が 1 サブグループ、選手特化時は対話で決めた各サブグループが 1 サブグループ。サブグループが 2 つ以上なら Main は自動的に分岐 (Step 6 で交代単位を確認)。
+
+groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モードとメンバーを決める。
+
 1. **日付確認・練習予定参照** — `data/training-schedule.json` から時間帯・場所を取得
 2. **練習環境の必須確認** — コース（LCM/SCM）、時間帯、使用レーン数を提示 → コーチが変更あれば対話修正
-3. **グループ選択** — 複数プロファイル運用時、コーチが今日のグループを 1 つ選択 → `data/groups.json` の `profile_id` から `data/coaching-profiles.json` の該当プロファイルをロード
-4. **参加者確認** — グループ所属選手一覧 → 実出席者を選択（当日追加可）
-5. **選手状態参照** — `athlete-conditions.json`（怪我・体調）、`athlete-skill-notes.json`（技術課題）、`athlete-insights.json`（AI 学習傾向）を全員分ロード
-6. **交代制判定** — `facilities.usable_lanes × max_swimmers_per_lane` と参加人数を比較：
-   - 収容内 → 通常メニュー
-   - 収容超過 → 群 A / 群 B 交代制を推奨、コーチが承認 or 上書き → 承認時は**待機側の過ごし方**を対話確認（① 完全待機 ② ストレッチ ③ 軽ドリル ④ 陸トレ ⑤ 軽セット）
-7. **トレーニングモデル & 長期プラン参照** — プロファイルの Philosophy / Periodizations / Macrocycle、`plans/*.md` の当該週テーマ
-8. **Phase 判定** — `data/competitions.json` から最も近い `priority=A` 大会 `start_date` → 残り週数から Phase A/B/C/D を決定（集団は最も近い選手のフェーズに合わせる）
-9. **Zone 配分決定** — [references/zone-phase-mapping.md](references/zone-phase-mapping.md) の Phase → Zone 配分表を参照
-10. **Method 推奨提示 & 選択** — [references/phase-method-mapping.md](references/phase-method-mapping.md) + 長期プラン週次テーマ + Zone 配分から推奨 Method を根拠付きで提示 → Base + Custom Methods 両方から選択、コーチ最終決定
-11. **過去メニュー検索** — `knowledge/base/menu-index.seed.json` + `knowledge/custom/menu-index.json` を Phase × Zone × Method で絞込、上位候補を提示（被り回避）
-12. **Drill 選定** — `knowledge/base/drills/` + `knowledge/custom/drills/` + `overrides/` から選定、選手の `focus_areas` 反映
+3. **練習形態モード選択 + メンバー選択 + サブグループ分け** —
+   - まず **「今日は 集団メニュー / 選手特化メニュー のどちら？」** を対話で確認
+   - **集団メニュー**: `data/groups.json` の一覧を提示 → **1 つ以上選択** (複数選択可)。選んだ group がそのままサブグループになる。それぞれの `profile_id` から `data/coaching-profiles.json` の該当プロファイルをロード。各 group の `mode` (individual / group-only) は個別に評価
+   - **選手特化メニュー**:
+     1. `data/current-paces.json` の `athletes` から選手 ID を 1 名以上選択 (event 混在可)
+     2. **サブグループ分け対話**: 選手数 ≥ 2 なら「サブグループに分けますか？ (event 別 / gear 別 / 目的別)」を確認。No なら 1 サブグループ (全員 Main 共通)。Yes なら各選手をサブグループにアサイン (例: `{"200Fr-build": [athlete-a, athlete-b], "sprinter": [athlete-c]}`)
+     3. サブグループごとにプロファイル (選手個別の `preferred_profile_id` or default) を紐付け
+4. **参加者確認** —
+   - 集団メニュー (individual): 各 group の当日出席者を ad-hoc 選択
+   - 集団メニュー (group-only): 各 group の人数のみ確認 (`expected_participants` を上書き可)
+   - 選手特化メニュー: Step 3 で既に選んだ選手をそのまま採用 (追加/削除あればここで対話)
+5. **選手状態参照** —
+   - individual / 選手特化: `athlete-conditions.json`（怪我・体調）、`athlete-skill-notes.json`（技術課題）、`athlete-insights.json`（AI 学習傾向）を全員分ロード。加えて `data/race-results.json` (存在すれば) と `data/current-paces.json` の `latest_benchmarks.race_*_YYYY_MM_DD_*` から直近レース + PB 更新有無を確認
+   - **group-only: このステップ全体を skip**。代わりに group の `typical_pace` / `pace_band` / `skill_level` / `primary_events` を保持
+6. **交代制判定 / 進行設計** —
+   - **サブグループが 1 つ**: 通常運用 (単一 Main、交代なし)
+   - **サブグループが 2 つ以上** (集団の複数 group 選択 or 選手特化の分岐): 各サブグループが別 Main を持つため**交代単位が必須**。以下の 4 択で確認 ([references/menu-rules.md](references/menu-rules.md) §5.2):
+     - ① **ブロック単位** (Main-A→ Main-B の順に別々) — 各群 総距離補正 ×0.7
+     - ② **セット単位** (交互に交替) — 補正なし
+     - ③ **時間単位** (10min 交代) — **各群 総距離補正 ×0.5**
+     - ④ **レーン単位** (別レーン同時進行) — レーン数 ≥ 2 のみ、補正なし
+   - **収容超過** (`participants > lanes × 4`): サブグループが 1 つでも収容超過なら群 A/B 分割を推奨、コーチが上書き可
+   - **待機側の過ごし方**を対話確認（① 完全待機 ② ストレッチ ③ 軽ドリル ④ 陸トレ ⑤ 軽セット）
+   - 結果を `sessions/YYYY-MM-DD/rotation.json` に保存 (`subgroups`, `unit`, `wait_activity`)
+7. **トレーニングモデル & 長期プラン参照** — 各サブグループの プロファイルの Philosophy / Periodizations / Macrocycle、`plans/*.md` の当該週テーマ
+8. **Phase 判定 (自動 + 承認)** — サブグループごとに実行
+   - individual / 選手特化: `python scripts/analyze/phase_resolver.py --date YYYY-MM-DD --athlete <id> [--athlete <id>...] > sessions/YYYY-MM-DD/phase-analysis.json`
+   - **group-only**: `python scripts/analyze/phase_resolver.py --date YYYY-MM-DD --group <group_id>` — group 単位で phase / D-n だけ算出、個別 PB 加点なし
+   - `training-schedule.json` の `summer_lcm_campaign_2026.sessions[].block` (例: `"athlete-b:Trans / athlete-a:Acc-peak"`) を優先し、race 記述 (`★RACE`) との日数差から gear を自動算出
+   - **gear ルール**: D+1=-2 / D+2=-1 / D+3-6=0 / D-7~4=-1 / D-3~1=-2 / D-14~8=0、PB 更新直後は追加 -1
+   - コーチにサブグループごとに `推奨 Phase: <phase> (D±<n>, gear <±k>)` を提示 → **Y/N 確認**、変更あれば対話上書き
+9. **Zone 配分決定** — サブグループごとに [references/zone-phase-mapping.md](references/zone-phase-mapping.md) の Phase → Zone 配分表を参照。gear adjustment があれば intensity zone の割合を減らし aerobic zone を増やす (gear-1 で intensity 70% / gear-2 で intensity 30%)
+10. **Method 推奨提示 & 選択** — サブグループごとに、[references/phase-method-mapping.md](references/phase-method-mapping.md) + 長期プラン週次テーマ + Zone 配分から推奨 Method を根拠付きで提示 → Base + Custom Methods 両方から選択、コーチ最終決定
+    - **event 特化 Method 選定** (最重要ルール): 各サブグループの主要 event (200/400Fr / 100Fr / 100Fr sprinter / 50Fr sprinter / IM / 距離泳 等) に合わせて Method を選ぶ
+      - 200/400Fr サブグループ → Threshold + Descending + Broken (RP 移行) が中心
+      - 100Fr サブグループ → Descending + Broken + USRPT が中心
+      - 50/100Fr sprinter → USRPT (25/50 RP) + HIIT + Short Broken が中心
+      - 50Fr sprinter → Speed/Alactic + Dive Practice が中心
+      - IM/距離泳 → LSD + Threshold が中心
+    - gear-2 の選手は back-end pressure / max effort 系 method から除外
+11. **過去メニュー検索 + W-up/C-down テンプレ選択・編集** — 
+    - `knowledge/base/menu-index.seed.json` + `knowledge/custom/menu-index.json` をサブグループの Phase × Zone × Method × event で絞込、上位候補を提示（被り回避）
+    - **W-up テンプレ選択フロー**:
+      1. `templates/warmup/*.md` を全件スキャン → `applicable_conditions` (course / practice_duration_min / phase / gear) にマッチするテンプレを絞込
+      2. マッチ結果を一覧提示 (id / name / 総距離 / tags)。マッチ 0 件でも全件を候補として提示可能
+      3. コーチが以下から選択:
+         - **A: そのまま採用** — 選んだテンプレを `sessions/YYYY-MM-DD/warmup.md` にコピー保存 → Step 13 骨格へ
+         - **B: このセッションだけカスタマイズ** — セット内容を対話で編集 (行単位で追加/削除/差替) → `sessions/YYYY-MM-DD/warmup.md` に保存 (元テンプレは変更しない)
+         - **C: テンプレ自体を編集** — 変更内容を `templates/warmup/<id>.md` に反映 (次回以降も適用)
+         - **D: テンプレを叩き台に新規作成** — 新しい id/name を対話で入力 → `templates/warmup/<新id>.md` を新規保存
+         - **E: 新規作成 (ゼロから)** — テンプレを使わず、対話で W-up を組み立て → 保存時に「テンプレ化する？」を確認
+      4. B/C/D/E の対話編集は次の項目を順に確認: `セット内容 (行単位)` → `総距離` → `目安時間` → `applicable_conditions (C/D のみ)` → `目的コメント`
+      5. C/D で保存する場合、テンプレファイル冒頭のフロントマターも同時更新 (`updated`, `updated_by` を追加)
+    - **Drill / Kick / C-down も同じフレームワークで管理** (`templates/drill/`, `templates/kick/`, `templates/cooldown/`) — 未整備なら W-up と同構造で `README.md` + `<id>.md` を新規作成して育てる
+    - **テンプレ一覧のクイック表示**: 選択前に `Get-ChildItem templates/warmup/*.md` の id/name をテーブル表示。フィルタしても該当なしの時は「全件表示に切替えますか？」を確認
+12. **Drill 選定** — `knowledge/base/drills/` + `knowledge/custom/drills/` + `overrides/` から選定、選手の `focus_areas` 反映 (group-only 時は group の `primary_events` を反映)。Drill は通常**全サブグループ共通** (W-up 帯に配置) だが、サブグループごとに event 特化 Drill を追加してもよい
 13. **メニュー骨格設計** — プロファイルの `menu_structure_pattern_id` があれば `knowledge/custom/menu-structure-patterns.json` から読み込み反映、なければデフォルト（W-up + Drill + Main + Finisher + C-down）
-    - 距離配分・ブロック並び順・総距離帯を反映
+    - **W-up は Step 11 で確定したテンプレ (or カスタム) の内容をそのまま骨格の第1ブロックに転記**
+    - **共通部分**: W-up / Drill / Kick / Cool-down は原則**全サブグループ共通** (時間節約と一体感)
+    - **Main 部分**: **サブグループごとに独立した Main セット構造**を設計 (event 特化)
+      - サブグループ 1: 200Fr build → 12×100 Threshold + 4×200 Descending
+      - サブグループ 2: 100Fr sprinter → 8×50 RP hold + 4×100 CP effort
+      - サブグループ 3 (もしあれば): ...
+    - **⚠️ 待機時間上限ルール (最重要)**: サブグループ数 ≥ 2 かつセット単位/ブロック単位交代の場合、**各サブグループの単一 Main セット所要時間 ≤ 10 min** に収めること
+      - 1 セットが 10 min を超えると相手サブグループが 10 min 以上待機 → 神経系ダウン / 時間の無駄
+      - 骨格提示時に**待機時間シミュレーション**を必ず表示 (各セットの推定所要時間 = 本数 × cycle)
+      - 10 min 超のセットがある場合はコーチに以下 3 択を提示:
+        - **A: 全員参加型** — 待機側もそのセットに乗る (別 pace_table / 目的違い)
+        - **B: 短分割** — セットを 2-3 分割して間に相手セットを挟む (今日のクロスインターリーブ)
+        - **C: そのまま強行** — コーチが目的を優先して 10 min 超を許容
+      - サブグループ 1 個 or 時間単位/レーン単位交代なら本ルール適用外
+    - 各サブグループの総距離配分:
+      - 各サブグループが独立した Main を持つ場合 → Main はサブグループ内で完結
+      - 交代単位 (Step 6) を反映して総距離補正 (時間単位 ×0.5 / ブロック単位 ×0.7 / セット/レーン単位 ×1.0)
+    - **総距離のスケーリング**: 過去メニュー中央値は「そのメニューの実施時間」に対応した量。今回の (時間帯 × レーン数) が異なる場合は線形スケール (例: 過去中央値 2500m / 60分 → 120分なら 4000-4200m target)
+    - **⚠️ 中盤 REST 必須ルール** ([references/menu-rules.md](references/menu-rules.md) §7.5.2): 練習時間 ≥ 90 min、Main セット 3 以上、gear-1 以下含む、のいずれかで**中盤 REST を必ず組み込む**。最低値: 60-89min=3'/90-119min=**5'** (推奨 8')/120-149min=8' (推奨 10-12')/≥150min=10' (推奨 12-15')。給水は 5min 以上推奨。表示形式: `🛑 REST 共通 8 min`
     - 骨格を根拠付きで提示 → コーチ承認 or 変更
-    - 交代制の場合は群別進行表も生成
-14. **設定タイム推定** — `current-paces.json` の PB + 直近 `times.tsv` から現在ペース推定 → Phase/Zone/Method の目標 % で本セット設定タイム算出 → `athlete-conditions.json` の制約で補正
+    - サブグループが複数なら**サブグループ別進行表**も生成 ([references/menu-design.md](references/menu-design.md) §9)
+14. **設定タイム推定 + pace 差判定** — サブグループごとに、そのサブグループ内でのみ pace 差判定を実施
+    - individual / 選手特化:
+      - `current-paces.json` の `next_targets_[lcm|scm]` + 直近 `times.tsv` から現在ペース推定 → Phase/Zone/Method の目標 % で本セット設定タイム算出 → `athlete-conditions.json` の制約で補正
+      - **⚠️ Race-Pace 系セットは選手 event を参照して正しい RP キーを選ぶ** — `current-paces.athletes.<id>.event` を見て:
+        - `"200/400Fr"` → `200p_50` / `race_200` を目標に
+        - `"100Fr"` / `"50/100Fr sprinter"` → `100p_50` / `race_100` を目標に
+        - `"50Fr"` sprinter → `sharp_50` / `race_50` を目標に
+      - **event 特化の Main**: サブグループ内は event 主体で pace_table 統一 (athlete-a+athlete-b サブグループ → 200Fr RP hold)。event 混在 (200Fr + 100Fr sprinter を 1 サブグループにまとめた場合) はセットラベルを event 非依存にして選手ごとに pace 明記
+      - **⚠️ 設定タイムの 4 大現実補正** ([references/pace-estimation.md](references/pace-estimation.md) §8): Dive vs Push-off / 練習中の疲労蓄積 / 年齢 / 本番との差 の 4 要素で必ず補正。**Trans 期 (Phase B) の Descending 最終本は RP hit ではなく RP+5-10s (T-pace+ / CP hold)**
+      - **pace 差判定 (サブグループ内)**: `python scripts/analyze/pace_diff.py --athletes <ids...> --focus <benchmark_key> --course [lcm|scm]` をサブグループ内の主要 Main セットごとに実行
+        - **`--focus race_pace_50` (event 非依存)** を使うと、pace_diff が各選手 event を自動解決
+        - `max_diff_100m_sec ≤ 10s` → 同一 set + **個別 pace_table**
+        - `> 10s` → サブグループを更に細分化 (Main-1a / Main-1b) or レーン別
+        - 出力 JSON を `sessions/YYYY-MM-DD/pace-diff-<subgroup>-<focus>.json` に保存
+    - **group-only**:
+      - `python scripts/analyze/pace_diff.py --group <group_id>` を実行して `pace_band` を取得
+      - pair diff は不要 (全員 pace_band 内で回る前提)
+      - 個別 pace_table は生成せず、cycle は `pace_band.max` + rest 30s で共通提案
 15. **休憩時間 (Cycle) 対話確認** — 骨格決定後、各セットの Cycle 案を提示 → 対話調整、`times.tsv` の直近 RPE も参考にサジェスト
+    - **既定ルール** (P0-2 ask-on-uncertainty): `cycle = 最遅選手の予想 pace + rest 25-30s` を基本値として提案。ただし set の目的 (Sprint / RP / EN3 / EN2 / Recovery) と W:R 比率が整合するか要確認
+      - Sprint / CP: W:R = 1:2〜1:4 (rest リッチ)
+      - RP hold / threshold: W:R = 1:0.5〜1:1 (rest 適度)
+      - EN3 / EN2: W:R = 1:0.3〜1:0.5 (rest 短)
+    - Cycle が目的と矛盾する場合 (例: back-end pressure に W:R 1:1 の緩さ) はコーチに再確認
+    - **group-only**: `pace_band.max` + rest 30s を全セット共通 cycle 提案の基本値とする
 16. **プレビュー・対話調整** — Markdown テーブルで全件表示、承認まで保存しない
 17. **TSV 保存** — `sessions/YYYY-MM-DD/menu.tsv`（フォーマットは [templates/session-menu.template.tsv](templates/session-menu.template.tsv) 参照）
-18. **出力形式変換** — `data/output-preferences.json` の設定に従い PDF / Excel 生成
-19. **PII チェック** — `scripts/pii/text_pii_check.py` で最終確認
+18. **出力形式推奨 & 選択** — `python scripts/analyze/recommend_output_format.py --group-or-athlete <slug>` を実行。過去 import で保存された Layout Descriptor v2 群 (`data/excel-templates/*.json` = メニュー作成ルール) と `data/coach-preferences.json` の履歴から**推奨形式をスコア付きで提示** → コーチが選択
+19. **出力形式変換 & 自動オープン** — 選択形式に応じて生成:
+    - `paste_tsv` (推奨): `python scripts/export/menu_to_paste_tsv.py <tsv> --descriptor data/excel-templates/<layout_id>.json --clipboard`
+      - コーチ側のテンプレート xlsx を尊重 (書式/数式/CF はテンプレに任せる)
+      - 生成物: `menu.paste.tsv` (貼り付け専用) + `menu.paste-instructions.md` (手順書/列マップ/セクション規則/個別注記記法)
+      - `--clipboard` で自動コピー、`--open` で手順書を表示
+    - `excel_layout`: `python scripts/export/generic_excel_writer.py <tsv> --descriptor <layout>.json` — 独立 xlsx を生成 (テンプレートモード: 元 xlsx を複製して body だけ差し替え)
+    - `tsv`: そのまま
+    - `pdf`: `scripts/export/menu_to_pdf.py`
+    - `coach-preferences.json` の `auto_open_after_export=true` なら OS 既定アプリで自動オープン
+    - 結果を `output_history` に追記
+20. **PII チェック** — `scripts/pii/text_pii_check.py` で最終確認
 
-**冒頭サマリ**に必ず: `Phase: X (試合まで N 週) / 主ゾーン: <zone(s)> / Method: <method(s)> / 骨格パターン: <pattern_id or default> / 練習計画: <引用>`
+**冒頭サマリ**に必ず: `Phase: X (試合まで N 週, D±n / gear ±k) / 主ゾーン: <zone(s)> / Method: <method(s)> / 骨格パターン: <pattern_id or default> / 練習計画: <引用> / pace 差判定: <same_set or split_set> / 総距離目標: <Nm> (基準時間 x 分から線形スケール)`
+
+**group-only モード時の冒頭サマリ**: `モード: group-only / Group: <name> / Phase: X (D±n / gear ±k) / 主ゾーン: <zone(s)> / Method: <method(s)> / 骨格パターン: <pattern_id or default> / pace_band: <min>-<max>/100m / 総距離目標: <Nm>`
 
 ---
 
@@ -190,17 +296,58 @@ Skill 起動時、以下を必ず順に実施：
 **目的**: コーチの既存資産（Excel / PDF / 画像）を取り込み、`knowledge/custom/` に統合。傾向を推論して 4 層モデルと想定対象を推奨。
 
 1. **モード選択** — ① メニュー取り込み ② ドリル取り込み ③ 両方
-2. **素材投入** — `knowledge/custom/imports/raw/` に配置、または対話でパス指定
-3. **形式自動判定** — 拡張子 + 中身から Excel / PDF / 画像を判別
+2. **素材投入** — `knowledge/custom/imports/raw/` に配置、または対話でパス指定、**Google Sheets 公開 URL** も可 (ダウンロード不要・メモリ上で処理)
+3. **形式自動判定** — 拡張子 + 中身から Excel / PDF / 画像を判別、URL は Sheets として解釈
 4. **解析実行**:
-   - Excel: `scripts/import/excel_to_menu.py` or `excel_to_drill.py`
+   - Excel (.xlsx): `scripts/import/excel_to_menu.py` or `excel_to_drill.py`
    - PDF: `scripts/import/pdf_to_menu.py` or `pdf_to_drill.py`
    - 画像: `scripts/import/image_to_menu.py` or `image_to_drill.py`（AI 委譲）
+   - **Layout Descriptor v2 自動抽出 (メニュー作成ルール保存)**:
+     - Excel ローカル: `python scripts/analyze/extract_excel_layout.py <xlsx> --sheet-name <sheet> --layout-id <slug> --out data/excel-templates/<slug>.json`
+     - Google Sheets (公開): `python scripts/analyze/extract_excel_layout.py "https://docs.google.com/spreadsheets/d/<id>/edit#gid=<gid>" --layout-id <slug> --out data/excel-templates/<slug>.json` — xlsx バイト列をメモリ内で取得し、そのまま既存パイプラインへ (ディスクに保存しない)
+       - タブ確認: `... --list-sheets` でシート名一覧のみ表示
+       - `--sheet-name <name>` でタブ指定 (推奨) or `--sheet-gid <num>` で gid 直指定
+       - 再現性のため xlsx を残したい場合: `--cache-to knowledge/custom/imports/raw/<slug>.xlsx`
+       - **共有設定要件**: 「リンクを知っている全員 (閲覧可)」以上。非公開シートの場合はコーチにダウンロード (ファイル → ダウンロード → Microsoft Excel .xlsx) してもらいローカルパス指定へ切替
+       - `template_source.source_kind: "google_sheets"` が付き、書き出し時は自動で paste_tsv (貼り付け先が Sheets 側と分かるため) を推奨
+     - 列マップ / セクション行規則 / 個別注記記法 / 数式列 / TOTAL 位置 / start_time_seed / 補足 header cells / 書式サンプル を JSON 化
+     - Workflow A Step 18 の出力形式候補に**自動追加**され、書き出し時に貼り付け専用 TSV + 手順書 の生成に使われる
 5. **PII 検知** — 画像は AI、テキストは正規表現 + ブロックリスト
 6. **構造化プレビュー** — 全件表示（メニュー: セット構成 / ドリル: 種目・ポイント）
 7. **修正反復** — コーチが誤認識箇所を対話修正
+7.5. **【必須】AI 分類判定** — [references/ai-classification-rubric.md](references/ai-classification-rubric.md) に従い、LLM が **`ai-classification-todo.json` の全レコード** を判定して `classification` フィールドを付与する。**このステップを飛ばして Step 8 に進んではいけない**。
+   - **カバレッジ規則 (最重要)**:
+     - `ai-classification-todo.json` に含まれる **全クラスタ = 100%** を判定するのが既定。
+     - LLM は「上位 N 件で打ち切る」「セッション数の少ないクラスタは省く」等の **自己判断による打ち切りを禁止**。判定を怠ったクラスタは script-tagger fallback のまま残り、Workflow A の retrieval 品質を汚染する。
+     - `--allow-partial` は **コーチが明示的に許可した場合のみ** 使用可 (例: 巨大 Excel を段階的に取り込むケース)。LLM 側の判断で `--allow-partial` を選んではならない。
+     - `stage2` を `--allow-partial` なしで実行し、`AI coverage: N/N` と表示されて exit 0 することが完了条件。
+   - **パイプライン構造**: 取り込みは 2 段階に分離されており、AI 分類なしでは build できない構造ガード付き:
+     ```
+     python scripts/import/run_import_pipeline.py stage1 --source <xlsx|pdf> --workdir sessions/<slug> --clean
+       → raw-import.json / classified.json (script-tagger fallback) / ai-classification-todo.json (全クラスタ分のテンプレ)
+       → ここで停止
+
+     # LLM が ai-classification-todo.json の todo[] 全件を読み、
+     # 各 md_path を確認して rubric v1 に従い判定し、ai-classification.json を生成
+     # (records[] の長さは todo[] の長さと一致すること)
+
+     python scripts/import/run_import_pipeline.py stage2 --workdir sessions/<slug> \
+         --ai-answers sessions/<slug>/ai-classification.json
+       → validate → migrate → 全クラスタが judged_by=spagent-classify-v1 か検証
+       → 未判定があると exit 2 で失敗 (--allow-partial は例外運用時のみ)
+     ```
+   - **入力**: Step 7 で確定した parsed JSON（1 メニュー = 1 record）
+   - **必須判定項目**: `method` (primary/secondary/confidence/evidence) / `phase` (primary/secondary/signals/confidence/evidence) / `zone_tags` (canonical EN1-SP3) / `target` (philosophy/event_focus/level/group_type/sub_groups) / `theme_interpretation` / `coach_review_needed` / `review_reasons`
+   - **3 シグナル fusion**: `phase` は必ず (a) date × `data/competitions.json` D-n / (b) method × `references/phase-method-mapping.md` / (c) zone × `references/zone-phase-mapping.md` の 3 つを計算し `signals` に残す
+   - **method-content ミスマッチ検出**: 元ファイル名の method ヒントと Main 内容が乖離する場合、必ず `coach_review_needed = true` にセット（例: `recovery-*.md` に All Out が含まれる場合）
+   - **zone_tags 語彙統一**: 旧語彙（RECOVERY / AEROBIC / RACE_PACE / USRPT / BROKEN / SPRINT / VO2MAX 等）は必ず canonical EN/SP 系に変換。method 系タグは別途 `method_tags[]` フィールドに分離
+   - **Custom Method 候補**: Base 7 手法いずれも `medium` 未満のスコアなら Custom Method 候補として提案（Step 11 につなぐ）
+   - **監査**: 各判定に `judged_by: "spagent-classify-v1"` と `judged_at` を必ず付与
+   - **フォールバック**: `stage1` が生成する `classified.json` は `judged_by: "script-tagger"` の暫定判定を含むが、AI 判定で必ず上書きされる想定。上書きが漏れたクラスタが残ると `stage2` は失敗する
 8. **承認 & 保存** —
-   - メニュー: `knowledge/custom/main-menus/YYYY-MM-DD-<slug>.md` + `menu-index.json`
+   - `classification.coach_review_needed = false` → 自動採用
+   - `classification.coach_review_needed = true` → コーチに `review_reasons` と併せて提示し、対話修正
+   - メニュー: `knowledge/custom/main-menus/YYYY-MM-DD-<slug>.md` + `menu-index.json`（`classification` を含めて追記）
    - ドリル: `knowledge/custom/drills/<stroke>.md`
 9. **傾向分析**（メニュー取り込み時のみ）:
    - Zone 配分の平均傾向
@@ -255,10 +402,22 @@ Skill 起動時、以下を必ず順に実施：
 | [references/menu-rules.md](references/menu-rules.md) | 集団指導・交代制・体調配慮の運用ルール |
 | [references/zone-phase-mapping.md](references/zone-phase-mapping.md) | Zone (EN1–SP3) × Phase (A/B/C/D) マッピング表 |
 | [references/phase-method-mapping.md](references/phase-method-mapping.md) | Phase × Method 推奨マトリクス |
+| [references/ai-classification-rubric.md](references/ai-classification-rubric.md) | **取り込み時 AI 分類の canonical 判定基準** (Workflow G Step 7.5) |
 | [references/pace-estimation.md](references/pace-estimation.md) | PB + RPE から現在ペース推定、Zone 目標 % ロジック |
 | [references/feedback-process.md](references/feedback-process.md) | Workflow B の詳細プロセス |
 | [references/menu-design.md](references/menu-design.md) | メニュー骨格設計テンプレ |
 | [references/training-models/](references/training-models/) | 4 層モデルの詳細（21 ファイル） |
+
+### スクリプト (Workflow A で使う自動化ツール)
+
+| スクリプト | 役割 | Workflow A Step |
+|-----------|------|-----------------|
+| `scripts/analyze/phase_resolver.py` | date+athlete → phase / D±n / gear_adjustment 自動判定 | Step 8 |
+| `scripts/analyze/pace_diff.py` | 100m 換算 pace 差 → same_set / split_set 判定 | Step 14 |
+| `scripts/analyze/recommend_output_format.py` | 過去 Descriptor 群 + coach-preferences から出力形式ランキング | Step 18 |
+| `scripts/analyze/extract_excel_layout.py` | 過去メニュー xlsx / Google Sheets URL → Layout Descriptor v2 (メニュー作成ルール) | Workflow G Step 4 |
+| `scripts/export/menu_to_paste_tsv.py` | menu.tsv → 貼り付け専用 TSV + 手順書 md | Step 19 (paste_tsv) |
+| `scripts/export/generic_excel_writer.py` | menu.tsv + descriptor → 独立 xlsx (テンプレート複製モード) | Step 19 (excel_layout) |
 
 ## 制約 (Constraints)
 
