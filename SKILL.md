@@ -145,6 +145,12 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
     - gear-2 の選手は back-end pressure / max effort 系 method から除外
 11. **過去メニュー検索 + W-up/C-down テンプレ選択・編集** — 
     - `knowledge/base/menu-index.seed.json` + `knowledge/custom/menu-index.json` をサブグループの Phase × Zone × Method × event で絞込、上位候補を提示（被り回避）
+    - **Custom 候補の intensity_signature フィルタ** (rubric v1.1 §4.5, team-relative): gear/phase に応じて custom の `intensity_signature` で二次絞り込みを行う。閾値は `data/intensity-calibration.json` の team-specific percentile で自動的に定まる
+      - `gear -2 / Trans2 / Recovery 期`: `intensity_signature ∈ {soft}` を優先。balanced は許容、high は除外
+      - `gear -1 / Trans / D-14~8`: `intensity_signature ∈ {soft, balanced}` を優先、high は evidence 付きで理由説明の上で採用可
+      - `gear 0 / Acc / D+3-6`: `intensity_signature ∈ {balanced}` を中心、soft/high は補助的
+      - `gear +1 / Acc-peak / Real`: `intensity_signature ∈ {balanced, high}` を優先
+    - intensity_signature 未付与の custom (v1.1 前に取り込まれた旧レコード) はフィルタから除外せず、末尾で「intensity 未判定」ラベル付きで提示
     - **W-up テンプレ選択フロー**:
       1. `templates/warmup/*.md` を全件スキャン → `applicable_conditions` (course / practice_duration_min / phase / gear) にマッチするテンプレを絞込
       2. マッチ結果を一覧提示 (id / name / 総距離 / tags)。マッチ 0 件でも全件を候補として提示可能
@@ -343,13 +349,21 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
        → 未判定があると exit 2 で失敗 (--allow-partial は例外運用時のみ)
      ```
    - **入力**: Step 7 で確定した parsed JSON（1 メニュー = 1 record）
-   - **必須判定項目**: `method` (primary/secondary/confidence/evidence) / `phase` (primary/secondary/signals/confidence/evidence) / `zone_tags` (canonical EN1-SP3) / `target` (philosophy/event_focus/level/group_type/sub_groups) / `theme_interpretation` / `coach_review_needed` / `review_reasons`
+   - **必須判定項目**: `method` (primary/secondary/confidence/evidence) / `phase` (primary/secondary/signals/confidence/evidence) / `zone_tags` (canonical EN1-SP3) / `intensity_signature` (level: soft/balanced/high + signals + confidence + evidence) / `target` (philosophy/event_focus/level/group_type/sub_groups) / `theme_interpretation` / `coach_review_needed` / `review_reasons`
    - **3 シグナル fusion**: `phase` は必ず (a) date × `data/competitions.json` D-n / (b) method × `references/phase-method-mapping.md` / (c) zone × `references/zone-phase-mapping.md` の 3 つを計算し `signals` に残す
    - **method-content ミスマッチ検出**: 元ファイル名の method ヒントと Main 内容が乖離する場合、必ず `coach_review_needed = true` にセット（例: `recovery-*.md` に All Out が含まれる場合）
    - **zone_tags 語彙統一**: 旧語彙（RECOVERY / AEROBIC / RACE_PACE / USRPT / BROKEN / SPRINT / VO2MAX 等）は必ず canonical EN/SP 系に変換。method 系タグは別途 `method_tags[]` フィールドに分離
    - **Custom Method 候補**: Base 7 手法いずれも `medium` 未満のスコアなら Custom Method 候補として提案（Step 11 につなぐ）
-   - **監査**: 各判定に `judged_by: "spagent-classify-v1"` と `judged_at` を必ず付与
+   - **監査**: 各判定に `judged_by: "spagent-classify-v1.1"` と `judged_at` を必ず付与
    - **フォールバック**: `stage1` が生成する `classified.json` は `judged_by: "script-tagger"` の暫定判定を含むが、AI 判定で必ず上書きされる想定。上書きが漏れたクラスタが残ると `stage2` は失敗する
+7.5.5. **【必須】Intensity Signature 自己キャリブレーション** (rubric v1.1 §4.5, team-agnostic) —
+   - Step 7.5 完了直後に `python scripts/classify/calibrate_intensity.py` を実行
+   - **percentile 方式**: そのコーチの custom 全 cluster から method 別 `cycle_per_100m_sec` の p25 / p75 を算出し、`soft | balanced | high` を **相対的に** 判定
+   - **絶対閾値なし**: rubric に pace/rest_ratio の固定値を持たない → Masters/Junior/Elite/Triathlon いずれの環境でも自チーム基準で自動キャリブレーション
+   - **Cold start**: method 内 n<5 は cross-method percentile にフォールバック、n<10 は descriptor + intensity_distance で defensive 判定
+   - **Method 特化 override**: recovery/technique は常に soft、lsd は常に balanced
+   - **出力**: `data/intensity-calibration.json` (percentile 監査) + `menu-index.json.entries[].intensity_signature` + 各 md の Summary テーブルに `Intensity` 行追記
+   - **再実行**: Workflow G を回すたびに再キャリブレーション → データ増加とともに閾値が team-specific に洗練される
 8. **承認 & 保存** —
    - `classification.coach_review_needed = false` → 自動採用
    - `classification.coach_review_needed = true` → コーチに `review_reasons` と併せて提示し、対話修正

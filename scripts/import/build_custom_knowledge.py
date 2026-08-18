@@ -215,10 +215,20 @@ def build_cluster_summary(cluster: list[dict[str, Any]]) -> dict[str, Any]:
     main_avg = sum(main_dists) // len(main_dists) if main_dists else 0
 
     all_zones: collections.Counter[str] = collections.Counter()
+    intensity_votes: collections.Counter[str] = collections.Counter()
     for record in cluster:
-        for zone in record.get("classification", {}).get("zone_tags", []):
+        cls = record.get("classification", {}) or {}
+        for zone in cls.get("zone_tags", []):
             all_zones[zone] += 1
+        intensity = cls.get("intensity_signature")
+        if isinstance(intensity, dict):
+            level = intensity.get("level")
+        else:
+            level = intensity
+        if level:
+            intensity_votes[level] += 1
     zone_tags = [z for z, _ in all_zones.most_common(8)]
+    intensity_level = intensity_votes.most_common(1)[0][0] if intensity_votes else None
 
     facilities: collections.Counter[str] = collections.Counter()
     themes: list[str] = []
@@ -248,6 +258,7 @@ def build_cluster_summary(cluster: list[dict[str, Any]]) -> dict[str, Any]:
         "main_min": min(main_dists) if main_dists else 0,
         "main_max": max(main_dists) if main_dists else 0,
         "zone_tags": zone_tags,
+        "intensity_signature": intensity_level,
         "course": course,
         "themes": themes[:10],
         "example_dates": sorted(set(dates))[-10:],
@@ -274,6 +285,7 @@ def build_cluster_markdown(summary: dict[str, Any]) -> str:
     lines.append(f"| Full session distance | {summary['total_min']} - {summary['total_max']} m (avg {summary['total_avg']}) |")
     lines.append(f"| Seen | {summary['count']} sessions |")
     lines.append(f"| Zone tags | {', '.join(summary['zone_tags']) if summary['zone_tags'] else '-'} |")
+    lines.append(f"| Intensity | {summary.get('intensity_signature') or '-'} |")
     lines.append(f"| Example dates | {', '.join(summary['example_dates']) if summary['example_dates'] else '-'} |")
     lines.append("")
 
@@ -355,6 +367,7 @@ def write_main_menus(clusters: dict[str, list[dict[str, Any]]], out_dir: Path,
             "total_range": [summary["total_min"], summary["total_max"]],
             "course": summary["course"],
             "zone_tags": summary["zone_tags"],
+            "intensity_signature": summary.get("intensity_signature"),
             "example_dates": summary["example_dates"],
             "themes_top": summary["themes"][:5],
             "md_path": md_path.relative_to(out_dir).as_posix(),

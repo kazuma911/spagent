@@ -57,14 +57,15 @@ from pathlib import Path
 from typing import Any
 
 
-RUBRIC_VERSION = "v1"
-JUDGED_BY_DEFAULT = "spagent-classify-v1"
+RUBRIC_VERSION = "v1.1"
+JUDGED_BY_DEFAULT = "spagent-classify-v1.1"
 
 CANONICAL_METHODS = {
     "lsd", "threshold", "descending", "broken", "usrpt", "hiit", "fartlek",
 }
 CANONICAL_ZONE_TAGS = {"EN1", "EN2", "EN3", "SP1", "SP2", "SP3"}
 CANONICAL_PHASES = {"A", "B", "C", "D", "REC"}
+CANONICAL_INTENSITY_SIGNATURES = {"soft", "balanced", "high"}
 
 LEGACY_ZONE_TAG_MAP = {
     "RECOVERY": "EN1",
@@ -85,6 +86,11 @@ REQUIRED_FIELDS = [
     "phase.primary",
     "phase.confidence",
     "zone_tags",
+]
+
+OPTIONAL_FIELDS = [
+    "intensity_signature.level",
+    "intensity_signature.confidence",
 ]
 
 
@@ -157,6 +163,13 @@ def _validate_record(record: dict[str, Any]) -> list[str]:
     if not signals and _get_nested(record, "phase.confidence") == "high":
         errors.append("phase.confidence=high requires phase.signals to be populated")
 
+    intensity_level = _get_nested(record, "intensity_signature.level")
+    if intensity_level and intensity_level not in CANONICAL_INTENSITY_SIGNATURES:
+        errors.append(
+            f"intensity_signature.level '{intensity_level}' is not canonical "
+            f"(expected one of {sorted(CANONICAL_INTENSITY_SIGNATURES)})"
+        )
+
     return errors
 
 
@@ -199,6 +212,7 @@ def _merge_classification(target: dict[str, Any], ai_record: dict[str, Any],
         "phase": ai_record.get("phase", {}),
         "zone_tags": canonical_zones,
         "method_tags": method_tags,
+        "intensity_signature": ai_record.get("intensity_signature", {}),
         "target": ai_record.get("target", {}),
         "theme_interpretation": ai_record.get("theme_interpretation", ""),
         "coach_review_needed": bool(ai_record.get("coach_review_needed", False)),
@@ -312,6 +326,9 @@ def cmd_migrate(args: argparse.Namespace) -> int:
         method_primary = _get_nested(ai_record, "method.primary")
         if method_primary and not method_primary.startswith("custom_"):
             entry["method"] = method_primary
+        intensity_level = _get_nested(ai_record, "intensity_signature.level")
+        if intensity_level:
+            entry["intensity_signature"] = intensity_level
         updated += 1
 
     args.index.write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

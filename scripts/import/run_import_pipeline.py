@@ -85,22 +85,24 @@ def _emit_ai_classification_todo(menu_index_path: Path, out_path: Path,
                 "phase_hints": entry.get("phase_hints"),
                 "zone_tags": entry.get("zone_tags"),
             },
-            "TODO": "Read md_path, apply references/ai-classification-rubric.md v1, "
-                    "fill {method, phase, zone_tags, target, theme_interpretation, "
-                    "coach_review_needed, review_reasons}. See ai-classify apply schema.",
+            "TODO": "Read md_path, apply references/ai-classification-rubric.md v1.1, "
+                    "fill {method, phase, zone_tags, intensity_signature, target, "
+                    "theme_interpretation, coach_review_needed, review_reasons}. "
+                    "See ai-classify apply schema.",
         })
 
     payload = {
-        "rubric_version": "v1",
+        "rubric_version": "v1.1",
         "generated_at": datetime.now().astimezone().isoformat(),
         "workdir": str(workdir),
         "menu_index": str(menu_index_path),
         "instructions": [
             "1. For each todo entry, read the md_path file.",
-            "2. Apply the rubric in references/ai-classification-rubric.md v1.",
+            "2. Apply the rubric in references/ai-classification-rubric.md v1.1.",
             "3. Output records[] in the format expected by ai_classify.py apply/migrate:",
             "   { id, method:{primary,secondary,confidence,evidence}, phase:{primary,secondary,signals,confidence,evidence},",
-            "     zone_tags:[canonical EN1-SP3], target:{philosophy,event_focus,level,group_type,sub_groups},",
+            "     zone_tags:[canonical EN1-SP3], intensity_signature:{level:soft|balanced|high,signals,confidence,evidence},",
+            "     target:{philosophy,event_focus,level,group_type,sub_groups},",
             "     theme_interpretation, coach_review_needed, review_reasons }",
             "4. Save as ai-classification.json in this workdir.",
             "5. Run: python scripts/import/run_import_pipeline.py stage2 --workdir <this> --ai-answers ai-classification.json",

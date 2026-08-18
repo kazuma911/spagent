@@ -62,6 +62,17 @@
 
   "zone_tags": ["EN2", "EN3", "SP1"],
 
+  "intensity_signature": {
+    "level": "soft | balanced | high",
+    "signals": {
+      "rest_ratio_pct": 22.0,
+      "intensity_distance_m": 900,
+      "cycle_density": "loose | standard | tight"
+    },
+    "confidence": "high | medium | low",
+    "evidence": "rest_ratio と intensity_distance から判定した根拠 1 行"
+  },
+
   "target": {
     "philosophy": "masters | junior | elite | triathlon",
     "event_focus": ["200Fr", "400Fr"],
@@ -85,7 +96,7 @@
 
 ### 1.1 必須フィールド
 
-`id`, `source`, `main_menu.total_distance`, `method.primary`, `method.confidence`, `phase.primary`, `phase.confidence`, `zone_tags`, `judged_by`, `judged_at`
+`id`, `source`, `main_menu.total_distance`, `method.primary`, `method.confidence`, `phase.primary`, `phase.confidence`, `zone_tags`, `intensity_signature.level`, `intensity_signature.confidence`, `judged_by`, `judged_at`
 
 ### 1.2 追加フィールド（既存 `menu-index.json` との後方互換）
 
@@ -245,6 +256,99 @@ Main の距離帯から:
 | IM 明記 | 200IM, 400IM |
 
 複数該当時は `event_focus[]` に全部並記。
+
+### 4.5 Intensity Signature 判定ルール（zone_tags 粒度アップ · v1.1 追加）
+
+**目的**: 同じ `zone_tags` (例: `RACE_PACE + BROKEN`) でも "追い込み度" が異なる複数クラスタを、gear/phase に応じて選び分け可能にする第 2 軸。
+
+**canonical vocabulary**: `soft | balanced | high`
+
+**設計原則**: 判定閾値やペース想定を rubric に **絶対値で固定しない**。そのチームの実データから percentile で相対判定することで、Masters / Junior / Elite / Triathlon など target philosophy に依存せず team-agnostic に動作させる（**自己キャリブレーション方式**）。
+
+#### 4.5.1 判定シグナル（team-relative cycle percentile）
+
+##### Signal I: cycle_per_100m_sec（100m 換算 cycle）
+
+各 Swim 行について、`cycle_per_100m = cycle_sec × (100 / distance)` を計算し、cluster 全体で **distance × count 加重平均** を取る。単位は秒。この値は「その cluster が代表する練習セットが 100m あたり何秒サイクルで回っているか」を表す。
+
+- 短い cycle_per_100m → 高強度設計（レスト少・詰め詰め）
+- 長い cycle_per_100m → soft 設計（レスト多い or 低速回し）
+
+##### Signal II: intensity_distance_m（絶対値、参考指標）
+
+`zone_tags` のうち `RACE_PACE / SP1-3 / BROKEN / USRPT / MSS` を含む Swim 行の `distance × count` 合計。判定には confidence 補強にのみ使用（メインの level 判定は Signal I に依る）。
+
+##### Signal III: descriptor keywords（テキスト補強）
+
+Main set Swim 行 description に以下キーワードが **半数以上** 含まれる場合、descriptor_hot = true として level 判定に補正を加える:
+
+- `All Out`, `MAX`, `descending to MAX`, `RP`, `sprint`, `fast`, `race`
+
+「max effort + 長いレスト」型 (`4×50 MAX @2'`) が cycle_per_100m だけで soft に落ちるのを防ぐ補正。
+
+#### 4.5.2 判定マトリクス（team-relative percentile）
+
+そのコーチの custom 全 cluster を method 別にグループ化し、各 method 内の cycle_per_100m 分布から `p25` / `p75` を算出:
+
+| level | 条件 |
+|---|---|
+| **high** | cluster の cycle_per_100m < method_p25 (詰め詰めサイド) |
+| **balanced** | method_p25 ≤ cycle_per_100m ≤ method_p75 |
+| **soft** | cluster の cycle_per_100m > method_p75 (ゆったりサイド) |
+
+**Cold start / 少データ時のフォールバック**:
+
+- **method 内 n < 5**: その method 単独では percentile が信頼できない → **全 method 横断の cycle_per_100m 分布** の p25/p75 を代わりに使用
+- **全 method 横断でも n < 10**: cycle_per_100m の絶対値でなく、descriptor_hot と intensity_distance_m から緩めに判定（default = balanced）
+
+#### 4.5.2.a Descriptor upgrade
+
+- descriptor_hot = true かつ percentile 判定が soft → `balanced` に引き上げ
+- descriptor_hot = true かつ percentile 判定が balanced かつ intensity_distance_m ≥ 400m → `high` に引き上げ
+
+#### 4.5.3 method 特化ルール（percentile 判定を上書き）
+
+- `method=recovery` → 常に `soft`（cycle_per_100m 参照せず）
+- `method=technique` → 常に `soft`
+- `method=lsd` → 常に `balanced`
+- `method=mixed` → percentile 判定に従う
+
+#### 4.5.4 confidence
+
+| Level | 条件 |
+|---|---|
+| **high** | method 内 n ≥ 10、cycle_per_100m 分布明確、descriptor と percentile 判定が一致 |
+| **medium** | method 内 n ≥ 5、または descriptor と percentile 判定に軽い矛盾 |
+| **low** | method 内 n < 5 で cross-method fallback、または main set 3 行以下 |
+
+#### 4.5.5 evidence 例
+
+- `"cycle_per_100m=48s (method p25=52s)、intensity_dist 1900m、descriptor_hot → high"`
+- `"method=recovery につき method-rule で soft (percentile 参照せず)"`
+- `"method 内 n=2 につき cross-method fallback、cycle 88s (cross p75=85s) → soft, low confidence"`
+
+#### 4.5.6 Calibration 実行と監査
+
+Workflow G Step 7.5.5 の一環として `scripts/classify/calibrate_intensity.py` を実行し、以下を `data/intensity-calibration.json` に保存:
+
+```json
+{
+  "calibrated_at": "2026-08-18T13:00:00+09:00",
+  "cluster_source": "knowledge/custom/menu-index.json",
+  "n_clusters": 117,
+  "method_percentiles": {
+    "race-pace": { "n": 27, "p25": 52.3, "p75": 78.5, "source": "method-internal" },
+    "threshold": { "n": 4,  "p25": 60.0, "p75": 82.0, "source": "cross-method-fallback (n<5)" },
+    ...
+  },
+  "cross_method_percentiles": { "p25": 50.1, "p75": 80.4 },
+  "notes": "team-agnostic percentile calibration; regenerate on each import cycle"
+}
+```
+
+この JSON は次回 Workflow A の Step 11 で読み込まれ、custom 検索時の intensity_signature フィルタに使われる。データが増えたら再 calibration して閾値が徐々にそのチーム固有に洗練される。
+
+---
 
 ### 4.3 Sub-groups
 
