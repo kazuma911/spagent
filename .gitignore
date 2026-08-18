@@ -20,6 +20,11 @@ knowledge/custom/*
 !plans/README.md
 !knowledge/custom/README.md
 
+# 例外: inbox サブディレクトリの README (スケジュール登録ガイド等)
+!data/inbox/
+!data/inbox/**/
+!data/inbox/**/README.md
+
 # 例外: Excel テンプレートのマッピング定義（コーチ提供テンプレの列位置宣言、実データではない）
 !data/excel-template-mapping.json
 

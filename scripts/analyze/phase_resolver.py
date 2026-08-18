@@ -426,15 +426,28 @@ def main(argv: list[str] | None = None) -> int:
     schedule_path = args.schedule or (root / "data" / "training-schedule.json")
     paces_path = args.paces or (root / "data" / "current-paces.json")
     comps_path = root / "data" / "competitions.json"
+    warnings: list[str] = []
     try:
-        sessions = load_schedule(schedule_path)
+        if schedule_path.exists():
+            sessions = load_schedule(schedule_path)
+        else:
+            sessions = []
+            warnings.append(f"training-schedule.json not found at {schedule_path} - phase auto-detection disabled")
         paces = json.loads(paces_path.read_text(encoding="utf-8")) if paces_path.exists() else {}
+        if not paces_path.exists():
+            warnings.append(f"current-paces.json not found at {paces_path} - per-athlete alias detection reduced")
         competitions = json.loads(comps_path.read_text(encoding="utf-8")) if comps_path.exists() else {}
+        if not comps_path.exists():
+            warnings.append(f"competitions.json not found at {comps_path} - race-based gear disabled")
         the_date = parse_date(args.date)
     except Exception as exc:  # noqa: BLE001
         print(f"error: {exc}", file=sys.stderr)
         return 1
+    for w in warnings:
+        print(f"warning: {w}", file=sys.stderr)
     out: dict[str, Any] = {"date": the_date.isoformat()}
+    if warnings:
+        out["warnings"] = warnings
     if args.group:
         groups_path = args.groups_file or (root / "data" / "groups.json")
         try:

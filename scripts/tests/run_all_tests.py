@@ -197,6 +197,118 @@ def test_knowledge_policy_choices(result: TestResult) -> None:
             result.fail(f"SKILL.md '{label}'", "not found in Workflow E policy choices")
 
 
+def test_phase_resolver_fallback(result: TestResult) -> None:
+    """phase_resolver should exit 0 with phase=unknown when schedule/paces are missing."""
+    section("phase_resolver graceful fallback (no schedule)")
+    import os
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        missing_sched = Path(tmp_dir) / "no-schedule.json"
+        missing_paces = Path(tmp_dir) / "no-paces.json"
+        script = REPO_ROOT / "scripts" / "analyze" / "phase_resolver.py"
+        env = os.environ.copy()
+        env["PYTHONIOENCODING"] = "utf-8"
+        proc = subprocess.run(
+            [sys.executable, str(script), "--date", "2026-08-18", "--athlete", "test_athlete",
+             "--schedule", str(missing_sched), "--paces", str(missing_paces)],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", env=env,
+        )
+        if proc.returncode != 0:
+            result.fail("phase_resolver no-schedule exit code", f"expected 0, got {proc.returncode} stderr={(proc.stderr or '')[:200]}")
+            return
+        stdout = proc.stdout or ""
+        try:
+            out = json.loads(stdout)
+        except json.JSONDecodeError as exc:
+            result.fail("phase_resolver no-schedule JSON parse", f"{exc}; stdout={stdout[:200]!r}")
+            return
+        if out.get("warnings"):
+            result.ok("warnings included when schedule missing")
+        else:
+            result.fail("phase_resolver no-schedule warnings", "warnings array missing")
+        ath = out.get("athletes", {}).get("test_athlete", {})
+        if ath.get("phase") == "unknown":
+            result.ok("phase=unknown when schedule missing")
+        else:
+            result.fail("phase_resolver no-schedule phase", f"expected 'unknown', got {ath.get('phase')}")
+
+
+def test_register_schedule(result: TestResult) -> None:
+    """register_schedule.py --merge should validate candidates and idempotently upsert."""
+    section("register_schedule.py merge & validation")
+    import os
+    import tempfile
+    import shutil
+
+    script = REPO_ROOT / "scripts" / "import" / "register_schedule.py"
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp_root = Path(tmp_dir)
+        tmp_data = tmp_root / "data"
+        tmp_data.mkdir()
+        (tmp_root / "scripts" / "import").mkdir(parents=True)
+        for sub in ("scripts",):
+            shutil.copytree(REPO_ROOT / sub, tmp_root / sub, dirs_exist_ok=True)
+
+        candidates_valid = {
+            "competitions": [{
+                "id": "test-comp-2027",
+                "name": "Test comp",
+                "start_date": "2027-04-10",
+                "end_date": "2027-04-10",
+                "course": "LCM",
+                "priority": "B",
+                "entries": [{"athlete_id": "test_athlete", "event": "100Fr", "target_time": "1:05.00"}],
+            }],
+            "sessions": [{"date": "2027-04-08", "dow": "木", "course": "SCM", "block": "Taper", "focus": "sharpening", "managed_by": "self"}],
+        }
+        cand_path = tmp_root / "cand.json"
+        cand_path.write_text(json.dumps(candidates_valid, ensure_ascii=False), encoding="utf-8")
+
+        env = os.environ.copy()
+        env["PYTHONIOENCODING"] = "utf-8"
+        proc = subprocess.run(
+            [sys.executable, str(tmp_root / "scripts" / "import" / "register_schedule.py"),
+             "--merge", str(cand_path), "--dry-run"],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", env=env, cwd=str(tmp_root),
+        )
+        if proc.returncode != 0:
+            result.fail("register_schedule dry-run valid", f"exit={proc.returncode} stderr={(proc.stderr or '')[:200]}")
+        else:
+            try:
+                report = json.loads(proc.stdout or "")
+                if report["added"]["competitions"] == 1 and report["added"]["sessions"] == 1 and not report["errors"]:
+                    result.ok("valid candidates: dry-run reports 1+1 added")
+                else:
+                    result.fail("register_schedule dry-run valid", f"unexpected report: {report}")
+            except json.JSONDecodeError as exc:
+                result.fail("register_schedule dry-run JSON", str(exc))
+
+        candidates_invalid = {
+            "competitions": [{"id": "", "name": "Bad", "start_date": "not-a-date", "course": "OWS"}],
+            "sessions": [{"date": "no-date", "course": "OWS", "block": "InvalidBlock"}],
+        }
+        bad_path = tmp_root / "bad.json"
+        bad_path.write_text(json.dumps(candidates_invalid), encoding="utf-8")
+        proc = subprocess.run(
+            [sys.executable, str(tmp_root / "scripts" / "import" / "register_schedule.py"),
+             "--merge", str(bad_path), "--dry-run"],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", env=env, cwd=str(tmp_root),
+        )
+        if proc.returncode == 2:
+            try:
+                report = json.loads(proc.stdout or "")
+                if len(report.get("errors", [])) >= 3:
+                    result.ok("invalid candidates: multiple validation errors reported")
+                else:
+                    result.fail("register_schedule invalid", f"expected >=3 errors, got {report.get('errors')}")
+            except json.JSONDecodeError as exc:
+                result.fail("register_schedule invalid JSON", str(exc))
+        else:
+            result.fail("register_schedule invalid exit code", f"expected 2, got {proc.returncode}")
+
+
 def main() -> int:
     result = TestResult()
     print(textwrap.dedent(f"""\
@@ -211,6 +323,8 @@ def main() -> int:
     test_pii_negatives(result)
     test_pii_positives(result)
     test_knowledge_policy_choices(result)
+    test_phase_resolver_fallback(result)
+    test_register_schedule(result)
 
     print("\n=== Summary ===")
     print(f"passed: {result.passed}")

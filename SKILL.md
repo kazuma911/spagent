@@ -37,8 +37,8 @@ description: "水泳の練習メニュー作成・長期プラン設計・過去
 | `data/groups.json` | JSON | クラス / グループ情報、`profile_id` を保持 |
 | `data/athletes.json` | JSON | 選手情報（エイリアス推奨、フルネーム避ける） |
 | `data/facilities.json` | JSON | プール施設情報（LCM/SCM、レーン数、器具） |
-| `data/competitions.json` | JSON | 大会情報・エントリー・目標タイム・テーパー設定 |
-| `data/training-schedule.json` | JSON | 練習予定（日程・場所） |
+| `data/competitions.json` | JSON | 大会情報・エントリー・目標タイム・テーパー設定 (**任意**。無い場合は race 逆算機能が縮退。Workflow E/F.schedule で登録可) |
+| `data/training-schedule.json` | JSON | 練習予定（日程・場所）(**任意**。無い場合は phase 自動判定が縮退し Workflow A で対話。Workflow E/F.schedule で登録可) |
 | `data/current-paces.json` | JSON | 各選手 / グループの PB・現在ペース |
 | `data/output-preferences.json` | JSON | 出力形式（PDF / TSV / カスタム Excel） |
 | `data/coach-preferences.json` | JSON | プロファイル横断のコーチ設定、`use_base_knowledge` |
@@ -108,6 +108,7 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
    - **選手特化メニュー**:
      1. `data/current-paces.json` の `athletes` から選手 ID を 1 名以上選択 (event 混在可)
         - **未登録選手対応**: コーチが `current-paces.json` に存在しない選手名を挙げた場合、silently 無視せず **Workflow F の選手登録フローを実行**: `event` / `athlete_type` (sprinter/middle/distance) / `age_group` / `primary_events` / `hr_endurance_zone_bpm` / 現在ペース (代表 benchmark 1-2 個) を対話収集 → `data/competitions.json.athletes[]` + `data/current-paces.json.athletes.<id>` に追記してから Step 3.2 のサブグループ分けへ進む
+        - **選手登録の直後にスケジュール登録も打診**: 新規選手が出場する大会や練習曜日をコーチに聞く。未登録なら `python scripts/import/register_schedule.py --mode manual|file|url` の 3 モードを提示。「後で」でも可 (無くても Workflow A は動く)
      2. **サブグループ分け対話**: 選手数 ≥ 2 なら「サブグループに分けますか？ (event 別 / gear 別 / 目的別)」を確認。No なら 1 サブグループ (全員 Main 共通)。Yes なら各選手をサブグループにアサイン (例: `{"200Fr-build": [athlete-a, athlete-b], "sprinter": [athlete-c]}`)
      3. サブグループごとにプロファイル (選手個別の `preferred_profile_id` or default) を紐付け
 4. **参加者確認** —
@@ -131,7 +132,8 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
 8. **Phase 判定 (自動 + 承認)** — サブグループごとに実行
    - individual / 選手特化: `python scripts/analyze/phase_resolver.py --date YYYY-MM-DD --athlete <id> [--athlete <id>...] > sessions/YYYY-MM-DD/phase-analysis.json`
    - **group-only**: `python scripts/analyze/phase_resolver.py --date YYYY-MM-DD --group <group_id>` — group 単位で phase / D-n だけ算出、個別 PB 加点なし
-   - `training-schedule.json` の `summer_lcm_campaign_2026.sessions[].block` (例: `"athlete-b:Trans / athlete-a:Acc-peak"`) を優先し、race 記述 (`★RACE`) との日数差から gear を自動算出
+   - `training-schedule.json` の各 session (top-level `sessions[]` またはキャンペーン配下) の `block` (例: `"athlete-b:Trans / athlete-a:Acc-peak"`) を優先し、race 記述 (`★RACE`) との日数差から gear を自動算出
+   - **schedule 未登録でも動作**: schedule / competitions が無い場合は phase=unknown, confidence=0.4 の warning 付きで返し、Workflow A は対話で phase を確認する
    - **gear ルール**: D+1=-2 / D+2=-1 / D+3-6=0 / D-7~4=-1 / D-3~1=-2 / D-14~8=0、PB 更新直後は追加 -1
    - コーチにサブグループごとに `推奨 Phase: <phase> (D±<n>, gear <±k>)` を提示 → **Y/N 確認**、変更あれば対話上書き
 9. **Zone 配分決定** — サブグループごとに [references/zone-phase-mapping.md](references/zone-phase-mapping.md) の Phase → Zone 配分表を参照。gear adjustment があれば intensity zone の割合を減らし aerobic zone を増やす (gear-1 で intensity 70% / gear-2 で intensity 30%)
@@ -281,7 +283,11 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
 1. **PII 注意喚起 + 同意書テンプレート案内** — [templates/consent-form.template.md](templates/consent-form.template.md)
 2. 選手 / グループ登録 — 対話式、`group_ids[]` 設定含む、エイリアス強制
 3. プール施設登録 — LCM/SCM、レーン数、器具
-4. 大会登録 — `priority`, `entries`, `taper` 含む
+4. **大会 / 練習スケジュール登録** — `python scripts/import/register_schedule.py` の 3 モードを提示、コーチが選択:
+   - ① **手動対話** (`--mode manual`) — 対話式に大会・練習を追加。少人数/変則スケジュール向け
+   - ② **ファイル解析** (`--mode file --input <path>`) — `data/inbox/schedule/` に置いた Excel/PDF/CSV から候補抽出 → LLM が candidates JSON に整形 → コーチ確認 → `--merge` で確定
+   - ③ **URL 取得** (`--mode url --input <url>`) — 大会一覧 URL (例: 日本マスターズ水泳協会) を fetch → LLM 解析 → 同じフロー
+   - **スキップ可** — 未登録でも動くが phase / D-n 自動判定は縮退し Workflow A で毎回対話
 5. **知識ベース方針の選択** —
    - ① Base のみで試す → 6 へ
    - ② Base + Custom（Workflow G 起動）→ 完了後 6 へ
@@ -299,6 +305,7 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
 - メインメニューパターン追加（手動 or Workflow G のメニュー取り込みモード）
 - `base/` の上書き（`knowledge/custom/overrides/`）
 - 選手情報 / グループ所属 / 大会情報の更新
+- **スケジュール追加・更新** (Workflow F.schedule) — Workflow E Step 4 と同じ 3 モード (`register_schedule.py`)。既存日付や大会 ID を上書き (idempotent merge)
 - 索引再構築 — `python scripts/index/tag_zones_phases.py`
 
 ---
@@ -432,10 +439,11 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
 
 | スクリプト | 役割 | Workflow A Step |
 |-----------|------|-----------------|
-| `scripts/analyze/phase_resolver.py` | date+athlete → phase / D±n / gear_adjustment 自動判定 | Step 8 |
+| `scripts/analyze/phase_resolver.py` | date+athlete → phase / D±n / gear_adjustment 自動判定 (schedule/competitions 不在時は fallback) | Step 8 |
 | `scripts/analyze/pace_diff.py` | 100m 換算 pace 差 → same_set / split_set 判定 | Step 14 |
 | `scripts/analyze/recommend_output_format.py` | 過去 Descriptor 群 + coach-preferences から出力形式ランキング | Step 18 |
 | `scripts/analyze/extract_excel_layout.py` | 過去メニュー xlsx / Google Sheets URL → Layout Descriptor v2 (メニュー作成ルール) | Workflow G Step 4 |
+| `scripts/import/register_schedule.py` | 3 モード (manual/file/url) で大会・練習を対話/解析/URL 取得 → `competitions.json` / `training-schedule.json` に idempotent merge | Workflow E Step 4 / F.schedule |
 | `scripts/export/menu_to_paste_tsv.py` | menu.tsv → 貼り付け専用 TSV + 手順書 md | Step 19 (paste_tsv) |
 | `scripts/export/generic_excel_writer.py` | menu.tsv + descriptor → 独立 xlsx (テンプレート複製モード) | Step 19 (excel_layout) |
 
