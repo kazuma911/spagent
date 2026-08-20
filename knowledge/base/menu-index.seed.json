@@ -1877,5 +1877,181 @@
       }
     ],
     "notes": "Coach-agnostic template. Adjust interval for group typical pace."
+  },
+  {
+    "id": "seed-051",
+    "name": "USRPT 200 race pace 50 unit SCM",
+    "date": null,
+    "total_distance": 2800,
+    "duration_minutes": 75,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP2"
+    ],
+    "method": "usrpt",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 1100,
+        "description": "Integrated phase-B: 400 Choice + 6x50 Drill + 6x50 IM-mix + 100 AP"
+      },
+      {
+        "category": "main",
+        "distance": 500,
+        "description": "10 x 50m at 200m race pace on 1:00, fail-stop after 2 consecutive misses"
+      },
+      {
+        "category": "main",
+        "distance": 500,
+        "description": "10 x 50m at 200m race pace on 1:00 (second round), fail-stop enforced"
+      },
+      {
+        "category": "cooldown",
+        "distance": 200,
+        "description": "200m easy EN1 breathing focus"
+      }
+    ],
+    "notes": "Coach-agnostic template. Race-pace transfer via ultra-short units with fail-stop rule. Adjust target time from best race performance."
+  },
+  {
+    "id": "seed-052",
+    "name": "USRPT 100 race pace 25 unit LCM",
+    "date": null,
+    "total_distance": 2400,
+    "duration_minutes": 65,
+    "course": "LCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP2"
+    ],
+    "method": "usrpt",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 1000,
+        "description": "400 Choice + 6x50 Drill + 4x50 IM-mix + 100 AP"
+      },
+      {
+        "category": "main",
+        "distance": 400,
+        "description": "16 x 25m at 100m race pace on 40s, fail-stop after 2 consecutive misses"
+      },
+      {
+        "category": "main",
+        "distance": 400,
+        "description": "16 x 25m at 100m race pace on 40s (second round), fail-stop enforced"
+      },
+      {
+        "category": "cooldown",
+        "distance": 200,
+        "description": "200m easy EN1 breathing focus"
+      }
+    ],
+    "notes": "Coach-agnostic template. USRPT 100-target uses 25 unit for LCM to compensate turn-less demand."
+  },
+  {
+    "id": "seed-053",
+    "name": "Hard-Easy backend correction 100 focus",
+    "date": null,
+    "total_distance": 2600,
+    "duration_minutes": 75,
+    "course": "SCM",
+    "phase_hint": "C",
+    "zone_tags": [
+      "SP1",
+      "SP2"
+    ],
+    "method": "race-pace",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 1000,
+        "description": "400 Choice + 6x50 Drill + 4x50 IM-mix + 100 AP"
+      },
+      {
+        "category": "main",
+        "distance": 600,
+        "description": "12 x 50m alternating easy loose / hard at 100m race pace on 1:00, focus on backend consistency"
+      },
+      {
+        "category": "main",
+        "distance": 600,
+        "description": "6 x 100m as 50 easy + 50 hard at 100m race pace on 2:30 (negative split rehearsal)"
+      },
+      {
+        "category": "cooldown",
+        "distance": 400,
+        "description": "400m EN1 easy swim, breathing focus"
+      }
+    ],
+    "notes": "Coach-agnostic template. Backend fade correction via reversed easy-hard pattern. Hard-50 target from race best / 2 with 0.5s conservative buffer."
+  },
+  {
+    "id": "seed-054",
+    "name": "Broken 100 race simulation SCM",
+    "date": null,
+    "total_distance": 3000,
+    "duration_minutes": 80,
+    "course": "SCM",
+    "phase_hint": "D",
+    "zone_tags": [
+      "SP2"
+    ],
+    "method": "broken-swim",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 1100,
+        "description": "Integrated phase-B W-up 1100m"
+      },
+      {
+        "category": "main",
+        "distance": 1600,
+        "description": "4 sets of [4 x 25m at 100 race pace with 10s rest] on 3:00 recovery"
+      },
+      {
+        "category": "cooldown",
+        "distance": 300,
+        "description": "300m EN1 easy swim"
+      }
+    ],
+    "notes": "Coach-agnostic template. Race distance broken into 25 with 10s rest for race pace transfer with turn/breakout practice."
+  },
+  {
+    "id": "seed-055",
+    "name": "Broken 200 race simulation LCM",
+    "date": null,
+    "total_distance": 3200,
+    "duration_minutes": 85,
+    "course": "LCM",
+    "phase_hint": "D",
+    "zone_tags": [
+      "SP2"
+    ],
+    "method": "broken-swim",
+    "target_group_type": "masters",
+    "structure": [
+      {
+        "category": "warmup",
+        "distance": 1100,
+        "description": "Integrated phase-B W-up 1100m"
+      },
+      {
+        "category": "main",
+        "distance": 1800,
+        "description": "3 sets of [4 x 50m at 200 race pace with 10s rest] on 5:00 recovery"
+      },
+      {
+        "category": "cooldown",
+        "distance": 300,
+        "description": "300m EN1 easy swim"
+      }
+    ],
+    "notes": "Coach-agnostic template. 200 broken with long recovery for race pace acidosis training."
   }
 ]
