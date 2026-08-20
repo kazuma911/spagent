@@ -150,6 +150,24 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
       - 50Fr sprinter → Speed/Alactic + Dive Practice が中心
       - IM/距離泳 → LSD + Threshold が中心
     - gear-2 の選手は back-end pressure / max effort 系 method から除外
+10.5. **Main 骨格 A/B/C 並列案の提示 & 選択** — Step 10 で採用した Method (複数可) と Zone 配分を入力に、Main の**完成形候補を 3 案並列で生成**しコーチが 1 案を選ぶ (どれも没にして「もう 3 案」も可)。
+    - **3 案の作り分け軸** (以下から 3 軸選択、サブグループ event / gear / 総距離目標に応じて自動選定):
+      - A: **正攻法・王道** — 選ばれた Method の教科書的なセット (例: EN2 なら 4×400 broken-endurance)
+      - B: **変化型・複合** — 距離を刻む or ストローク混在で単調さを避ける (例: 3×(400 Fr + 200 IM order))
+      - C: **鋭角型・突き上げ** — Set 数を減らし 1 本の質を高める or descending / negative split で後半に山を作る (例: 6×200 descending 1→3 / 4→6)
+    - **提示フォーマット** (各案について):
+      - `案 X: <一言タイトル>` (例: 「案 A: 4×400 EN2 骨太」)
+      - `骨格`: 「W-up 500 / Drill 300 / Main 1600 (4×400 EN2 broken) / Sub 400 / C-down 300」形式で 1 行サマリ
+      - `Main の狙い`: なぜこの並びか (Phase × Zone × Method × event の観点で 2-3 文)
+      - `想定 pace`: 主力選手 1 名の 1 本 pace 目安 (例: kai 4:32 / 100=1:08 EN2)
+      - `難度シグナル`: soft / balanced / high (intensity_signature 相当)
+      - `適合スコア`: サブグループごとに 0-100 で採点 (event 特化度 40 / phase 適合 30 / gear 適合 20 / novelty 10)
+    - **提示上のルール**:
+      - 3 案は必ず「Method 構成」または「骨格構造」が有意に異なるものを選ぶ (単なる本数違いは不可)
+      - Custom 骨格 (`knowledge/custom/menu-index.json`) と Base 骨格 (`menu-index.seed.json`) を両方候補ソースに使う
+      - サブグループが 2 つ以上の場合は「案 A/B/C はサブグループごとに独立に選択可」(A-kai / B-mei のような組合せも許容)
+      - コーチが「A + B のハイブリッド」を希望した場合は Step 11 で骨格編集フェーズに入る
+    - **選択後**: 選ばれた案の `骨格` を確定案として保持し、Step 11 (テンプレ選択) と Step 13 (骨格詳細化) の入力に渡す
 11. **過去メニュー検索 + W-up/C-down テンプレ選択・編集** — 
     - `knowledge/base/menu-index.seed.json` + `knowledge/custom/menu-index.json` をサブグループの Phase × Zone × Method × event で絞込、上位候補を提示（被り回避）
     - **Custom 候補の intensity_signature フィルタ** (rubric v1.1 §4.5, team-relative): gear/phase に応じて custom の `intensity_signature` で二次絞り込みを行う。閾値は `data/intensity-calibration.json` の team-specific percentile で自動的に定まる
