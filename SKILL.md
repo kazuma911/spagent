@@ -129,6 +129,31 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
    - **待機側の過ごし方**を対話確認（① 完全待機 ② ストレッチ ③ 軽ドリル ④ 陸トレ ⑤ 軽セット）
    - 結果を `sessions/YYYY-MM-DD/rotation.json` に保存 (`subgroups`, `unit`, `wait_activity`)
 7. **トレーニングモデル & 長期プラン参照** — 各サブグループの プロファイルの Philosophy / Periodizations / Macrocycle、`plans/*.md` の当該週テーマ
+7.5. **テーマ確定 (自動 or 対話)** — schedule / plans の登録状況に応じて分岐 ([references/theme-mapping.md](references/theme-mapping.md))
+    - **判定基準**: `phase_resolver` の返却 JSON に `warnings[]` が **無い** → schedule 登録済み、**あり** → 未登録扱い
+    - **schedule 登録済みの場合**:
+      1. schedule の当日 `block` / plans の週次テーマから Theme を自動導出 (例: `block: "Threshold 週"` → Theme = 「Threshold 週」)
+      2. コーチに **1 発 Y/N** 提示: `Theme: <theme> (schedule 由来)。このテーマで進めますか？ (Y=進む / N=別テーマ選択)`
+      3. **Y**: そのまま Step 8 (Phase 確認 Y/N) へ
+      4. **N**: 下記「未登録の場合」の 6 択に落ちる
+    - **schedule 未登録の場合 (懸念 2 対応)**: コーチに 6 択を提示
+      ```
+      今日のテーマは？
+      ① 有酸素土台 (EN2 中心 / threshold + endurance)
+      ② レース想定 (Race pace / Broken / USRPT)
+      ③ スプリント (SP1-2 中心 / speed + short broken)
+      ④ 回復・軽め (EN1 / recovery / drill 多め)
+      ⑤ 混合・ミックス (複数 zone 織り交ぜ)
+      ⑥ 自由に指定 (自然文で「テーマ: 〜」を入力)
+      ```
+      - ①〜⑤ 選択 → `theme-mapping.md` の対応表から Phase / 主 Zone / 推奨 Method 候補を導出
+      - ⑥ 自由指定 → `theme-mapping.md` のキーワードマッピングでパース
+    - **テーマ確定の範囲 (懸念 4 対応)**: テーマ確定 = **Phase + 主 Zone + メイン主眼**の 3 点セット確定。**Method 選定 (Step 10) と 骨格 A/B/C (Step 10.5) は常にコーチ対話が残る**
+    - **冒頭サマリ (懸念 6 対応)**: Step 7.5 完了時に必ず以下 1 行を出力:
+      ```
+      Phase: <phase> (<D±n or 推定>) / Theme: <theme> (<由来: schedule | plan | 対話選択① | 対話⑥自由指定>) / 主 Zone: <zone(s)> / 総距離目標: <Nm>
+      ```
+    - 確定した Theme は `sessions/YYYY-MM-DD/theme.json` に保存 (`theme_name`, `origin`, `phase_hint`, `zone_share`, `method_candidates`)
 8. **Phase 判定 (自動 + 承認)** — サブグループごとに実行
    - individual / 選手特化: `python scripts/analyze/phase_resolver.py --date YYYY-MM-DD --athlete <id> [--athlete <id>...] > sessions/YYYY-MM-DD/phase-analysis.json`
    - **group-only**: `python scripts/analyze/phase_resolver.py --date YYYY-MM-DD --group <group_id>` — group 単位で phase / D-n だけ算出、個別 PB 加点なし
