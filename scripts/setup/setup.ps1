@@ -218,7 +218,7 @@ Write-Host "======================================" -ForegroundColor Green
 Write-Host ""
 
 # -----------------------------------------------------------------------------
-# 9. spagent 起動案内 (PowerShell 常駐)
+# 9. spagent 起動 (Copilot CLI を直接立ち上げ)
 # -----------------------------------------------------------------------------
 if ($repoDir) {
     Set-Location $repoDir
@@ -226,16 +226,21 @@ if ($repoDir) {
 }
 
 Write-Host ""
-Write-Host "次にやること (この PowerShell 画面のまま):" -ForegroundColor Cyan
-Write-Host "  1. 下のコマンドを実行 → Copilot CLI が起動します"
-Write-Host ""
-Write-Host "       copilot" -ForegroundColor White
-Write-Host ""
-Write-Host "  2. 初回のみ /login で GitHub アカウント認証 (ブラウザが開きます)"
-Write-Host "  3. プロンプトが出たら日本語で話しかけてください。例:"
-Write-Host ""
-Write-Host "       spagent" -ForegroundColor White
-Write-Host ""
-Write-Host "     → ウェルカムメニュー (8 択) が表示されます。番号 or 自然文でどうぞ。"
+Write-Host "GitHub Copilot CLI を起動します。" -ForegroundColor Cyan
+Write-Host "  - 初回のみ /login で GitHub アカウント認証 (ブラウザが開きます)"
+Write-Host "  - プロンプトが出たら " -NoNewline
+Write-Host "spagent" -NoNewline -ForegroundColor Green
+Write-Host " と入力 → ウェルカムメニュー (8 択) が表示されます。"
 Write-Host ""
 Write-Host "楽しんで！ 🏊‍♀️🐢" -ForegroundColor Cyan
+Write-Host ""
+
+if (Test-Command copilot) {
+    if ([Environment]::UserInteractive -and -not [Console]::IsInputRedirected) {
+        & copilot
+    } else {
+        Write-Warn "対話端末ではないので自動起動をスキップ。この PowerShell 画面で 'copilot' と実行してください。"
+    }
+} else {
+    Write-Warn "copilot コマンドが未検出。PowerShell を開き直してから 'copilot' を実行してください。"
+}

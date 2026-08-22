@@ -250,7 +250,7 @@ echo -e "${GREEN}======================================${NC}"
 echo ""
 
 # -----------------------------------------------------------------------------
-# spagent 起動案内 (ターミナル常駐)
+# spagent 起動 (Copilot CLI を直接立ち上げ)
 # -----------------------------------------------------------------------------
 if [[ -n "$REPO_DIR" ]]; then
   cd "$REPO_DIR"
@@ -258,16 +258,20 @@ if [[ -n "$REPO_DIR" ]]; then
 fi
 
 echo ""
-echo -e "${CYAN}次にやること (このターミナル画面のまま):${NC}"
-echo "  1. 下のコマンドを実行 → Copilot CLI が起動します"
-echo ""
-echo -e "       ${GREEN}copilot${NC}"
-echo ""
-echo "  2. 初回のみ /login で GitHub アカウント認証 (ブラウザが開きます)"
-echo "  3. プロンプトが出たら日本語で話しかけてください。例:"
-echo ""
-echo -e "       ${GREEN}spagent${NC}"
-echo ""
-echo "     → ウェルカムメニュー (8 択) が表示されます。番号 or 自然文でどうぞ。"
+echo -e "${CYAN}GitHub Copilot CLI を起動します。${NC}"
+echo "  - 初回のみ /login で GitHub アカウント認証 (ブラウザが開きます)"
+echo -e "  - プロンプトが出たら ${GREEN}spagent${NC} と入力 → ウェルカムメニュー (8 択) が表示されます。"
 echo ""
 echo -e "${CYAN}楽しんで！ 🏊‍♀️🐢${NC}"
+echo ""
+
+if command -v copilot >/dev/null 2>&1; then
+  if [[ -t 0 && -t 1 ]]; then
+    exec copilot
+  else
+    warn "対話端末ではないので自動起動をスキップ。ターミナルで 'copilot' と実行してください。"
+    warn "  (curl | bash で入れた場合は 'bash <(curl -fsSL ...)' で叩き直すと自動起動できます)"
+  fi
+else
+  warn "copilot コマンドが未検出。シェルを開き直してから 'copilot' を実行してください。"
+fi
