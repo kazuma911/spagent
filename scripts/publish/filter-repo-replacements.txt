@@ -1,0 +1,20 @@
+athlete-e==>athlete-e
+athlete-c==>athlete-c
+athlete-a==>athlete-a
+athlete-i==>athlete-i
+athlete-f==>athlete-f
+athlete-d==>athlete-d
+athlete-j==>athlete-j
+athlete-g==>athlete-g
+athlete-b==>athlete-b
+regex:\bkazuma\b==>athlete-a
+regex:\bnonoyama\b==>athlete-c
+regex:\bmiho\b==>athlete-g
+regex:\bmiku\b==>athlete-b
+regex:\basai\b==>athlete-i
+regex:\bmaya\b==>athlete-j
+regex:たい(?=・)==>athlete-h
+regex:(?<=[・/])たい(?=[・/、）\)])==>athlete-h
+Team Alpha コア==>Team Alpha コア
+Team Alpha 拡張==>Team Alpha 拡張
+Team Alpha==>Team Alpha
