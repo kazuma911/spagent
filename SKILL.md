@@ -135,6 +135,7 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
 3. **練習形態モード選択 + メンバー選択 + サブグループ分け** —
    - まず **「今日は 集団メニュー / 選手特化メニュー のどちら？」** を対話で確認
    - **集団メニュー**: `data/groups.json` の一覧を提示 → **1 つ以上選択** (複数選択可)。選んだ group がそのままサブグループになる。それぞれの `profile_id` から `data/coaching-profiles.json` の該当プロファイルをロード。各 group の `mode` (individual / group-only) は個別に評価
+     - **`data/groups.json` が未生成 / 空 / 該当グループが無い場合**: silently 例のグループ (Riverside 等の SKILL.md サンプル) を採用してはならない。**その場で対話式にグループ登録フロー (Workflow F 相当) を割り込み起動**: `name` / `type` (high_school / masters / junior / club 等) / `mode` (individual / group-only) / `expected_participants` / `skill_level` / `typical_pace` / `profile_id` (無ければ default プロファイルを提案) を対話収集 → `data/groups.json` に追記してから Step 3 の選択に戻る。「今日は 1 回限りで登録したくない」と言われた場合は ad-hoc グループ (data に書かず、当該セッション内でのみ有効) で続行することも可 (要コーチ明示指示)
    - **選手特化メニュー**:
      1. `data/current-paces.json` の `athletes` から選手 ID を 1 名以上選択 (event 混在可)
         - **未登録選手対応**: コーチが `current-paces.json` に存在しない選手名を挙げた場合、silently 無視せず **Workflow F の選手登録フローを実行**: `event` / `athlete_type` (sprinter/middle/distance) / `age_group` / `primary_events` / `hr_endurance_zone_bpm` / 現在ペース (代表 benchmark 1-2 個) を対話収集 → `data/competitions.json.athletes[]` + `data/current-paces.json.athletes.<id>` に追記してから Step 3.2 のサブグループ分けへ進む
