@@ -258,20 +258,20 @@ if [[ -n "$REPO_DIR" ]]; then
 fi
 
 echo ""
-echo -e "${CYAN}GitHub Copilot CLI を起動します。${NC}"
+echo -e "${CYAN}GitHub Copilot CLI を起動し、ウェルカムメニューを自動表示します。${NC}"
 echo "  - 初回のみ /login で GitHub アカウント認証 (ブラウザが開きます)"
-echo -e "  - プロンプトが出たら ${GREEN}spagent${NC} と入力 → ウェルカムメニュー (8 択) が表示されます。"
+echo "  - メニューが出たら番号 or 自然文で答えてください。"
 echo ""
 echo -e "${CYAN}楽しんで！ 🏊‍♀️🐢${NC}"
 echo ""
 
 if command -v copilot >/dev/null 2>&1; then
   if [[ -t 0 && -t 1 ]]; then
-    exec copilot
+    exec copilot -i "spagent"
   else
-    warn "対話端末ではないので自動起動をスキップ。ターミナルで 'copilot' と実行してください。"
+    warn "対話端末ではないので自動起動をスキップ。ターミナルで 'copilot -i spagent' と実行してください。"
     warn "  (curl | bash で入れた場合は 'bash <(curl -fsSL ...)' で叩き直すと自動起動できます)"
   fi
 else
-  warn "copilot コマンドが未検出。シェルを開き直してから 'copilot' を実行してください。"
+  warn "copilot コマンドが未検出。シェルを開き直してから 'copilot -i spagent' を実行してください。"
 fi

@@ -226,21 +226,19 @@ if ($repoDir) {
 }
 
 Write-Host ""
-Write-Host "GitHub Copilot CLI を起動します。" -ForegroundColor Cyan
+Write-Host "GitHub Copilot CLI を起動し、ウェルカムメニューを自動表示します。" -ForegroundColor Cyan
 Write-Host "  - 初回のみ /login で GitHub アカウント認証 (ブラウザが開きます)"
-Write-Host "  - プロンプトが出たら " -NoNewline
-Write-Host "spagent" -NoNewline -ForegroundColor Green
-Write-Host " と入力 → ウェルカムメニュー (8 択) が表示されます。"
+Write-Host "  - メニューが出たら番号 or 自然文で答えてください。"
 Write-Host ""
 Write-Host "楽しんで！ 🏊‍♀️🐢" -ForegroundColor Cyan
 Write-Host ""
 
 if (Test-Command copilot) {
     if ([Environment]::UserInteractive -and -not [Console]::IsInputRedirected) {
-        & copilot
+        & copilot -i "spagent"
     } else {
-        Write-Warn "対話端末ではないので自動起動をスキップ。この PowerShell 画面で 'copilot' と実行してください。"
+        Write-Warn "対話端末ではないので自動起動をスキップ。この PowerShell 画面で 'copilot -i spagent' と実行してください。"
     }
 } else {
-    Write-Warn "copilot コマンドが未検出。PowerShell を開き直してから 'copilot' を実行してください。"
+    Write-Warn "copilot コマンドが未検出。PowerShell を開き直してから 'copilot -i spagent' を実行してください。"
 }
