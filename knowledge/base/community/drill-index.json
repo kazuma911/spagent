@@ -1,0 +1,1269 @@
+[
+  {
+    "stroke": "backstroke",
+    "description": "25 Drill + 25 Swim (Fly: 3R-3L-3Both / Ba: 6-kick / Br: 2-kick-1-pull / Fr: Catch-up)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "single_arm",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-06-23"
+    ]
+  },
+  {
+    "stroke": "breaststroke",
+    "description": "IM order x2 周 / 25 Drill + 25 Swim (Bk: 6-kick / Br: 2-kick-1-pull / Fly: 3R-3L-3Both / Fr: Catch-up)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "single_arm",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-06-16"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "choice (以下サンプル)\n 1-2t: 片手伸ばし (パドルを手に添える) \n 3-4t: One Arm (パドルを手に添える) \n 5-6t: V Sculling \n 7t: dolphin crawl (finish - kick のタイミング) \n 8t: change over crawl",
+    "count": 26,
+    "top_gear": "choice",
+    "technique_tags": [
+      "single_arm",
+      "sculling",
+      "finish",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2025-09-09",
+      "2025-08-18",
+      "2025-08-19",
+      "2025-08-28",
+      "2025-09-01"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "dolphin crawl (finish - kick のタイミング)",
+    "count": 15,
+    "top_gear": "fins puddles",
+    "technique_tags": [
+      "finish",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2025-05-06",
+      "2025-05-08",
+      "2025-05-13",
+      "2025-05-17",
+      "2025-05-24"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "choice (以下サンプル)\n 1t: 片手伸ばし (パドルを手に添える) \n 2t: One Arm (パドルを手に添える) \n 3t: V Sculling \n 4t: Super Postion slow crawl \n 5t: dolphin crawl (finish - kick のタイミング) \n 6t: change over crawl",
+    "count": 9,
+    "top_gear": "choice",
+    "technique_tags": [
+      "single_arm",
+      "sculling",
+      "finish",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2025-07-26",
+      "2025-07-27",
+      "2025-07-28",
+      "2025-07-29",
+      "2025-08-04"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "dolphin crawl (finishとkickをあわせる)",
+    "count": 7,
+    "top_gear": "fins puddles",
+    "technique_tags": [
+      "finish",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2025-06-10",
+      "2025-06-15",
+      "2025-06-18",
+      "2025-06-19",
+      "2025-07-05"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "固定routine: Scull#1→/Doggy/Single-Arm R/Single-Arm L/Dolphin Crawl/Swim w/cues",
+    "count": 7,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2026-07-16",
+      "2026-07-17",
+      "2026-07-18",
+      "2026-07-20",
+      "2026-07-24"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "固定: 1=Scull#1→Swim / 2=Doggy→Free / 3=Single-Arm 2-beat R / 4=Single-Arm 2-beat L / 5=Dolphin Crawl / 6=Swim w/ cues（統合: catch→対側downkick、DPS一定）",
+    "count": 4,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling",
+      "entry_catch",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2026-06-29",
+      "2026-07-01",
+      "2026-07-04",
+      "2026-07-05"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "1t: 片手伸ばし (パドルを手に添える) \n 2t: One Arm (パドルを手に添える) \n 3t: V Sculling \n 4t: Oposition slow crawl \n 5t: dolphin crawl (finish - kick のタイミング) \n 6t: change over crawl",
+    "count": 3,
+    "top_gear": "choice",
+    "technique_tags": [
+      "single_arm",
+      "sculling",
+      "finish",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2025-07-19",
+      "2025-07-21",
+      "2025-07-24"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "固定: 1=Scull / 2=Doggy→Free / 3=Single-Arm 2-beat R / 4=Single-Arm 2-beat L / 5=Dolphin Crawl / 6=Swim cues(catch→対側downkick、DPS一定)",
+    "count": 2,
+    "top_gear": "fins (3-5)",
+    "technique_tags": [
+      "sculling",
+      "entry_catch",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2026-06-24",
+      "2026-06-25"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "固定routine: Scull#1→/Doggy/Single-Arm R/Single-Arm L/Dolphin Crawl/Swim w/cues (高肘EVF・catch→対側downkick・DPS一定)",
+    "count": 2,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling",
+      "entry_catch",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2026-07-14",
+      "2026-07-15"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "1-2t: 片手伸ばし (パドルを手に添える) \n 3-4t: One Arm (パドルを手に添える) \n 5t: V Sculling \n 6t: Oposition slow crawl \n 7t: dolphin crawl (finish - kick のタイミング) \n 8t: change over crawl",
+    "count": 1,
+    "top_gear": "choice",
+    "technique_tags": [
+      "single_arm",
+      "sculling",
+      "finish",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2025-07-16"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "Fr / NEW セット: 1=One Arm Pull (パドルを手に添える) / 2=Dolphin crawl (finish-kick タイミング) / 3=6-3-6 (lateral kick) / 4=Hand cross kick (keep high position)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "finish",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2026-05-29"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "固定routine: Scull#1→/Doggy/Single-Arm R/Single-Arm L/Dolphin Crawl",
+    "count": 1,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2026-08-04"
+    ]
+  },
+  {
+    "stroke": "butterfly",
+    "description": "Phase C: 1=Scull#1→Swim fast / 2=SA 2-beat R / 3=SA 2-beat L / 4=Dolphin Crawl / 5=Changeover / 6=Swim w/ RP cues\tfins",
+    "count": 1,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling",
+      "fins",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2026-08-06"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Free Plan",
+    "count": 5,
+    "top_gear": "",
+    "technique_tags": [],
+    "example_dates": [
+      "2024-02-28",
+      "2024-03-02",
+      "2024-03-07",
+      "2024-03-08",
+      "2024-03-13"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "v2: buoy片手 + Fr のリカバリー動作のみ、腹圧キック",
+    "count": 4,
+    "top_gear": "buoy fins",
+    "technique_tags": [
+      "single_arm",
+      "kick_only"
+    ],
+    "example_dates": [
+      "2026-06-29",
+      "2026-07-01",
+      "2026-07-04",
+      "2026-07-05"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / Drill mix: 1=Catch-up / 2=6-3-6 (lateral kick) / 3=Single arm (R) / 4=Single arm (L)",
+    "count": 2,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "single_arm",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-06-09"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "/w fins Free Plan",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2024-03-09"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Free Plan /w fins",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2024-03-11"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / Catch-up / Fingertip drag / 6-kick switch / Build",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-05-19"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / 1t:Sculling / 2t~:3-3-3 ドリル",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling",
+      "breathing"
+    ],
+    "example_dates": [
+      "2026-05-19"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / 1=Catch-up / 2=Fingertip drag / 3=6-kick switch / 4=25 Scull+25 Swim",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "sculling",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-05-25"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / 1=Catch-up / 2=Fingertip drag / 3=Sculling / 4=Build",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "sculling",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-05-28"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / Sculling (catch 感覚維持、肩ほぐし)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-05-28"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / セット: 1=V Sculling (前腕意識) / 2=Superposition slow crawl (DPS focus)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2026-05-29"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / 1=Catch-up / 2=Fingertip drag / 3=6-kick switch / 4=Build",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-06-13"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / Sculling + 3-3-3 ストロークカウント測定",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling",
+      "breathing"
+    ],
+    "example_dates": [
+      "2026-06-13"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "Fr / Drill mix: 1=Catch-up / 2=Fingertip drag / 3=6-3-6 (lateral kick) / 4=Single arm (R&L 交互)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "single_arm",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-06-23"
+    ]
+  },
+  {
+    "stroke": "freestyle",
+    "description": "AP (腹圧) Control v2 ※ buoy を片手で掴み、board を片方の手の甲に乗せて、落ちないように Fr リカバリーしながら、腹圧入れてキック",
+    "count": 1,
+    "top_gear": "buoy board fins",
+    "technique_tags": [
+      "single_arm",
+      "kick_only",
+      "board_kick"
+    ],
+    "example_dates": [
+      "2026-06-25"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "OneArm(timing kick)/human/CatchUp",
+    "count": 41,
+    "top_gear": "",
+    "technique_tags": [
+      "catch_up",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2024-11-06",
+      "2024-11-09",
+      "2024-11-11",
+      "2024-11-19",
+      "2024-12-04"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "One Arm Kick (パドルを手に添える)",
+    "count": 20,
+    "top_gear": "fins puddles",
+    "technique_tags": [],
+    "example_dates": [
+      "2026-01-26",
+      "2026-01-27",
+      "2026-01-29",
+      "2026-02-05",
+      "2026-02-07"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "One Arm & 2kick (entry&finish - kick のタイミング)",
+    "count": 11,
+    "top_gear": "fins puddles",
+    "technique_tags": [
+      "finish",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2025-05-06",
+      "2025-05-08",
+      "2025-05-13",
+      "2025-05-17",
+      "2025-05-24"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "hand cross kick (keep high position)",
+    "count": 10,
+    "top_gear": "",
+    "technique_tags": [],
+    "example_dates": [
+      "2023-12-23",
+      "2023-12-14",
+      "2023-12-16",
+      "2023-12-19",
+      "2023-12-27"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "hand cross kick",
+    "count": 3,
+    "top_gear": "",
+    "technique_tags": [],
+    "example_dates": [
+      "2023-09-14",
+      "2023-09-16",
+      "2023-12-12"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "kick drill (flutter kick) w/ fins&snorkel ※大きく振下げ",
+    "count": 2,
+    "top_gear": "",
+    "technique_tags": [
+      "kick_only",
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-28",
+      "2023-07-03"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "2 beat kick",
+    "count": 2,
+    "top_gear": "fins",
+    "technique_tags": [],
+    "example_dates": [
+      "2025-07-12",
+      "2025-07-17"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "kick drill (flutter kick) w/ fins&snorkel ※大げさに振下げ",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "kick_only",
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-21"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "kick drill (flutter kick) w/ fins&snorkel ※大きくに振下げ",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "kick_only",
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-24"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "1-2t: Kick (ボード横持ち、肩甲骨を落とす)\n 3t: 片手Kick (パドルを添えて、手が沈まないように)\n 4t: 片手Pull (パドルを添えて、手が沈まないように)\n 5t: V Sculling (肘を高く、肩があがらないように)\n 6t: 下向き Slash Kick (ローリングとキックのタイミング意識)\n 7t: 2 beat crawl\n 8t: change over crawl",
+    "count": 1,
+    "top_gear": "choice",
+    "technique_tags": [
+      "single_arm",
+      "sculling",
+      "kick_only",
+      "body_position"
+    ],
+    "example_dates": [
+      "2026-02-02"
+    ]
+  },
+  {
+    "stroke": "kick",
+    "description": "★ NEW: UDK-SL (Underwater Dolphin Kick + Streamline + Breakout)。Fins 装着可",
+    "count": 1,
+    "top_gear": "Fins (optional)",
+    "technique_tags": [
+      "underwater",
+      "streamline",
+      "fins",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2026-05-25"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "choice",
+    "count": 40,
+    "top_gear": "choice",
+    "technique_tags": [],
+    "example_dates": [
+      "2023-07-11",
+      "2023-07-19",
+      "2023-07-20",
+      "2023-09-17",
+      "2023-09-28"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "change over crawl",
+    "count": 22,
+    "top_gear": "fins puddles",
+    "technique_tags": [],
+    "example_dates": [
+      "2025-05-06",
+      "2025-05-08",
+      "2025-05-13",
+      "2025-05-17",
+      "2025-05-24"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "One Arm Pull (パドルを手に添える)",
+    "count": 20,
+    "top_gear": "fins puddles",
+    "technique_tags": [],
+    "example_dates": [
+      "2026-01-26",
+      "2026-01-27",
+      "2026-01-29",
+      "2026-02-05",
+      "2026-02-07"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "V Sculling (肩があがらないように)",
+    "count": 20,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2026-01-26",
+      "2026-01-27",
+      "2026-01-29",
+      "2026-02-05",
+      "2026-02-07"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "dog swim w/ fins",
+    "count": 16,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2024-06-06",
+      "2024-06-08",
+      "2024-06-12",
+      "2024-06-20",
+      "2024-06-25"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "AP v1: buoyを片手で掴み腹圧入れてキック",
+    "count": 12,
+    "top_gear": "buoy fins",
+    "technique_tags": [
+      "single_arm",
+      "kick_only"
+    ],
+    "example_dates": [
+      "2026-07-08",
+      "2026-07-14",
+      "2026-07-15",
+      "2026-07-16",
+      "2026-07-17"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "AP v2: board手の甲キック、腹圧キープ",
+    "count": 12,
+    "top_gear": "board fins",
+    "technique_tags": [
+      "kick_only",
+      "board_kick"
+    ],
+    "example_dates": [
+      "2026-07-08",
+      "2026-07-14",
+      "2026-07-15",
+      "2026-07-16",
+      "2026-07-17"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "V Sculling",
+    "count": 11,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2025-07-09",
+      "2025-07-10",
+      "2025-07-12",
+      "2025-07-15",
+      "2025-07-17"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "One Arm (パドルを手に添える)",
+    "count": 10,
+    "top_gear": "fins puddles",
+    "technique_tags": [],
+    "example_dates": [
+      "2025-07-09",
+      "2025-07-10",
+      "2025-07-12",
+      "2025-07-15",
+      "2025-07-17"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "choice w/ choice",
+    "count": 9,
+    "top_gear": "",
+    "technique_tags": [],
+    "example_dates": [
+      "2023-09-05",
+      "2023-09-06",
+      "2023-10-07",
+      "2023-10-11",
+      "2023-10-26"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "Superposition slow crawl",
+    "count": 9,
+    "top_gear": "fins puddles",
+    "technique_tags": [],
+    "example_dates": [
+      "2025-05-27",
+      "2025-05-28",
+      "2025-06-03",
+      "2025-06-05",
+      "2025-06-10"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "HUMAN",
+    "count": 9,
+    "top_gear": "fins",
+    "technique_tags": [],
+    "example_dates": [
+      "2026-03-04",
+      "2026-04-08",
+      "2026-03-24",
+      "2026-03-31",
+      "2026-04-01"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "SC",
+    "count": 8,
+    "top_gear": "fins",
+    "technique_tags": [],
+    "example_dates": [
+      "2025-05-28",
+      "2025-06-03",
+      "2025-06-05",
+      "2025-06-10",
+      "2025-06-15"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "25m:sculling 25m:forming",
+    "count": 7,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2026-04-21",
+      "2026-04-30",
+      "2026-05-02",
+      "2026-05-05",
+      "2026-05-07"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "choice w/ fins",
+    "count": 6,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-26",
+      "2023-07-01",
+      "2023-07-05",
+      "2023-07-13",
+      "2023-11-20"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "sculling -> drill by 25m",
+    "count": 6,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2024-02-21",
+      "2024-02-23",
+      "2024-02-27",
+      "2024-02-29",
+      "2024-03-06"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "片手伸ばし (パドルを手に添える)",
+    "count": 6,
+    "top_gear": "fins puddles",
+    "technique_tags": [
+      "single_arm"
+    ],
+    "example_dates": [
+      "2025-07-09",
+      "2025-07-10",
+      "2025-07-12",
+      "2025-07-15",
+      "2025-07-17"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "One Arm (気を付けの姿勢)",
+    "count": 6,
+    "top_gear": "buoy",
+    "technique_tags": [],
+    "example_dates": [
+      "2026-04-30",
+      "2026-05-02",
+      "2026-05-05",
+      "2026-05-07",
+      "2026-05-15"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "One Arm & 2kick (entry&finishとkickをあわせる)",
+    "count": 5,
+    "top_gear": "fins puddles",
+    "technique_tags": [
+      "finish",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2025-06-10",
+      "2025-06-15",
+      "2025-06-18",
+      "2025-06-19",
+      "2025-07-05"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "OneArm-R/OneArm-L/OneArm-Rローリング/OneArm-Lローリング/DogPull/DogPull/Human/\nHuman/Chg Over/Chg Over w/ fins",
+    "count": 4,
+    "top_gear": "",
+    "technique_tags": [
+      "body_position",
+      "fins"
+    ],
+    "example_dates": [
+      "2023-04-29",
+      "2023-05-04",
+      "2023-05-07",
+      "2023-05-11"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "dog swim",
+    "count": 4,
+    "top_gear": "fins",
+    "technique_tags": [],
+    "example_dates": [
+      "2024-07-01",
+      "2026-02-24",
+      "2026-02-25",
+      "2026-03-16"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "drill choice",
+    "count": 4,
+    "top_gear": "choice",
+    "technique_tags": [],
+    "example_dates": [
+      "2024-09-26",
+      "2025-04-26",
+      "2025-04-27",
+      "2025-05-03"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "v1: buoyを片手で掴み腹圧入れてキック",
+    "count": 4,
+    "top_gear": "buoy fins",
+    "technique_tags": [
+      "single_arm",
+      "kick_only"
+    ],
+    "example_dates": [
+      "2026-06-29",
+      "2026-07-01",
+      "2026-07-04",
+      "2026-07-05"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "sculling",
+    "count": 3,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2024-02-14",
+      "2024-02-13",
+      "2025-07-02"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "scull",
+    "count": 3,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2024-08-17",
+      "2024-08-18",
+      "2024-08-19"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "片手右/片手左/片手右ローリング/片手左ローリング/dogS/dogS/humanS/humanS",
+    "count": 2,
+    "top_gear": "choice",
+    "technique_tags": [
+      "single_arm",
+      "body_position"
+    ],
+    "example_dates": [
+      "2023-04-26",
+      "2024-10-05"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "水面ドルフィン w/ fins & snorkel",
+    "count": 2,
+    "top_gear": "",
+    "technique_tags": [
+      "fins",
+      "dolphin"
+    ],
+    "example_dates": [
+      "2023-08-17",
+      "2023-08-20"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "One Arm (肘は立てる、肘は肩に垂直方向、手を肘より前に) w/ fins & snorkel",
+    "count": 2,
+    "top_gear": "",
+    "technique_tags": [
+      "vertical_kick",
+      "fins"
+    ],
+    "example_dates": [
+      "2024-01-25",
+      "2024-02-03"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "scull -> drill by 50m",
+    "count": 2,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2024-09-18",
+      "2024-09-12"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "片手右ローリング/片手左ローリング/dogS/dogS/humanS/humanS",
+    "count": 2,
+    "top_gear": "choice",
+    "technique_tags": [
+      "single_arm",
+      "body_position"
+    ],
+    "example_dates": [
+      "2024-10-06",
+      "2024-10-09"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "One Arm",
+    "count": 2,
+    "top_gear": "buoy",
+    "technique_tags": [],
+    "example_dates": [
+      "2026-01-15",
+      "2026-04-21"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "2 beat crawl",
+    "count": 2,
+    "top_gear": "fins puddles",
+    "technique_tags": [],
+    "example_dates": [
+      "2026-02-24",
+      "2026-03-04"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "OneArm-Rローリング/OneArm-Lローリング/DogPull/Human/Chg Over w/ fins",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "body_position",
+      "fins"
+    ],
+    "example_dates": [
+      "2023-05-09"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "OneArm-R/OneArm-L/OneArm-Rローリング/OneArm-Lローリング/DogPull/Human/Chg Over w/ fins",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "body_position",
+      "fins"
+    ],
+    "example_dates": [
+      "2023-05-14"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "OA-R/OA-L/DogPull/Human/Chg Over w/ fins",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-01"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "Side-K-R/Side-K-L/Scr/Scr/OA-R/OA-L/BothArm/DogPull/Human/Chg Over w/ fins",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-05"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "Side-K/Scr/OneArm/BothArm/DogPull/Human/Chg Over w/ fins",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-12"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "Side-K/Scr/OneArm/BothArm/DogPull/Human/Chg Over w/ fins (snorkel)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-14"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "Scr/DogPull/OneArm/OneArm/Human/BothArm/ w/ fins (snorkel)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-17"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "Scr/DogPull/OneArm/OneArm/Human/BothArm w/ fins (snorkel)",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "fins"
+    ],
+    "example_dates": [
+      "2023-06-18"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "(w/ fins) 0-25m: sculling　25-50m: choice",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling",
+      "fins"
+    ],
+    "example_dates": [
+      "2024-02-24"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "scull w/ fins",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling",
+      "fins"
+    ],
+    "example_dates": [
+      "2024-08-15"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "scull -> drill",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2024-09-10"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "0-50m: scull, 50-100m:drill",
+    "count": 1,
+    "top_gear": "",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2024-09-24"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "Superposition crawl (entry - finish のタイミング)",
+    "count": 1,
+    "top_gear": "fins puddles",
+    "technique_tags": [
+      "finish",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2025-05-06"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "Oposition slow crawl",
+    "count": 1,
+    "top_gear": "fins puddles",
+    "technique_tags": [],
+    "example_dates": [
+      "2025-07-09"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "25m:sculling 25m:One Arm",
+    "count": 1,
+    "top_gear": "buoy",
+    "technique_tags": [
+      "sculling"
+    ],
+    "example_dates": [
+      "2026-04-21"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "AP (腹圧) Control ※ buoy を片手で掴み腹圧入れてキック",
+    "count": 1,
+    "top_gear": "buoy fins",
+    "technique_tags": [
+      "single_arm",
+      "kick_only"
+    ],
+    "example_dates": [
+      "2026-06-25"
+    ]
+  },
+  {
+    "stroke": "other",
+    "description": "固定routine: ①Scull#1→Swim ②Single-Arm R ③Single-Arm L ④Swim w/cues (高肘EVF・catch→対側downkick・DPS一定)",
+    "count": 1,
+    "top_gear": "fins",
+    "technique_tags": [
+      "sculling",
+      "entry_catch"
+    ],
+    "example_dates": [
+      "2026-07-08"
+    ]
+  }
+]

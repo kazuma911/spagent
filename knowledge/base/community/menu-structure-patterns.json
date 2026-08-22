@@ -1,0 +1,1693 @@
+[
+  {
+    "id": "spa-endurance-3000m-scm",
+    "label": "Endurance SCM ~3000m",
+    "method": "endurance",
+    "course": "SCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3020,
+      3420
+    ],
+    "total_distance_avg": 3248,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "main": 0.562,
+      "warmup": 0.369,
+      "cooldown": 0.067,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.831,
+      "Kick": 0.13,
+      "Pull": 0.039
+    },
+    "count": 6,
+    "example_dates": [
+      "2024-05-22",
+      "2024-06-04",
+      "2025-09-01",
+      "2025-12-17",
+      "2026-05-07",
+      "2026-07-26"
+    ],
+    "notes": "6 sessions (2024-05-22 - 2026-07-26). Main body: Swim=0.831, Kick=0.13, Pull=0.039."
+  },
+  {
+    "id": "spa-endurance-2500m-scm",
+    "label": "Endurance SCM ~2500m",
+    "method": "endurance",
+    "course": "SCM",
+    "total_distance_target": 2500,
+    "total_distance_range": [
+      2650,
+      2930
+    ],
+    "total_distance_avg": 2783,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.662,
+      "main": 0.299,
+      "cooldown": 0.036,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 3,
+    "example_dates": [
+      "2023-12-04",
+      "2025-01-29",
+      "2025-06-23"
+    ],
+    "notes": "3 sessions (2023-12-04 - 2025-06-23). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-endurance-2000m-scm",
+    "label": "Endurance SCM ~2000m",
+    "method": "endurance",
+    "course": "SCM",
+    "total_distance_target": 2000,
+    "total_distance_range": [
+      2225,
+      2350
+    ],
+    "total_distance_avg": 2287,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.716,
+      "main": 0.164,
+      "cooldown": 0.12
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 2,
+    "example_dates": [
+      "2024-02-07",
+      "2026-08-04"
+    ],
+    "notes": "2 sessions (2024-02-07 - 2026-08-04). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-endurance-2500m-lcm",
+    "label": "Endurance LCM ~2500m",
+    "method": "endurance",
+    "course": "LCM",
+    "total_distance_target": 2500,
+    "total_distance_range": [
+      2600,
+      2600
+    ],
+    "total_distance_avg": 2600,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.692,
+      "main": 0.231,
+      "cooldown": 0.077
+    },
+    "body_category_ratio": {
+      "Swim": 0.6,
+      "Kick": 0.2,
+      "Pull": 0.2
+    },
+    "count": 2,
+    "example_dates": [
+      "2024-02-23",
+      "2025-05-06"
+    ],
+    "notes": "2 sessions (2024-02-23 - 2025-05-06). Main body: Swim=0.6, Kick=0.2, Pull=0.2."
+  },
+  {
+    "id": "spa-endurance-3500m-scm",
+    "label": "Endurance SCM ~3500m",
+    "method": "endurance",
+    "course": "SCM",
+    "total_distance_target": 3500,
+    "total_distance_range": [
+      3725,
+      3850
+    ],
+    "total_distance_avg": 3787,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "main": 0.528,
+      "warmup": 0.38,
+      "cooldown": 0.092
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 2,
+    "example_dates": [
+      "2026-05-05",
+      "2026-07-24"
+    ],
+    "notes": "2 sessions (2026-05-05 - 2026-07-24). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-mixed-2500m-scm",
+    "label": "Mixed SCM ~2500m",
+    "method": "mixed",
+    "course": "SCM",
+    "total_distance_target": 2500,
+    "total_distance_range": [
+      2500,
+      2960
+    ],
+    "total_distance_avg": 2710,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.683,
+      "main": 0.272,
+      "cooldown": 0.044,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.869,
+      "Kick": 0.104,
+      "Pull": 0.027
+    },
+    "count": 20,
+    "example_dates": [
+      "2025-07-16",
+      "2025-07-27",
+      "2026-01-10",
+      "2026-01-21",
+      "2026-03-11",
+      "2026-05-02"
+    ],
+    "notes": "20 sessions (2023-06-05 - 2026-05-02). Main body: Swim=0.869, Kick=0.104, Pull=0.027."
+  },
+  {
+    "id": "spa-mixed-3000m-scm",
+    "label": "Mixed SCM ~3000m",
+    "method": "mixed",
+    "course": "SCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3000,
+      3495
+    ],
+    "total_distance_avg": 3208,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.608,
+      "main": 0.316,
+      "cooldown": 0.061,
+      "prep": 0.016
+    },
+    "body_category_ratio": {
+      "Swim": 0.884,
+      "Kick": 0.077,
+      "Pull": 0.039
+    },
+    "count": 18,
+    "example_dates": [
+      "2025-08-16",
+      "2026-01-08",
+      "2026-04-11",
+      "2026-04-12",
+      "2026-05-16",
+      "2026-05-17"
+    ],
+    "notes": "18 sessions (2023-05-07 - 2026-05-17). Main body: Swim=0.884, Kick=0.077, Pull=0.039."
+  },
+  {
+    "id": "spa-mixed-2000m-scm",
+    "label": "Mixed SCM ~2000m",
+    "method": "mixed",
+    "course": "SCM",
+    "total_distance_target": 2000,
+    "total_distance_range": [
+      2050,
+      2470
+    ],
+    "total_distance_avg": 2265,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.663,
+      "main": 0.238,
+      "cooldown": 0.096,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.708,
+      "Kick": 0.196,
+      "Pull": 0.096
+    },
+    "count": 17,
+    "example_dates": [
+      "2024-08-05",
+      "2024-10-05",
+      "2025-04-27",
+      "2026-02-21",
+      "2026-02-25",
+      "2026-03-07"
+    ],
+    "notes": "17 sessions (2023-06-21 - 2026-03-07). Main body: Swim=0.708, Kick=0.196, Pull=0.096."
+  },
+  {
+    "id": "spa-mixed-4000m-scm",
+    "label": "Mixed SCM ~4000m",
+    "method": "mixed",
+    "course": "SCM",
+    "total_distance_target": 4000,
+    "total_distance_range": [
+      4000,
+      4450
+    ],
+    "total_distance_avg": 4233,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.493,
+      "main": 0.479,
+      "cooldown": 0.028,
+      "prep": 0.0
+    },
+    "body_category_ratio": {
+      "Swim": 0.759,
+      "Pull": 0.129,
+      "Kick": 0.112
+    },
+    "count": 10,
+    "example_dates": [
+      "2025-04-26",
+      "2025-05-15",
+      "2025-07-24",
+      "2026-03-10",
+      "2026-03-16",
+      "2026-05-15"
+    ],
+    "notes": "10 sessions (2023-05-25 - 2026-05-15). Main body: Swim=0.759, Pull=0.129, Kick=0.112."
+  },
+  {
+    "id": "spa-mixed-2500m-lcm",
+    "label": "Mixed LCM ~2500m",
+    "method": "mixed",
+    "course": "LCM",
+    "total_distance_target": 2500,
+    "total_distance_range": [
+      2585,
+      2950
+    ],
+    "total_distance_avg": 2750,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.473,
+      "main": 0.464,
+      "cooldown": 0.062,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.871,
+      "Kick": 0.064,
+      "Pull": 0.064
+    },
+    "count": 7,
+    "example_dates": [
+      "2024-12-23",
+      "2025-03-17",
+      "2025-04-01",
+      "2025-07-10",
+      "2025-07-15",
+      "2025-12-28"
+    ],
+    "notes": "7 sessions (2024-02-27 - 2025-12-28). Main body: Swim=0.871, Kick=0.064, Pull=0.064."
+  },
+  {
+    "id": "spa-mixed-1500m-lcm",
+    "label": "Mixed LCM ~1500m",
+    "method": "mixed",
+    "course": "LCM",
+    "total_distance_target": 1500,
+    "total_distance_range": [
+      1500,
+      1980
+    ],
+    "total_distance_avg": 1766,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.696,
+      "cooldown": 0.193,
+      "main": 0.108,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.808,
+      "Pull": 0.133,
+      "Kick": 0.059
+    },
+    "count": 6,
+    "example_dates": [
+      "2023-05-09",
+      "2023-12-23",
+      "2024-04-27",
+      "2024-11-02",
+      "2024-11-04",
+      "2025-07-06"
+    ],
+    "notes": "6 sessions (2023-05-09 - 2025-07-06). Main body: Swim=0.808, Pull=0.133, Kick=0.059."
+  },
+  {
+    "id": "spa-mixed-2000m-lcm",
+    "label": "Mixed LCM ~2000m",
+    "method": "mixed",
+    "course": "LCM",
+    "total_distance_target": 2000,
+    "total_distance_range": [
+      2050,
+      2350
+    ],
+    "total_distance_avg": 2180,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.746,
+      "cooldown": 0.145,
+      "main": 0.109
+    },
+    "body_category_ratio": {
+      "Swim": 0.812,
+      "Kick": 0.167,
+      "Pull": 0.021
+    },
+    "count": 6,
+    "example_dates": [
+      "2023-12-27",
+      "2024-01-04",
+      "2024-01-06",
+      "2024-01-25",
+      "2024-03-07",
+      "2024-06-20"
+    ],
+    "notes": "6 sessions (2023-12-27 - 2024-06-20). Main body: Swim=0.812, Kick=0.167, Pull=0.021."
+  },
+  {
+    "id": "spa-mixed-4500m-scm",
+    "label": "Mixed SCM ~4500m",
+    "method": "mixed",
+    "course": "SCM",
+    "total_distance_target": 4500,
+    "total_distance_range": [
+      4500,
+      4935
+    ],
+    "total_distance_avg": 4685,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.719,
+      "main": 0.27,
+      "cooldown": 0.011,
+      "prep": 0.0
+    },
+    "body_category_ratio": {
+      "Swim": 0.833,
+      "Kick": 0.09,
+      "Pull": 0.077
+    },
+    "count": 6,
+    "example_dates": [
+      "2024-04-02",
+      "2025-01-12",
+      "2025-07-03",
+      "2026-01-26",
+      "2026-01-27",
+      "2026-02-26"
+    ],
+    "notes": "6 sessions (2024-04-02 - 2026-02-26). Main body: Swim=0.833, Kick=0.09, Pull=0.077."
+  },
+  {
+    "id": "spa-mixed-3500m-scm",
+    "label": "Mixed SCM ~3500m",
+    "method": "mixed",
+    "course": "SCM",
+    "total_distance_target": 3500,
+    "total_distance_range": [
+      3600,
+      3870
+    ],
+    "total_distance_avg": 3704,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.664,
+      "main": 0.259,
+      "cooldown": 0.076,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.458,
+      "Pull": 0.304,
+      "Kick": 0.238
+    },
+    "count": 5,
+    "example_dates": [
+      "2024-02-13",
+      "2024-02-21",
+      "2024-08-15",
+      "2025-05-08",
+      "2025-12-17"
+    ],
+    "notes": "5 sessions (2024-02-13 - 2025-12-17). Main body: Swim=0.458, Pull=0.304, Kick=0.238."
+  },
+  {
+    "id": "spa-mixed-5000m-scm",
+    "label": "Mixed SCM ~5000m",
+    "method": "mixed",
+    "course": "SCM",
+    "total_distance_target": 5000,
+    "total_distance_range": [
+      5000,
+      5200
+    ],
+    "total_distance_avg": 5090,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "main": 0.651,
+      "warmup": 0.339,
+      "cooldown": 0.01,
+      "prep": 0.0
+    },
+    "body_category_ratio": {
+      "Swim": 0.729,
+      "Pull": 0.14,
+      "Kick": 0.131
+    },
+    "count": 4,
+    "example_dates": [
+      "2023-05-20",
+      "2024-12-08",
+      "2025-05-28",
+      "2025-06-29"
+    ],
+    "notes": "4 sessions (2023-05-20 - 2025-06-29). Main body: Swim=0.729, Pull=0.14, Kick=0.131."
+  },
+  {
+    "id": "spa-mixed-1500m-scm",
+    "label": "Mixed SCM ~1500m",
+    "method": "mixed",
+    "course": "SCM",
+    "total_distance_target": 1500,
+    "total_distance_range": [
+      1700,
+      1951
+    ],
+    "total_distance_avg": 1855,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.512,
+      "main": 0.27,
+      "prep": 0.11,
+      "cooldown": 0.108
+    },
+    "body_category_ratio": {
+      "Swim": 0.697,
+      "Kick": 0.197,
+      "Pull": 0.105
+    },
+    "count": 4,
+    "example_dates": [
+      "2023-10-05",
+      "2024-09-24",
+      "2024-10-09",
+      "2026-03-14"
+    ],
+    "notes": "4 sessions (2023-10-05 - 2026-03-14). Main body: Swim=0.697, Kick=0.197, Pull=0.105."
+  },
+  {
+    "id": "spa-mixed-3000m-lcm",
+    "label": "Mixed LCM ~3000m",
+    "method": "mixed",
+    "course": "LCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3220,
+      3460
+    ],
+    "total_distance_avg": 3326,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "main": 0.586,
+      "warmup": 0.351,
+      "cooldown": 0.06,
+      "prep": 0.003
+    },
+    "body_category_ratio": {
+      "Swim": 0.895,
+      "Kick": 0.063,
+      "Pull": 0.042
+    },
+    "count": 3,
+    "example_dates": [
+      "2024-05-20",
+      "2024-12-12",
+      "2026-04-23"
+    ],
+    "notes": "3 sessions (2024-05-20 - 2026-04-23). Main body: Swim=0.895, Kick=0.063, Pull=0.042."
+  },
+  {
+    "id": "spa-mixed-3500m-lcm",
+    "label": "Mixed LCM ~3500m",
+    "method": "mixed",
+    "course": "LCM",
+    "total_distance_target": 3500,
+    "total_distance_range": [
+      3500,
+      3860
+    ],
+    "total_distance_avg": 3623,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.515,
+      "main": 0.483,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 3,
+    "example_dates": [
+      "2024-11-19",
+      "2024-12-25",
+      "2026-02-05"
+    ],
+    "notes": "3 sessions (2024-11-19 - 2026-02-05). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-mixed-4000m-lcm",
+    "label": "Mixed LCM ~4000m",
+    "method": "mixed",
+    "course": "LCM",
+    "total_distance_target": 4000,
+    "total_distance_range": [
+      4200,
+      4300
+    ],
+    "total_distance_avg": 4250,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "main": 0.506,
+      "cooldown": 0.282,
+      "warmup": 0.212
+    },
+    "body_category_ratio": {
+      "Swim": 0.942,
+      "Kick": 0.058
+    },
+    "count": 3,
+    "example_dates": [
+      "2025-07-01",
+      "2026-01-04",
+      "2026-04-30"
+    ],
+    "notes": "3 sessions (2025-07-01 - 2026-04-30). Main body: Swim=0.942, Kick=0.058."
+  },
+  {
+    "id": "spa-mixed-4500m-lcm",
+    "label": "Mixed LCM ~4500m",
+    "method": "mixed",
+    "course": "LCM",
+    "total_distance_target": 4500,
+    "total_distance_range": [
+      4650,
+      4800
+    ],
+    "total_distance_avg": 4725,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "main": 0.64,
+      "warmup": 0.36
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 2,
+    "example_dates": [
+      "2026-01-29",
+      "2026-02-02"
+    ],
+    "notes": "2 sessions (2026-01-29 - 2026-02-02). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-race-pace-2000m-scm",
+    "label": "Race-Pace SCM ~2000m",
+    "method": "race-pace",
+    "course": "SCM",
+    "total_distance_target": 2000,
+    "total_distance_range": [
+      2050,
+      2475
+    ],
+    "total_distance_avg": 2254,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.633,
+      "main": 0.291,
+      "cooldown": 0.075,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.913,
+      "Kick": 0.079,
+      "Pull": 0.005,
+      "Main": 0.003
+    },
+    "count": 26,
+    "example_dates": [
+      "2025-07-17",
+      "2025-10-04",
+      "2026-02-24",
+      "2026-02-28",
+      "2026-04-08",
+      "2026-04-15"
+    ],
+    "notes": "26 sessions (2023-04-29 - 2026-04-15). Main body: Swim=0.913, Kick=0.079, Pull=0.005, Main=0.003."
+  },
+  {
+    "id": "spa-race-pace-2500m-scm",
+    "label": "Race-Pace SCM ~2500m",
+    "method": "race-pace",
+    "course": "SCM",
+    "total_distance_target": 2500,
+    "total_distance_range": [
+      2500,
+      2970
+    ],
+    "total_distance_avg": 2720,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.626,
+      "main": 0.286,
+      "cooldown": 0.087,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.895,
+      "Kick": 0.105
+    },
+    "count": 18,
+    "example_dates": [
+      "2024-07-28",
+      "2025-03-13",
+      "2025-05-27",
+      "2025-07-05",
+      "2025-08-12",
+      "2025-10-27"
+    ],
+    "notes": "18 sessions (2023-07-01 - 2025-10-27). Main body: Swim=0.895, Kick=0.105."
+  },
+  {
+    "id": "spa-race-pace-2000m-lcm",
+    "label": "Race-Pace LCM ~2000m",
+    "method": "race-pace",
+    "course": "LCM",
+    "total_distance_target": 2000,
+    "total_distance_range": [
+      2050,
+      2490
+    ],
+    "total_distance_avg": 2238,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.602,
+      "main": 0.3,
+      "cooldown": 0.097,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.963,
+      "Kick": 0.037
+    },
+    "count": 12,
+    "example_dates": [
+      "2024-07-29",
+      "2024-08-17",
+      "2025-07-21",
+      "2026-03-14",
+      "2026-04-02",
+      "2026-04-07"
+    ],
+    "notes": "12 sessions (2023-07-08 - 2026-04-07). Main body: Swim=0.963, Kick=0.037."
+  },
+  {
+    "id": "spa-race-pace-3000m-scm",
+    "label": "Race-Pace SCM ~3000m",
+    "method": "race-pace",
+    "course": "SCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3000,
+      3460
+    ],
+    "total_distance_avg": 3235,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.599,
+      "main": 0.324,
+      "cooldown": 0.076,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.841,
+      "Pull": 0.095,
+      "Kick": 0.064
+    },
+    "count": 9,
+    "example_dates": [
+      "2024-12-19",
+      "2025-01-14",
+      "2025-03-12",
+      "2025-06-15",
+      "2025-06-18",
+      "2026-06-16"
+    ],
+    "notes": "9 sessions (2023-11-12 - 2026-06-16). Main body: Swim=0.841, Pull=0.095, Kick=0.064."
+  },
+  {
+    "id": "spa-race-pace-3500m-scm",
+    "label": "Race-Pace SCM ~3500m",
+    "method": "race-pace",
+    "course": "SCM",
+    "total_distance_target": 3500,
+    "total_distance_range": [
+      3700,
+      3800
+    ],
+    "total_distance_avg": 3736,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "main": 0.55,
+      "warmup": 0.309,
+      "prep": 0.124,
+      "cooldown": 0.017
+    },
+    "body_category_ratio": {
+      "Swim": 0.961,
+      "Pull": 0.039
+    },
+    "count": 8,
+    "example_dates": [
+      "2025-03-02",
+      "2025-04-02",
+      "2025-10-05",
+      "2026-02-22",
+      "2026-03-08",
+      "2026-06-09"
+    ],
+    "notes": "8 sessions (2023-06-17 - 2026-06-09). Main body: Swim=0.961, Pull=0.039."
+  },
+  {
+    "id": "spa-race-pace-1500m-scm",
+    "label": "Race-Pace SCM ~1500m",
+    "method": "race-pace",
+    "course": "SCM",
+    "total_distance_target": 1500,
+    "total_distance_range": [
+      1700,
+      1970
+    ],
+    "total_distance_avg": 1870,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.617,
+      "main": 0.252,
+      "cooldown": 0.13,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 7,
+    "example_dates": [
+      "2023-08-15",
+      "2023-09-05",
+      "2023-10-26",
+      "2024-06-29",
+      "2024-09-18",
+      "2026-03-04"
+    ],
+    "notes": "7 sessions (2023-05-11 - 2026-03-04). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-race-pace-1500m-lcm",
+    "label": "Race-Pace LCM ~1500m",
+    "method": "race-pace",
+    "course": "LCM",
+    "total_distance_target": 1500,
+    "total_distance_range": [
+      1625,
+      1975
+    ],
+    "total_distance_avg": 1831,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.655,
+      "main": 0.22,
+      "cooldown": 0.125
+    },
+    "body_category_ratio": {
+      "Swim": 0.91,
+      "Kick": 0.045,
+      "Pull": 0.045
+    },
+    "count": 7,
+    "example_dates": [
+      "2023-07-31",
+      "2023-10-11",
+      "2024-01-08",
+      "2024-06-08",
+      "2024-07-01",
+      "2025-06-19"
+    ],
+    "notes": "7 sessions (2023-07-27 - 2025-06-19). Main body: Swim=0.91, Kick=0.045, Pull=0.045."
+  },
+  {
+    "id": "spa-race-pace-2500m-lcm",
+    "label": "Race-Pace LCM ~2500m",
+    "method": "race-pace",
+    "course": "LCM",
+    "total_distance_target": 2500,
+    "total_distance_range": [
+      2575,
+      2915
+    ],
+    "total_distance_avg": 2765,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.596,
+      "main": 0.347,
+      "cooldown": 0.057,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.915,
+      "Pull": 0.064,
+      "Kick": 0.021
+    },
+    "count": 7,
+    "example_dates": [
+      "2023-11-20",
+      "2023-11-21",
+      "2025-04-09",
+      "2025-08-04",
+      "2026-01-12",
+      "2026-04-01"
+    ],
+    "notes": "7 sessions (2023-08-16 - 2026-04-01). Main body: Swim=0.915, Pull=0.064, Kick=0.021."
+  },
+  {
+    "id": "spa-race-pace-3500m-lcm",
+    "label": "Race-Pace LCM ~3500m",
+    "method": "race-pace",
+    "course": "LCM",
+    "total_distance_target": 3500,
+    "total_distance_range": [
+      3510,
+      3960
+    ],
+    "total_distance_avg": 3717,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.523,
+      "main": 0.43,
+      "cooldown": 0.046,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.897,
+      "Pull": 0.065,
+      "Kick": 0.039
+    },
+    "count": 7,
+    "example_dates": [
+      "2024-03-31",
+      "2025-01-13",
+      "2025-03-15",
+      "2025-07-29",
+      "2026-04-21",
+      "2026-07-28"
+    ],
+    "notes": "7 sessions (2024-03-31 - 2026-07-28). Main body: Swim=0.897, Pull=0.065, Kick=0.039."
+  },
+  {
+    "id": "spa-race-pace-4000m-lcm",
+    "label": "Race-Pace LCM ~4000m",
+    "method": "race-pace",
+    "course": "LCM",
+    "total_distance_target": 4000,
+    "total_distance_range": [
+      4000,
+      4175
+    ],
+    "total_distance_avg": 4080,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.486,
+      "main": 0.399,
+      "cooldown": 0.114,
+      "prep": 0.0
+    },
+    "body_category_ratio": {
+      "Swim": 0.72,
+      "Pull": 0.199,
+      "Kick": 0.081
+    },
+    "count": 6,
+    "example_dates": [
+      "2024-02-29",
+      "2025-01-04",
+      "2025-08-28",
+      "2025-10-01",
+      "2026-03-31",
+      "2026-07-16"
+    ],
+    "notes": "6 sessions (2024-02-29 - 2026-07-16). Main body: Swim=0.72, Pull=0.199, Kick=0.081."
+  },
+  {
+    "id": "spa-race-pace-3000m-lcm",
+    "label": "Race-Pace LCM ~3000m",
+    "method": "race-pace",
+    "course": "LCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3000,
+      3460
+    ],
+    "total_distance_avg": 3224,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.578,
+      "main": 0.395,
+      "cooldown": 0.025,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.917,
+      "Kick": 0.083
+    },
+    "count": 5,
+    "example_dates": [
+      "2023-08-12",
+      "2025-02-24",
+      "2025-04-09",
+      "2025-06-05",
+      "2026-04-09"
+    ],
+    "notes": "5 sessions (2023-08-12 - 2026-04-09). Main body: Swim=0.917, Kick=0.083."
+  },
+  {
+    "id": "spa-race-pace-4500m-scm",
+    "label": "Race-Pace SCM ~4500m",
+    "method": "race-pace",
+    "course": "SCM",
+    "total_distance_target": 4500,
+    "total_distance_range": [
+      4500,
+      4810
+    ],
+    "total_distance_avg": 4638,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.627,
+      "main": 0.328,
+      "cooldown": 0.043,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.794,
+      "Kick": 0.113,
+      "Pull": 0.093
+    },
+    "count": 5,
+    "example_dates": [
+      "2024-05-25",
+      "2025-01-05",
+      "2025-03-01",
+      "2025-06-03",
+      "2026-05-19"
+    ],
+    "notes": "5 sessions (2024-05-25 - 2026-05-19). Main body: Swim=0.794, Kick=0.113, Pull=0.093."
+  },
+  {
+    "id": "spa-race-pace-4000m-scm",
+    "label": "Race-Pace SCM ~4000m",
+    "method": "race-pace",
+    "course": "SCM",
+    "total_distance_target": 4000,
+    "total_distance_range": [
+      4060,
+      4100
+    ],
+    "total_distance_avg": 4081,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "main": 0.659,
+      "warmup": 0.306,
+      "cooldown": 0.033,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.875,
+      "Pull": 0.125
+    },
+    "count": 3,
+    "example_dates": [
+      "2024-12-10",
+      "2025-04-05",
+      "2026-07-08"
+    ],
+    "notes": "3 sessions (2024-12-10 - 2026-07-08). Main body: Swim=0.875, Pull=0.125."
+  },
+  {
+    "id": "spa-race-pace-5000m-scm",
+    "label": "Race-Pace SCM ~5000m",
+    "method": "race-pace",
+    "course": "SCM",
+    "total_distance_target": 5000,
+    "total_distance_range": [
+      5000,
+      5400
+    ],
+    "total_distance_avg": 5186,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "main": 0.797,
+      "warmup": 0.202,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.919,
+      "Pull": 0.073,
+      "Kick": 0.008
+    },
+    "count": 3,
+    "example_dates": [
+      "2024-12-17",
+      "2026-02-09",
+      "2026-05-29"
+    ],
+    "notes": "3 sessions (2024-12-17 - 2026-05-29). Main body: Swim=0.919, Pull=0.073, Kick=0.008."
+  },
+  {
+    "id": "spa-recovery-3500m-scm",
+    "label": "Recovery SCM ~3500m",
+    "method": "recovery",
+    "course": "SCM",
+    "total_distance_target": 3500,
+    "total_distance_range": [
+      3510,
+      3950
+    ],
+    "total_distance_avg": 3736,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.573,
+      "main": 0.384,
+      "cooldown": 0.041,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.951,
+      "Kick": 0.046,
+      "Pull": 0.004
+    },
+    "count": 14,
+    "example_dates": [
+      "2025-09-17",
+      "2025-09-20",
+      "2025-12-09",
+      "2025-12-10",
+      "2026-01-12",
+      "2026-02-07"
+    ],
+    "notes": "14 sessions (2024-02-23 - 2026-02-07). Main body: Swim=0.951, Kick=0.046, Pull=0.004."
+  },
+  {
+    "id": "spa-recovery-2000m-scm",
+    "label": "Recovery SCM ~2000m",
+    "method": "recovery",
+    "course": "SCM",
+    "total_distance_target": 2000,
+    "total_distance_range": [
+      2000,
+      2400
+    ],
+    "total_distance_avg": 2239,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.784,
+      "main": 0.126,
+      "cooldown": 0.089,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.761,
+      "Pull": 0.162,
+      "Kick": 0.077
+    },
+    "count": 12,
+    "example_dates": [
+      "2023-12-14",
+      "2024-07-18",
+      "2024-08-19",
+      "2025-07-02",
+      "2025-07-09",
+      "2025-09-18"
+    ],
+    "notes": "12 sessions (2023-04-26 - 2025-09-18). Main body: Swim=0.761, Pull=0.162, Kick=0.077."
+  },
+  {
+    "id": "spa-recovery-2500m-scm",
+    "label": "Recovery SCM ~2500m",
+    "method": "recovery",
+    "course": "SCM",
+    "total_distance_target": 2500,
+    "total_distance_range": [
+      2550,
+      2950
+    ],
+    "total_distance_avg": 2785,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.682,
+      "main": 0.241,
+      "cooldown": 0.077
+    },
+    "body_category_ratio": {
+      "Swim": 0.826,
+      "Kick": 0.09,
+      "Pull": 0.084
+    },
+    "count": 7,
+    "example_dates": [
+      "2023-06-24",
+      "2023-07-11",
+      "2023-12-16",
+      "2024-03-06",
+      "2025-09-27",
+      "2025-10-06"
+    ],
+    "notes": "7 sessions (2023-04-22 - 2025-10-06). Main body: Swim=0.826, Kick=0.09, Pull=0.084."
+  },
+  {
+    "id": "spa-recovery-3000m-scm",
+    "label": "Recovery SCM ~3000m",
+    "method": "recovery",
+    "course": "SCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3070,
+      3325
+    ],
+    "total_distance_avg": 3230,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.505,
+      "main": 0.458,
+      "cooldown": 0.035,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.964,
+      "Pull": 0.036
+    },
+    "count": 7,
+    "example_dates": [
+      "2023-07-19",
+      "2024-10-24",
+      "2024-11-06",
+      "2024-11-09",
+      "2025-09-30",
+      "2025-12-01"
+    ],
+    "notes": "7 sessions (2023-05-04 - 2025-12-01). Main body: Swim=0.964, Pull=0.036."
+  },
+  {
+    "id": "spa-recovery-1500m-scm",
+    "label": "Recovery SCM ~1500m",
+    "method": "recovery",
+    "course": "SCM",
+    "total_distance_target": 1500,
+    "total_distance_range": [
+      1850,
+      1975
+    ],
+    "total_distance_avg": 1900,
+    "block_order": [
+      "warmup",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.763,
+      "cooldown": 0.237
+    },
+    "body_category_ratio": {
+      "Swim": 0.712,
+      "Kick": 0.288
+    },
+    "count": 4,
+    "example_dates": [
+      "2023-09-28",
+      "2023-10-14",
+      "2023-12-20",
+      "2024-07-13"
+    ],
+    "notes": "4 sessions (2023-09-28 - 2024-07-13). Main body: Swim=0.712, Kick=0.288."
+  },
+  {
+    "id": "spa-recovery-4000m-scm",
+    "label": "Recovery SCM ~4000m",
+    "method": "recovery",
+    "course": "SCM",
+    "total_distance_target": 4000,
+    "total_distance_range": [
+      4070,
+      4200
+    ],
+    "total_distance_avg": 4135,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.653,
+      "main": 0.302,
+      "cooldown": 0.042,
+      "prep": 0.002
+    },
+    "body_category_ratio": {
+      "Swim": 0.921,
+      "Kick": 0.079
+    },
+    "count": 4,
+    "example_dates": [
+      "2024-10-27",
+      "2025-01-28",
+      "2026-01-06",
+      "2026-01-07"
+    ],
+    "notes": "4 sessions (2024-10-27 - 2026-01-07). Main body: Swim=0.921, Kick=0.079."
+  },
+  {
+    "id": "spa-recovery-2500m-lcm",
+    "label": "Recovery LCM ~2500m",
+    "method": "recovery",
+    "course": "LCM",
+    "total_distance_target": 2500,
+    "total_distance_range": [
+      2550,
+      2850
+    ],
+    "total_distance_avg": 2677,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.616,
+      "main": 0.28,
+      "cooldown": 0.103,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.853,
+      "Pull": 0.147
+    },
+    "count": 4,
+    "example_dates": [
+      "2024-12-04",
+      "2025-09-22",
+      "2026-01-15",
+      "2026-06-25"
+    ],
+    "notes": "4 sessions (2024-12-04 - 2026-06-25). Main body: Swim=0.853, Pull=0.147."
+  },
+  {
+    "id": "spa-recovery-5000m-lcm",
+    "label": "Recovery LCM ~5000m",
+    "method": "recovery",
+    "course": "LCM",
+    "total_distance_target": 5000,
+    "total_distance_range": [
+      5100,
+      5210
+    ],
+    "total_distance_avg": 5155,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.514,
+      "main": 0.485,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.587,
+      "Kick": 0.217,
+      "Pull": 0.196
+    },
+    "count": 2,
+    "example_dates": [
+      "2024-12-27",
+      "2025-12-26"
+    ],
+    "notes": "2 sessions (2024-12-27 - 2025-12-26). Main body: Swim=0.587, Kick=0.217, Pull=0.196."
+  },
+  {
+    "id": "spa-sprint-4000m-scm",
+    "label": "Sprint SCM ~4000m",
+    "method": "sprint",
+    "course": "SCM",
+    "total_distance_target": 4000,
+    "total_distance_range": [
+      4000,
+      4200
+    ],
+    "total_distance_avg": 4065,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "main": 0.581,
+      "warmup": 0.375,
+      "cooldown": 0.043,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 0.904,
+      "Pull": 0.096
+    },
+    "count": 4,
+    "example_dates": [
+      "2025-02-20",
+      "2025-07-28",
+      "2026-05-28",
+      "2026-06-23"
+    ],
+    "notes": "4 sessions (2025-02-20 - 2026-06-23). Main body: Swim=0.904, Pull=0.096."
+  },
+  {
+    "id": "spa-sprint-2000m-scm",
+    "label": "Sprint SCM ~2000m",
+    "method": "sprint",
+    "course": "SCM",
+    "total_distance_target": 2000,
+    "total_distance_range": [
+      2060,
+      2425
+    ],
+    "total_distance_avg": 2190,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.599,
+      "main": 0.337,
+      "cooldown": 0.063,
+      "prep": 0.001
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 4,
+    "example_dates": [
+      "2025-02-26",
+      "2025-07-26",
+      "2025-08-10",
+      "2026-07-05"
+    ],
+    "notes": "4 sessions (2025-02-26 - 2026-07-05). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-sprint-1500m-scm",
+    "label": "Sprint SCM ~1500m",
+    "method": "sprint",
+    "course": "SCM",
+    "total_distance_target": 1500,
+    "total_distance_range": [
+      1595,
+      1695
+    ],
+    "total_distance_avg": 1645,
+    "block_order": [
+      "prep",
+      "warmup",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.714,
+      "main": 0.152,
+      "cooldown": 0.122,
+      "prep": 0.012
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 2,
+    "example_dates": [
+      "2024-09-12",
+      "2024-09-26"
+    ],
+    "notes": "2 sessions (2024-09-12 - 2024-09-26). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-sprint-3000m-scm",
+    "label": "Sprint SCM ~3000m",
+    "method": "sprint",
+    "course": "SCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3200,
+      3300
+    ],
+    "total_distance_avg": 3250,
+    "block_order": [
+      "warmup",
+      "main"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.6,
+      "main": 0.4
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 2,
+    "example_dates": [
+      "2025-08-18",
+      "2025-08-19"
+    ],
+    "notes": "2 sessions (2025-08-18 - 2025-08-19). Main body: Swim=1.0."
+  },
+  {
+    "id": "spa-sprint-3000m-lcm",
+    "label": "Sprint LCM ~3000m",
+    "method": "sprint",
+    "course": "LCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3250,
+      3275
+    ],
+    "total_distance_avg": 3262,
+    "block_order": [
+      "warmup",
+      "main",
+      "cooldown",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "main": 0.471,
+      "warmup": 0.421,
+      "cooldown": 0.107
+    },
+    "body_category_ratio": {
+      "Swim": 0.805,
+      "Pull": 0.195
+    },
+    "count": 2,
+    "example_dates": [
+      "2026-06-24",
+      "2026-07-01"
+    ],
+    "notes": "2 sessions (2026-06-24 - 2026-07-01). Main body: Swim=0.805, Pull=0.195."
+  },
+  {
+    "id": "spa-threshold-3000m-lcm",
+    "label": "Threshold LCM ~3000m",
+    "method": "threshold",
+    "course": "LCM",
+    "total_distance_target": 3000,
+    "total_distance_range": [
+      3025,
+      3225
+    ],
+    "total_distance_avg": 3108,
+    "block_order": [
+      "warmup",
+      "cooldown",
+      "main",
+      "cooldown"
+    ],
+    "block_distance_ratio": {
+      "warmup": 0.509,
+      "main": 0.373,
+      "cooldown": 0.118
+    },
+    "body_category_ratio": {
+      "Swim": 1.0
+    },
+    "count": 3,
+    "example_dates": [
+      "2026-06-29",
+      "2026-07-14",
+      "2026-07-18"
+    ],
+    "notes": "3 sessions (2026-06-29 - 2026-07-18). Main body: Swim=1.0."
+  }
+]
