@@ -3,8 +3,8 @@
 # =============================================================================
 # spagent を「使う」ためのスクリプト。**毎回**これを叩けば動きます。
 #
-# - 初回: 必要なものを全部インストール（Python / Git / VS Code / Copilot 拡張 / 依存ライブラリ）
-# - 2 回目以降: 既にあるものはスキップし、数秒で VS Code を立ち上げます
+# - 初回: 必要なものを全部インストール（Python / Git / GitHub Copilot CLI / 依存ライブラリ）
+# - 2 回目以降: 既にあるものはスキップし、数秒で spagent フォルダに入ります
 #
 # 使い方: PowerShell を開いて以下を実行
 #
@@ -15,19 +15,15 @@
 #   .\scripts\setup\setup.ps1
 #
 # オプション:
-#   -SkipVSCode              VS Code とその拡張の導入をスキップ
-#   -SkipCopilotExtension    Copilot 拡張のインストール確認をスキップ
+#   -SkipCopilotCLI          GitHub Copilot CLI の導入をスキップ
 #   -SkipClone               リポジトリ clone をスキップ
-#   -NoLaunch                最後に VS Code を起動しない
 #   -InstallDir <path>       clone 先を指定 (既定: $HOME\spagent)
 # =============================================================================
 
 [CmdletBinding()]
 param(
-    [switch]$SkipVSCode,
-    [switch]$SkipCopilotExtension,
+    [switch]$SkipCopilotCLI,
     [switch]$SkipClone,
-    [switch]$NoLaunch,
     [string]$InstallDir = "$HOME\spagent"
 )
 
@@ -126,44 +122,24 @@ if (Test-Command git) {
 }
 
 # -----------------------------------------------------------------------------
-# 4. VS Code
+# 4. GitHub Copilot CLI
 # -----------------------------------------------------------------------------
-if (-not $SkipVSCode) {
-    Write-Step "VS Code 確認"
-    if (Test-Command code) {
-        Write-Ok "code CLI 見つかりました"
+if (-not $SkipCopilotCLI) {
+    Write-Step "GitHub Copilot CLI 確認"
+    if (Test-Command copilot) {
+        Write-Ok "copilot コマンド 見つかりました"
     } else {
-        Write-Host "  VS Code を winget でインストールします..."
-        winget install --id Microsoft.VisualStudioCode -e --accept-source-agreements --accept-package-agreements --silent
+        Write-Host "  GitHub Copilot CLI を winget でインストールします..."
+        winget install --id GitHub.Copilot -e --accept-source-agreements --accept-package-agreements --silent
         Refresh-Path
-        if (Test-Command code) {
-            Write-Ok "VS Code installed"
+        if (Test-Command copilot) {
+            Write-Ok "GitHub Copilot CLI installed"
         } else {
-            Write-Warn "VS Code の code CLI が見つかりません。手動で PATH を通してください。"
-        }
-    }
-
-    # ---------------------------------------------------------------------------
-    # 5. GitHub Copilot 拡張
-    # ---------------------------------------------------------------------------
-    if ((-not $SkipCopilotExtension) -and (Test-Command code)) {
-        Write-Step "GitHub Copilot 拡張 インストール"
-        $ext = code --list-extensions 2>&1
-        if ($ext -match "GitHub.copilot(\b|$)") {
-            Write-Ok "GitHub.copilot 既に導入済み"
-        } else {
-            code --install-extension GitHub.copilot --force | Out-Null
-            Write-Ok "GitHub.copilot"
-        }
-        if ($ext -match "GitHub.copilot-chat(\b|$)") {
-            Write-Ok "GitHub.copilot-chat 既に導入済み"
-        } else {
-            code --install-extension GitHub.copilot-chat --force | Out-Null
-            Write-Ok "GitHub.copilot-chat"
+            Write-Warn "copilot コマンドが見つかりません。PowerShell を開き直すか、手動で PATH を通してください。"
         }
     }
 } else {
-    Write-Step "VS Code (SkipVSCode 指定によりスキップ)"
+    Write-Step "GitHub Copilot CLI (SkipCopilotCLI 指定によりスキップ)"
 }
 
 # -----------------------------------------------------------------------------
@@ -237,41 +213,29 @@ python -c "import PIL, reportlab, openpyxl, pdfplumber; print('  Pillow:', PIL._
 
 Write-Host ""
 Write-Host "======================================" -ForegroundColor Green
-Write-Host "  準備 OK！ spagent を起動します       " -ForegroundColor Green
+Write-Host "  準備 OK！ この PowerShell 画面で使えます " -ForegroundColor Green
 Write-Host "======================================" -ForegroundColor Green
 Write-Host ""
 
 # -----------------------------------------------------------------------------
-# 9. VS Code 起動 + Copilot Chat への起動メッセージ提示
+# 9. spagent 起動案内 (PowerShell 常駐)
 # -----------------------------------------------------------------------------
-$launchPrompt = "#SKILL.md を読み込んで、今日のメニューを一緒に作りたい。まだ初期セットアップしていなければ Workflow E から始めて。"
-
-if ($NoLaunch) {
-    Write-Host "  (-NoLaunch 指定のため VS Code は起動しません)" -ForegroundColor Yellow
-} elseif ($repoDir -and (Test-Command code)) {
-    Write-Host "  VS Code で spagent を開いています..." -ForegroundColor Cyan
-    Start-Process code -ArgumentList @("`"$repoDir`"", "`"$repoDir\SKILL.md`"")
-    Start-Sleep -Seconds 1
-    Write-Ok "VS Code 起動"
-} else {
-    Write-Warn "VS Code の code CLI がないため自動起動できません。手動で spagent フォルダを開いてください。"
+if ($repoDir) {
+    Set-Location $repoDir
+    Write-Ok "作業ディレクトリを spagent に切替: $repoDir"
 }
 
 Write-Host ""
-Write-Host "次にやること:" -ForegroundColor Cyan
-Write-Host "  1. VS Code で GitHub Copilot にサインイン (右下のアイコンから、初回のみ)"
-Write-Host "  2. Copilot Chat を開く (Ctrl+Alt+I)"
-Write-Host "  3. 下のメッセージをコピーして送信 (👇 クリップボードに入れました)"
+Write-Host "次にやること (この PowerShell 画面のまま):" -ForegroundColor Cyan
+Write-Host "  1. 下のコマンドを実行 → Copilot CLI が起動します"
 Write-Host ""
-Write-Host "     $launchPrompt" -ForegroundColor White
+Write-Host "       copilot" -ForegroundColor White
 Write-Host ""
-
-try {
-    Set-Clipboard -Value $launchPrompt -ErrorAction Stop
-    Write-Ok "起動メッセージをクリップボードにコピーしました。Copilot Chat で Ctrl+V → Enter で送信"
-} catch {
-    Write-Warn "クリップボードへのコピーに失敗しました。上のメッセージを手動でコピーしてください。"
-}
-
+Write-Host "  2. 初回のみ /login で GitHub アカウント認証 (ブラウザが開きます)"
+Write-Host "  3. プロンプトが出たら日本語で話しかけてください。例:"
+Write-Host ""
+Write-Host "       spagent" -ForegroundColor White
+Write-Host ""
+Write-Host "     → ウェルカムメニュー (8 択) が表示されます。番号 or 自然文でどうぞ。"
 Write-Host ""
 Write-Host "楽しんで！ 🏊‍♀️🐢" -ForegroundColor Cyan
