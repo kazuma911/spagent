@@ -359,21 +359,26 @@ groups と athletes には**紐付けはない**。Step 3 で選ぶ都度、モ�
 
 ### Workflow E: 初期セットアップ
 
-1. **PII 注意喚起 + 同意書テンプレート案内** — [templates/consent-form.template.md](templates/consent-form.template.md)
-2. 選手 / グループ登録 — 対話式、`group_ids[]` 設定含む、エイリアス強制
-3. プール施設登録 — LCM/SCM、レーン数、器具
-4. **大会 / 練習スケジュール登録** — `python scripts/import/register_schedule.py` の 3 モードを提示、コーチが選択:
+**設計方針**: **逐次ガイド式** (数字で「何を登録する？」と聞かず、上から順に一本道で進む)。所要時間の目安は 5〜10 分。**各ステップの冒頭で必ず `[Step X/8] <ステップ名>` の進捗行を表示**する (残タスク見通しを常にコーチに提示)。skip 可能なステップには「(skip 可: <理由>)」を明示する。
+
+1. **[Step 1/8] PII 注意喚起 + 同意書テンプレート案内** — [templates/consent-form.template.md](templates/consent-form.template.md) を提示。「以降で扱う名前はニックネーム/イニシャル推奨、電話/メール/住所/生年月日は入れない」を口頭確認
+2. **[Step 2/8] グループ登録 (必須)** — 「今日どのクラス/チームを spagent に教えますか？」と対話開始。1 つ以上登録するまで先に進めない。フィールドは `name` / `type` (high_school / masters / junior / club 等) / `mode` (individual / group-only) / `expected_participants` / `skill_level` / `typical_pace` / `profile_id` (無ければ default 案を提示、Step 7 で確定)。「もう 1 グループ追加？」を Yes/No で聞き、No で次へ
+3. **[Step 3/8] 選手登録 (オプション、skip 可: あとで Workflow A の中で on-the-fly 登録できる)** — 各 group について「この group に所属する選手を今登録しますか？ (Y/N/S=すべて skip)」を提示。Y なら 1 名ずつ対話 (`event` / `athlete_type` / `age_group` / `primary_events` / 現在ペース 1-2 個)、N/S ならこの group は skip して次 group へ。**全 group を skip しても OK**。skip した group は Workflow A の Step 3 で最初にメニュー作る時に選手登録フローが自動発動する旨を案内
+4. **[Step 4/8] プール施設登録 (skip 可: 未登録でも Workflow A の Step 2 で毎回対話)** — LCM/SCM、レーン数、器具の対話収集
+5. **[Step 5/8] 大会 / 練習スケジュール登録 (skip 可: phase 自動判定が縮退し Workflow A で毎回対話)** — `python scripts/import/register_schedule.py` の 3 モードを提示、コーチが選択:
    - ① **手動対話** (`--mode manual`) — 対話式に大会・練習を追加。少人数/変則スケジュール向け
    - ② **ファイル解析** (`--mode file --input <path>`) — `data/inbox/schedule/` に置いた Excel/PDF/CSV から候補抽出 → LLM が candidates JSON に整形 → コーチ確認 → `--merge` で確定
    - ③ **URL 取得** (`--mode url --input <url>`) — 大会一覧 URL (例: 日本マスターズ水泳協会) を fetch → LLM 解析 → 同じフロー
-   - **スキップ可** — 未登録でも動くが phase / D-n 自動判定は縮退し Workflow A で毎回対話
-5. **知識ベース方針の選択** —
-   - ① Base のみで試す → 6 へ
-   - ② Base + Custom（Workflow G 起動）→ 完了後 6 へ
-   - ③ **Custom のみで構成**（Base を使わない。Workflow G で自分の過去メニュー・ドリルを取り込み、そこだけを引く）→ Workflow G 完了後 6 へ
-6. **指導プロファイル作成**（1 つ以上）— グループごとに「対象哲学 × 時間軸 × 実務ひな形 × 手法プリファレンス」を対話決定。Custom 取り込み済みなら傾向分析結果を推奨として提示、グループに `profile_id` を紐付け
-7. 出力形式選択 — PDF / TSV / カスタム Excel
-8. **試行モード** — 仮データで Skill 動作を試す
+6. **[Step 6/8] 知識ベース方針の選択** —
+   - ① Base のみで試す → 7 へ
+   - ② Base + Custom（Workflow G 起動）→ 完了後 7 へ
+   - ③ **Custom のみで構成**（Base を使わない。Workflow G で自分の過去メニュー・ドリルを取り込み、そこだけを引く）→ Workflow G 完了後 7 へ
+7. **[Step 7/8] 指導プロファイル作成 (必須、1 つ以上)** — Step 2 で登録した各 group ごとに「対象哲学 × 時間軸 × 実務ひな形 × 手法プリファレンス」を対話決定。Custom 取り込み済みなら傾向分析結果を推奨として提示、group に `profile_id` を紐付け
+8. **[Step 8/8] 出力形式選択** — PDF / TSV / カスタム Excel
+
+**完了メッセージ**: セットアップ完了後、「初期セットアップ完了 ✅ 登録内容: グループ N 個 / 選手 M 名 / プロファイル K 個。次は『メニュー作って』で今日/明日の練習を組めます」を表示。skip した項目があれば「※ 選手 / スケジュール / プール施設 は skip 済み。必要になったら Workflow A / F で追加できます」の 1 行を添える。
+
+**試行モード** (旧 Step 8): Workflow F.trial として独立化。Workflow E の完了後、コーチが「動作を試したい」と言った場合のみ起動する独立フロー。
 
 ---
 
